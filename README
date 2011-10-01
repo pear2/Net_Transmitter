@@ -1,0 +1,2 @@
+Wrapper for stream functionality.
+This package provides data integrity to stream functionality, particularly useful for sockets.

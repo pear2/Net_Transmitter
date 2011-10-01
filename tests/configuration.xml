@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    bootstrap="bootstrap.php"
+    colors="false"
+    stopOnFailure="false"
+    verbose="true"
+    strict="true"
+    
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+>
+    <!--
+    convertErrorsToExceptions="false"
+    convertNoticesToExceptions="false"
+    convertWarningsToExceptions="false"
+>
+    -->
+    <testsuites>
+        <testsuite name="All tests">
+            <file>StreamTransmitterTest.php</file>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../src/PEAR2/Net/Transmitter</directory>
+        </whitelist>
+    </filter>
+</phpunit>

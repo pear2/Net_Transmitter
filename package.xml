@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package
+    version="2.0"
+    xmlns="http://pear.php.net/dtd/package-2.0"
+    xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd
+    "
+>
+    <name>PEAR2_Net_Transmitter</name>
+    <channel>pear2.php.net</channel>
+    <summary>Wrapper for stream functionality.</summary>
+    <description>This package provides data integrity to stream functionality, particularly useful for sockets.</description>
+    <lead>
+        <name>Vasil Rangelov</name>
+        <user>boen_robot</user>
+        <email>boen.robot@gmail.com</email>
+        <active>yes</active>
+    </lead>
+    <date>2011-09-26</date>
+    <version>
+        <release>1.0.0a1</release>
+        <api>1.0.0</api>
+    </version>
+    <stability>
+        <release>beta</release>
+        <api>beta</api>
+    </stability>
+    <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</license>
+    <notes>First PEAR2 compatible release.</notes>
+    <contents>
+        <dir name="/">
+            <dir name="src" baseinstalldir="/">
+                <file name="PEAR2/Net/Transmitter/Autoload.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                </file>
+                <file name="PEAR2/Net/Transmitter/Exception.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                </file>
+                <file name="PEAR2/Net/Transmitter/SocketClientTransmitter.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                </file>
+                <file name="PEAR2/Net/Transmitter/SocketException.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                </file>
+                <file name="PEAR2/Net/Transmitter/SocketServerConnectionTransmitter.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                </file>
+                <file name="PEAR2/Net/Transmitter/StreamTransmitter.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                </file>
+            </dir>
+            <dir name="tests">
+                <file name="bootstrap.php" role="test">
+                    <tasks:replace type="pear-config" from="../src" to="php_dir" />
+                </file>
+                <file name="configuration.xml" role="test" />
+            </dir>
+            <dir name="docs">
+                <file name="doxygen.ini" role="doc">
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version" />
+                    <tasks:replace type="pear-config" from="../src" to="php_dir" />
+                </file>
+                <file name="docblox.xml" role="doc">
+                    <tasks:replace type="pear-config" from="../src" to="php_dir" />
+                </file>
+            </dir>
+        </dir>
+    </contents>
+    <dependencies>
+        <required>
+            <php>
+                <min>5.3.0</min>
+            </php>
+            <pearinstaller>
+                <min>1.4.0</min>
+            </pearinstaller>
+        </required>
+    </dependencies>
+    <phprelease>
+        <filelist>
+            <install
+                name="src/PEAR2/Net/Transmitter/Autoload.php"
+                as="PEAR2/Net/Transmitter/Autoload.php"
+            />
+            <install
+                name="src/PEAR2/Net/Transmitter/Exception.php"
+                as="PEAR2/Net/Transmitter/Exception.php"
+            />
+            <install
+                name="src/PEAR2/Net/Transmitter/SocketClientTransmitter.php"
+                as="PEAR2/Net/Transmitter/SocketClientTransmitter.php"
+            />
+            <install
+                name="src/PEAR2/Net/Transmitter/SocketException.php"
+                as="PEAR2/Net/Transmitter/SocketException.php"
+            />
+            <install
+                name="src/PEAR2/Net/Transmitter/SocketServerConnectionTransmitter.php"
+                as="PEAR2/Net/Transmitter/SocketServerConnectionTransmitter.php"
+            />
+            <install
+                name="src/PEAR2/Net/Transmitter/StreamTransmitter.php"
+                as="PEAR2/Net/Transmitter/StreamTransmitter.php"
+            />
+            
+            
+            <install
+                name="tests/bootstrap.php"
+                as="bootstrap.php"
+            />
+            <install
+                name="tests/configuration.xml"
+                as="configuration.xml"
+            />
+            
+            <install
+                name="docs/doxygen.ini"
+                as="doxygen.ini"
+            />
+            <install
+                name="docs/docblox.xml"
+                as="docblox.xml"
+            />
+        </filelist>
+    </phprelease>
+</package>
