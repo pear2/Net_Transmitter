@@ -13,7 +13,7 @@
  * @copyright 2011 Vasil Rangelov
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @version   SVN: $WCREV$
- * @link      http://netrouteros.sourceforge.net/
+ * @link      http://pear2.php.net/PEAR2_Net_Transmitter
  */
 /**
  * The namespace declaration.
@@ -32,7 +32,7 @@ namespace PEAR2\Net\Transmitter;
  * @package  PEAR2_Net_Transmitter
  * @author   Vasil Rangelov <boen.robot@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
- * @link     http://netrouteros.sourceforge.net/
+ * @link     http://pear2.php.net/PEAR2_Net_Transmitter
  * @see      Client
  */
 class SocketServerConnectionTransmitter extends StreamTransmitter
@@ -134,9 +134,7 @@ class SocketServerConnectionTransmitter extends StreamTransmitter
      */
     protected function createException($message, $code = 0)
     {
-        return new SocketException(
-            $message, $code, null, $this->error_no, $this->error_str
-        );
+        return new SocketException($message, $code);
     }
 
 }
