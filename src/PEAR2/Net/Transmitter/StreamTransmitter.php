@@ -112,7 +112,7 @@ class StreamTransmitter
     /**
      * Sets the size of a stream's buffer.
      * 
-     * @param int $size         The desired size of the buffer, in bytes.
+     * @param int    $size      The desired size of the buffer, in bytes.
      * @param string $direction The buffer of which direction to set. Valid
      * values are the DIRECTION_* constants.
      * 
@@ -334,7 +334,7 @@ class StreamTransmitter
      */
     protected function createException($message, $code = 0)
     {
-        return new \Exception($message, $code);
+        return new StreamException($message, $code);
     }
 
 }
