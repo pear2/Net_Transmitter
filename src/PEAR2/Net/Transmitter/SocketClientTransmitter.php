@@ -31,7 +31,6 @@ namespace PEAR2\Net\Transmitter;
  * @author   Vasil Rangelov <boen.robot@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     http://pear2.php.net/PEAR2_Net_Transmitter
- * @see      Client
  */
 class SocketClientTransmitter extends StreamTransmitter
 {

@@ -32,7 +32,6 @@ namespace PEAR2\Net\Transmitter;
  * @author   Vasil Rangelov <boen.robot@gmail.com>
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     http://pear2.php.net/PEAR2_Net_Transmitter
- * @see      Client
  */
 class StreamTransmitter
 {
@@ -224,24 +223,25 @@ class StreamTransmitter
      * 
      * Reads from the wrapped stream to receive content as a stream.
      * 
-     * @param int    $length  The number of bytes to read.
-     * @param array  $filters An array of filters to apply to the stream while
-     * receiving. Key is the filter name, value is an array of parameters for
-     * the filter.
-     * @param string $what    Descriptive string about what is being received
-     * (used in exception messages).
+     * @param int              $length  The number of bytes to read.
+     * @param FilterCollection $filters A collection of filters to apply to the
+     * stream while receiving.
+     * @param string           $what    Descriptive string about what is being
+     * received (used in exception messages).
      * 
      * @return resource The received content.
      */
     public function receiveStream(
-        $length, array $filters = array(), $what = 'stream data'
+        $length, FilterCollection $filters = null, $what = 'stream data'
     ) {
         $result = fopen('php://temp', 'r+b');
         $appliedFilters = array();
-        foreach ($filters as $filtername => $params) {
-            $appliedFilters[] = stream_filter_append(
-                $result, $filtername, STREAM_FILTER_WRITE, $params
-            );
+        if (null !== $filters) {
+            foreach ($filters as $filtername => $params) {
+                $appliedFilters[] = stream_filter_append(
+                    $result, $filtername, STREAM_FILTER_WRITE, $params
+                );
+            }
         }
         
         while ($length > 0) {
