@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    bootstrap="bootstrap.php"
+    colors="false"
+    stopOnFailure="false"
+    verbose="true"
+    strict="true"
+    
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+>
+    <!--
+    convertErrorsToExceptions="false"
+    convertNoticesToExceptions="false"
+    convertWarningsToExceptions="false"
+>
+    -->
+    <php>
+        <!--
+        The name and port of phpunit.xml
+        -->
+        <const name="REMOTE_HOSTNAME" value="127.0.0.1" />
+        <const name="REMOTE_PORT" value="6667" />
+        <!--
+        The name and port phpunit.xml must use.
+        -->
+        <const name="LOCAL_HOSTNAME" value="127.0.0.1" />
+        <const name="LOCAL_PORT" value="6666" />
+    </php>
+    <testsuites>
+        <testsuite name="All tests">
+            <file>ServerTest.php</file>
+            <file>ClientTest.php</file>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../src/PEAR2/Net/Transmitter</directory>
+        </whitelist>
+    </filter>
+</phpunit>

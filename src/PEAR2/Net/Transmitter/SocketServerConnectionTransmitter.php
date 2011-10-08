@@ -56,7 +56,7 @@ class SocketServerConnectionTransmitter extends StreamTransmitter
      */
     public function __construct($server, $timeout = null)
     {
-        if (!self::isServer($server)) {
+        if (!self::isStream($server)) {
             throw $this->createException('Invalid server supplied.', 8);
         }
         $timeout
@@ -72,19 +72,6 @@ class SocketServerConnectionTransmitter extends StreamTransmitter
         } catch (\Exception $e) {
             throw $this->createException('Failed to initialize connection.', 9);
         }
-    }
-    
-    /**
-     * Checks whether a cetain variable is a socket server.
-     * 
-     * @param mixed $var The variable to check.
-     * 
-     * @return bool TRUE on success, FALSE on failure.
-     */
-    public static function isServer($var)
-    {
-        return is_resource($var)
-            && (bool) preg_match('#\s?server\s?#sm', get_resource_type($var));
     }
     
     /**

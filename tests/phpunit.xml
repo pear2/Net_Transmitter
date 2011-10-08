@@ -16,8 +16,22 @@
     convertWarningsToExceptions="false"
 >
     -->
+    <php>
+        <!--
+        The name and port of secondaryPeer.xml
+        -->
+        <const name="REMOTE_HOSTNAME" value="127.0.0.1" />
+        <const name="REMOTE_PORT" value="6666" />
+        <!--
+        The name and port secondaryPeer.xml must use.
+        -->
+        <const name="LOCAL_HOSTNAME" value="127.0.0.1" />
+        <const name="LOCAL_PORT" value="6667" />
+    </php>
     <testsuites>
         <testsuite name="All tests">
+            <file>ClientTest.php</file>
+            <file>ServerTest.php</file>
             <file>StreamTransmitterTest.php</file>
         </testsuite>
     </testsuites>

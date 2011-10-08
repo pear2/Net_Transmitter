@@ -57,7 +57,7 @@ class SocketClientTransmitter extends StreamTransmitter
      * connection.
      * @param resource $context A context for the socket.
      */
-    public function __construct($host, $port = 8728, $persist = false,
+    public function __construct($host, $port, $persist = false,
         $timeout = null, $key = '', $context = null
     ) {
         $flags = STREAM_CLIENT_CONNECT;

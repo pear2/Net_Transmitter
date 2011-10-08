@@ -1,0 +1,1 @@
+phpunit --configuration secondaryPeer.xml
