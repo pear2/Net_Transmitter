@@ -59,7 +59,11 @@ class FilterCollection implements \SeekableIterator, \Countable
     }
     
     /**
-     * Inserts the filter before another filter at a specified position.
+     * Inserts the filter before a position.
+     * 
+     * Inserts the specified filter before a filter at a specified position. The
+     * new filter takes the specified position, while previous filters are moved
+     * forward by one.
      * 
      * @param int    $position The position before which the filter will be
      * inserted.
@@ -144,7 +148,17 @@ class FilterCollection implements \SeekableIterator, \Countable
     public function seek($position)
     {
         $this->position = $position;
-        return $this->current();
+        return $this->valid();
+    }
+    
+    /**
+     * Gets the current position.
+     * 
+     * @return int The current position.
+     */
+    public function getCurrentPosition()
+    {
+        return $this->position;
     }
 
     /**
@@ -155,7 +169,7 @@ class FilterCollection implements \SeekableIterator, \Countable
     public function next()
     {
         ++$this->position;
-        return $this->current();
+        return $this->valid();
     }
 
     /**

@@ -18,21 +18,29 @@
     -->
     <php>
         <!--
-        The name and port of secondaryPeer.xml
+        The hostname and port of secondaryPeer.xml
         -->
         <const name="REMOTE_HOSTNAME" value="127.0.0.1" />
         <const name="REMOTE_PORT" value="6666" />
         <!--
-        The name and port secondaryPeer.xml must use.
+        The hostname and port secondaryPeer.xml must use.
         -->
         <const name="LOCAL_HOSTNAME" value="127.0.0.1" />
         <const name="LOCAL_PORT" value="6667" />
+        <!--
+        A hostname which doesn't provide a serive on any port present here.
+        -->
+        <const name="SILENT_HOSTNAME" value="192.168.0.1" />
+        <!--
+        A port which doesn't provide a serive on any hostname present here.
+        -->
+        <const name="SILENT_PORT" value="6668" />
     </php>
     <testsuites>
         <testsuite name="All tests">
             <file>ClientTest.php</file>
             <file>ServerTest.php</file>
-            <file>StreamTransmitterTest.php</file>
+            <file>UnconnectedTest.php</file>
         </testsuite>
     </testsuites>
     <filter>

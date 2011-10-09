@@ -35,8 +35,18 @@ namespace PEAR2\Net\Transmitter;
  */
 class StreamTransmitter
 {
+    /**
+     * Used in {@link setBuffer()} to apply the setting to both sending and
+     * receiving.
+     */
     const DIRECTION_BOTH = '|||';
+    /**
+     * Used in {@link setBuffer()} to apply the setting only to sending.
+     */
     const DIRECTION_SEND = '<<<';
+    /**
+     * Used in {@link setBuffer()} to apply the setting only to receiving.
+     */
     const DIRECTION_RECEIVE = '>>>';
 
     /**
@@ -48,6 +58,14 @@ class StreamTransmitter
      * @var bool A flag that tells whether or not the stream is persistent.
      */
     protected $persist;
+    
+    /**
+     * @var array An associative array with the chunk size of each direction.
+     * Key is the direction, value is the size in bytes as integer.
+     */
+    protected $chunkSize = array(
+        self::DIRECTION_SEND => 0xFFFFF, self::DIRECTION_RECEIVE => 0xFFFFF
+    );
 
     /**
      * Wraps around the specified stream.
@@ -113,7 +131,8 @@ class StreamTransmitter
      * 
      * @param int    $size      The desired size of the buffer, in bytes.
      * @param string $direction The buffer of which direction to set. Valid
-     * values are the DIRECTION_* constants.
+     * values are the DIRECTION_* constants. Any other value is treated as
+     * {@link DIRECTION_BOTH}.
      * 
      * @return bool TRUE on success, FALSE on failure.
      */
@@ -129,6 +148,38 @@ class StreamTransmitter
                 && stream_set_read_buffer($this->stream, $size) === 0;
         }
     }
+    
+    /**
+     * Sets the size of the chunk.
+     * 
+     * To ensure data integrity, as well as to allow for lower memory
+     * consumption, data is sent/received in chunks. This function
+     * allows you to set the size of each chunk. The default is 0xFFFFF.
+     * 
+     * @param int    $size      The desired size of the chunk, in bytes.
+     * @param string $direction The chunk of which direction to set. Valid
+     * values are the DIRECTION_* constants. Any other value is treated as
+     * {@link DIRECTION_BOTH}.
+     * 
+     * @return bool TRUE on success, FALSE on failure.
+     */
+    public function setChunk($size, $direction = self::DIRECTION_BOTH)
+    {
+        $size = (int) $size;
+        if ($size <= 0) {
+            return false;
+        }
+        switch($direction) {
+        case self::DIRECTION_SEND:
+        case self::DIRECTION_RECEIVE:
+            $this->chunkSize[$direction] = $size;
+            return true;
+        default:
+            $this->chunkSize[self::DIRECTION_SEND]
+                = $this->chunkSize[self::DIRECTION_RECEIVE] = $size;
+            return true;
+        }
+    }
 
     /**
      * Sends a string over the wrapped stream.
@@ -141,10 +192,11 @@ class StreamTransmitter
     {
         $bytes = 0;
         $bytesToSend = (double) sprintf('%u', strlen($string));
+        $chunkSize = $this->chunkSize[self::DIRECTION_SEND];
         while ($bytes < $bytesToSend) {
             if ($this->isAcceptingData()) {
                 $bytesNow = @fwrite(
-                    $this->stream, substr($string, $bytes, 0xFFFFF)
+                    $this->stream, substr($string, $bytes, $chunkSize)
                 );
                 if (0 != $bytesNow) {
                     $bytes += $bytesNow;
@@ -168,10 +220,11 @@ class StreamTransmitter
     public function sendStream($stream)
     {
         $bytes = 0;
+        $chunkSize = $this->chunkSize[self::DIRECTION_SEND];
         while (!feof($stream)) {
             if ($this->isAcceptingData()) {
                 $bytesNow = @stream_copy_to_stream(
-                    $stream, $this->stream, 0xFFFFF
+                    $stream, $this->stream, $chunkSize
                 );
                 if (0 != $bytesNow) {
                     $bytes += $bytesNow;
@@ -200,10 +253,11 @@ class StreamTransmitter
     public function receive($length, $what = 'data')
     {
         $result = '';
+        $chunkSize = $this->chunkSize[self::DIRECTION_RECEIVE];
         while ($length > 0) {
             if ($this->isAvailable()) {
                 while ($this->isDataAwaiting()) {
-                    $fragment = fread($this->stream, min($length, 0xFFFFF));
+                    $fragment = fread($this->stream, min($length, $chunkSize));
                     if ('' !== $fragment) {
                         $length -= strlen($fragment);
                         $result .= $fragment;
@@ -244,10 +298,11 @@ class StreamTransmitter
             }
         }
         
+        $chunkSize = $this->chunkSize[self::DIRECTION_RECEIVE];
         while ($length > 0) {
             if ($this->isAvailable()) {
                 while ($this->isDataAwaiting()) {
-                    $fragment = fread($this->stream, min($length, 0xFFFFF));
+                    $fragment = fread($this->stream, min($length, $chunkSize));
                     if ('' !== $fragment) {
                         $length -= strlen($fragment);
                         fwrite($result, $fragment);

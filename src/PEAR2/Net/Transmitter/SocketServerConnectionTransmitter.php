@@ -69,7 +69,7 @@ class SocketServerConnectionTransmitter extends StreamTransmitter
             $hostPortCombo = explode(':', $peername);
             $this->peerIP = $hostPortCombo[0];
             $this->peerPort = (int) $hostPortCombo[1];
-        } catch (\Exception $e) {
+        } catch (StreamException $e) {
             throw $this->createException('Failed to initialize connection.', 9);
         }
     }
