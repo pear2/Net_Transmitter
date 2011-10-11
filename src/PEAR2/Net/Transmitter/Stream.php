@@ -33,7 +33,7 @@ namespace PEAR2\Net\Transmitter;
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     http://pear2.php.net/PEAR2_Net_Transmitter
  */
-class StreamTransmitter
+class Stream
 {
     /**
      * Used in {@link setBuffer()} to apply the setting to both sending and

@@ -21,10 +21,12 @@
 namespace PEAR2\Net\Transmitter;
 
 /**
- * A socket transmitter.
+ * A transmitter for connections to a socket server.
  * 
- * This is a convinience wrapper for socket functionality. Used to ensure data
- * integrity.
+ * This is a convinience wrapper for functionality of socket server connections.
+ * Used to ensure data integrity. Server handling is not part of the class in
+ * order to allow its usage as part of various server implementations (e.g. fork
+ * and/or sequential).
  * 
  * @category Net
  * @package  PEAR2_Net_Transmitter
@@ -32,63 +34,64 @@ namespace PEAR2\Net\Transmitter;
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     http://pear2.php.net/PEAR2_Net_Transmitter
  */
-class SocketClientTransmitter extends StreamTransmitter
+class TcpServerConnection extends Stream
 {
 
     /**
-     * @var int The error code of the last error on the socket.
+     * @var string The IP address of the connected client.
      */
-    protected $error_no = null;
+    protected $peerIP;
 
     /**
-     * @var string The error message of the last error on the socket.
+     * @var int The port of the connected client.
      */
-    protected $error_str = null;
+    protected $peerPort;
 
     /**
      * Creates a new connection with the specified options.
      * 
-     * @param string   $host    Hostname (IP or domain) of the server.
-     * @param int      $port    The port on the server.
-     * @param bool     $persist Whether or not the connection should be a
-     * persistent one.
+     * @param resource $server  A socket server, created with
+     * {@link stream_socket_server()}.
      * @param float    $timeout The timeout for the connection.
-     * @param string   $key     A string that uniquely identifies the
-     * connection.
-     * @param resource $context A context for the socket.
      */
-    public function __construct($host, $port, $persist = false,
-        $timeout = null, $key = '', $context = null
-    ) {
-        $flags = STREAM_CLIENT_CONNECT;
-        if ($persist) {
-            $flags |= STREAM_CLIENT_PERSISTENT;
+    public function __construct($server, $timeout = null)
+    {
+        if (!self::isStream($server)) {
+            throw $this->createException('Invalid server supplied.', 8);
         }
-
         $timeout
             = null == $timeout ? ini_get('default_socket_timeout') : $timeout;
 
-        $key = rawurlencode($key);
-
-        if (null === $context) {
-            $context = stream_context_get_default();
-        } elseif (
-            (!is_resource($context))
-            || ('stream-context' !== get_resource_type($context))
-        ) {
-            throw $this->createException('Invalid context supplied.', 6);
-        }
-
         try {
             parent::__construct(
-                @stream_socket_client(
-                    "tcp://{$host}:{$port}/{$key}", $this->error_no,
-                    $this->error_str, $timeout, $flags, $context
-                )
+                @stream_socket_accept($server, $timeout, $peername)
             );
-        } catch (\Exception $e) {
-            throw $this->createException('Failed to initialize socket.', 7);
+            $hostPortCombo = explode(':', $peername);
+            $this->peerIP = $hostPortCombo[0];
+            $this->peerPort = (int) $hostPortCombo[1];
+        } catch (StreamException $e) {
+            throw $this->createException('Failed to initialize connection.', 9);
         }
+    }
+    
+    /**
+     * Gets the IP address of the connected client.
+     * 
+     * @return string The IP address of the connected client.
+     */
+    public function getPeerIP()
+    {
+        return $this->peerIP;
+    }
+    
+    /**
+     * Gets the port of the connected client.
+     * 
+     * @return int The port of the connected client.
+     */
+    public function getPeerPort()
+    {
+        return $this->peerPort;
     }
 
     /**
@@ -117,9 +120,7 @@ class SocketClientTransmitter extends StreamTransmitter
      */
     protected function createException($message, $code = 0)
     {
-        return new SocketException(
-            $message, $code, null, $this->error_no, $this->error_str
-        );
+        return new SocketException($message, $code);
     }
 
 }

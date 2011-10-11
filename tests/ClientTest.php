@@ -5,15 +5,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 {
     
     /**
-     * @var SocketClientTransmitter
+     * @var TcpClient
      */
     protected $client;
     
     public function setUp()
     {
-        $this->client = new SocketClientTransmitter(
-            REMOTE_HOSTNAME, REMOTE_PORT
-        );
+        $this->client = new TcpClient(REMOTE_HOSTNAME, REMOTE_PORT);
     }
     
     public function tearDown()
@@ -100,10 +98,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     
     public function testPersistentClientConnection()
     {
-        $this->client = new SocketClientTransmitter(
+        $this->client = new TcpClient(
             REMOTE_HOSTNAME, REMOTE_PORT, true
         );
-        $client = new SocketClientTransmitter(
+        $client = new TcpClient(
             REMOTE_HOSTNAME, REMOTE_PORT, true
         );
         $this->assertTrue($this->client->isFresh());

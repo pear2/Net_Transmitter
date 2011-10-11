@@ -39,7 +39,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->conn = new SocketServerConnectionTransmitter(
+        $this->conn = new TcpServerConnection(
             self::$server, 1/*h*/ * 60/*m*/ * 60/*s*/
         );
         $this->assertEquals(REMOTE_HOSTNAME, $this->conn->getPeerIP());

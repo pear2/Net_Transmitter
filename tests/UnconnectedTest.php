@@ -1,5 +1,7 @@
 <?php
 namespace PEAR2\Net\Transmitter;
+use PEAR2\Net\Transmitter\TcpClient as C;
+use PEAR2\Net\Transmitter\TcpServerConnection as SC;
 
 class UnconnectedTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,7 +23,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
     public function testDefaultStreamTransmitterException()
     {
         try {
-            $trans = new StreamTransmitter('invalid arg');
+            $trans = new Stream('invalid arg');
             $this->fail('Transmitter initialization had to fail.');
         } catch (StreamException $e) {
             $this->assertEquals(1, $e->getCode(), 'Improper exception code.');
@@ -102,7 +104,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
     public function testInvalidContext()
     {
         try {
-            new SocketClientTransmitter(
+            new C(
                 REMOTE_HOSTNAME, REMOTE_PORT, false, null, '',
                 fopen('php://input', 'r')
             );
@@ -116,7 +118,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
     public function testSilence()
     {
         try {
-            new SocketClientTransmitter(SILENT_HOSTNAME, REMOTE_PORT);
+            new C(SILENT_HOSTNAME, REMOTE_PORT);
             $this->fail('Client creation had to fail.');
         } catch(SocketException $e)
         {
@@ -126,7 +128,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             );
         }
         try {
-            new SocketClientTransmitter(REMOTE_HOSTNAME, SILENT_PORT);
+            new C(REMOTE_HOSTNAME, SILENT_PORT);
             $this->fail('Client creation had to fail.');
         } catch(SocketException $e)
         {
@@ -140,9 +142,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
     public function testInvalidServer()
     {
         try {
-            new SocketServerConnectionTransmitter(
-                'not a server', 1/*h*/ * 60/*m*/ * 60/*s*/
-            );
+            new SC('not a server', 1/*h*/ * 60/*m*/ * 60/*s*/);
             $this->fail('Server creation had to fail.');
         } catch(SocketException $e)
         {
