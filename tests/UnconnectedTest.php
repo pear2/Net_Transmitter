@@ -81,6 +81,11 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $filters->current());
         $this->assertEquals(4, $filters->getCurrentPosition());
         
+        $this->assertTrue($filters->prev());
+        $this->assertEquals('string.toupper', $filters->key());
+        $this->assertEquals(array(), $filters->current());
+        $this->assertEquals(3, $filters->getCurrentPosition());
+        
         $this->assertTrue($filters->rewind());
         $filters->removeAt(2);
         
@@ -147,6 +152,23 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
         } catch(SocketException $e)
         {
             $this->assertEquals(8, $e->getCode(), 'Improper exception code.');
+        }
+    }
+    
+    public function testServerConnectionTimeout()
+    {
+        try {
+            new SC(
+                stream_socket_server(
+                    'tcp://' . LOCAL_HOSTNAME . ':' . LOCAL_PORT
+                )
+                ,
+                2
+            );
+            $this->fail('Server creation had to fail.');
+        } catch(SocketException $e)
+        {
+            $this->assertEquals(9, $e->getCode(), 'Improper exception code.');
         }
     }
 }

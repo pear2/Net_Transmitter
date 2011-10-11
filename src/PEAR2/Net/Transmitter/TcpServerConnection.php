@@ -69,7 +69,7 @@ class TcpServerConnection extends Stream
             $hostPortCombo = explode(':', $peername);
             $this->peerIP = $hostPortCombo[0];
             $this->peerPort = (int) $hostPortCombo[1];
-        } catch (StreamException $e) {
+        } catch (Exception $e) {
             throw $this->createException('Failed to initialize connection.', 9);
         }
     }

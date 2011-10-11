@@ -194,6 +194,17 @@ class FilterCollection implements \SeekableIterator, \Countable
     }
 
     /**
+     * Moves the pointer backwards by 1.
+     * 
+     * @return bool TRUE if the new position is valid, FALSE otherwise.
+     */
+    public function prev()
+    {
+        --$this->position;
+        return $this->valid();
+    }
+
+    /**
      * Moves the pointer to the last valid position.
      * 
      * @return bool TRUE if the collection is not empty, FALSE otherwise.

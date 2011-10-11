@@ -141,4 +141,28 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(1, $this->client->send('t'), 'Wrong amount sent.');
     }
+    
+    public function testClientSendingIncompleteData()
+    {
+        $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
+        $contents = str_repeat('7', $size);
+        try {
+            $this->client->send($contents);
+        } catch(SocketException $e) {
+            $this->assertEquals(2, $e->getCode(), 'Improper exception code.');
+        }
+    }
+    
+    public function testClientSendingIncompleteDataStream()
+    {
+        $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
+        $stream = fopen('php://temp', 'r+b');
+        fwrite($stream, str_repeat('8', $size));
+        rewind($stream);
+        try {
+            $this->client->sendStream($stream);
+        } catch(SocketException $e) {
+            $this->assertEquals(3, $e->getCode(), 'Improper exception code.');
+        }
+    }
 }

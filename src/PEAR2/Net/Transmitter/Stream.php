@@ -24,8 +24,8 @@ namespace PEAR2\Net\Transmitter;
  * A stream transmitter.
  * 
  * This is a convinience wrapper for stream functionality. Used to ensure data
- * integrity. Designed for sockets, but it has intentionally been made to accept
- * any stream.
+ * integrity. Designed for TCP sockets, but it has intentionally been made to
+ * accept any stream.
  * 
  * @category Net
  * @package  PEAR2_Net_Transmitter
@@ -36,16 +36,15 @@ namespace PEAR2\Net\Transmitter;
 class Stream
 {
     /**
-     * Used in {@link setBuffer()} to apply the setting to both sending and
-     * receiving.
+     * Used to apply settings to both sending and receiving.
      */
-    const DIRECTION_BOTH = '|||';
+    const DIRECTION_ALL = '|||';
     /**
-     * Used in {@link setBuffer()} to apply the setting only to sending.
+     * Used to apply settings only to sending.
      */
     const DIRECTION_SEND = '<<<';
     /**
-     * Used in {@link setBuffer()} to apply the setting only to receiving.
+     * Used to apply settings only to receiving.
      */
     const DIRECTION_RECEIVE = '>>>';
 
@@ -131,22 +130,22 @@ class Stream
      * 
      * @param int    $size      The desired size of the buffer, in bytes.
      * @param string $direction The buffer of which direction to set. Valid
-     * values are the DIRECTION_* constants. Any other value is treated as
-     * {@link DIRECTION_BOTH}.
+     * values are the DIRECTION_* constants.
      * 
      * @return bool TRUE on success, FALSE on failure.
      */
-    public function setBuffer($size, $direction = self::DIRECTION_BOTH)
+    public function setBuffer($size, $direction = self::DIRECTION_ALL)
     {
         switch($direction) {
         case self::DIRECTION_SEND:
             return stream_set_write_buffer($this->stream, $size) === 0;
         case self::DIRECTION_RECEIVE:
             return stream_set_read_buffer($this->stream, $size) === 0;
-        default:
+        case self::DIRECTION_ALL:
             return stream_set_write_buffer($this->stream, $size) === 0
                 && stream_set_read_buffer($this->stream, $size) === 0;
         }
+        return false;
     }
     
     /**
@@ -158,12 +157,11 @@ class Stream
      * 
      * @param int    $size      The desired size of the chunk, in bytes.
      * @param string $direction The chunk of which direction to set. Valid
-     * values are the DIRECTION_* constants. Any other value is treated as
-     * {@link DIRECTION_BOTH}.
+     * values are the DIRECTION_* constants.
      * 
      * @return bool TRUE on success, FALSE on failure.
      */
-    public function setChunk($size, $direction = self::DIRECTION_BOTH)
+    public function setChunk($size, $direction = self::DIRECTION_ALL)
     {
         $size = (int) $size;
         if ($size <= 0) {
@@ -174,11 +172,12 @@ class Stream
         case self::DIRECTION_RECEIVE:
             $this->chunkSize[$direction] = $size;
             return true;
-        default:
+        case self::DIRECTION_ALL:
             $this->chunkSize[self::DIRECTION_SEND]
                 = $this->chunkSize[self::DIRECTION_RECEIVE] = $size;
             return true;
         }
+        return false;
     }
 
     /**

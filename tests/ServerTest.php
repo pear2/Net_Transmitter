@@ -20,7 +20,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     protected static $errstr;
     
     /**
-     * @var SocketServerConnectionTransmitter
+     * @var TcpServerConnection
      */
     protected $conn;
     
@@ -157,5 +157,17 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         } catch(SocketException $e) {
             $this->assertEquals(5, $e->getCode(), 'Improper exception code.');
         }
+    }
+    
+    public function testClientSendingIncompleteData()
+    {
+        $this->assertEquals('777', $this->conn->receive(3));
+        $this->conn->close();
+    }
+    
+    public function testClientSendingIncompleteDataStream()
+    {
+        $this->assertEquals('888', $this->conn->receive(3));
+        $this->conn->close();
     }
 }
