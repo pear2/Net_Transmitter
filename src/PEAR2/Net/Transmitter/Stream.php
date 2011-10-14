@@ -181,60 +181,50 @@ class Stream
     }
 
     /**
-     * Sends a string over the wrapped stream.
+     * Sends a string or stream over the wrapped stream.
      * 
-     * @param string $string The string to send.
-     * 
-     * @return int The number of bytes sent.
-     */
-    public function send($string)
-    {
-        $bytes = 0;
-        $bytesToSend = (double) sprintf('%u', strlen($string));
-        $chunkSize = $this->chunkSize[self::DIRECTION_SEND];
-        while ($bytes < $bytesToSend) {
-            if ($this->isAcceptingData()) {
-                $bytesNow = @fwrite(
-                    $this->stream, substr($string, $bytes, $chunkSize)
-                );
-                if (0 != $bytesNow) {
-                    $bytes += $bytesNow;
-                } else {
-                    throw $this->createException(
-                        'Failed while sending string.', 2
-                    );
-                }
-            }
-        }
-        return $bytes;
-    }
-
-    /**
-     * Sends a stream over the wrapped stream.
-     * 
-     * @param resource $stream The stream to send.
+     * @param string|resource $contents The string or stream to send.
      * 
      * @return int The number of bytes sent.
      */
-    public function sendStream($stream)
+    public function send($contents)
     {
         $bytes = 0;
         $chunkSize = $this->chunkSize[self::DIRECTION_SEND];
-        while (!feof($stream)) {
-            if ($this->isAcceptingData()) {
-                $bytesNow = @stream_copy_to_stream(
-                    $stream, $this->stream, $chunkSize
-                );
-                if (0 != $bytesNow) {
-                    $bytes += $bytesNow;
-                } else {
-                    throw $this->createException(
-                        'Failed while sending stream.', 3
+        if (self::isStream($contents)) {
+            while (!feof($contents)) {
+                if ($this->isAcceptingData()) {
+                    $bytesNow = @stream_copy_to_stream(
+                        $contents, $this->stream, $chunkSize
                     );
+                    if (0 != $bytesNow) {
+                        $bytes += $bytesNow;
+                    } else {
+                        throw $this->createException(
+                            'Failed while sending stream.', 3
+                        );
+                    }
+                }
+            }
+            fseek($contents, -$bytes, SEEK_CUR);
+        }else {
+            $contents = (string) $contents;
+            $bytesToSend = (double) sprintf('%u', strlen($contents));
+            while ($bytes < $bytesToSend) {
+                if ($this->isAcceptingData()) {
+                    $bytesNow = @fwrite(
+                        $this->stream, substr($contents, $bytes, $chunkSize)
+                    );
+                    if (0 != $bytesNow) {
+                        $bytes += $bytesNow;
+                    } else {
+                        throw $this->createException(
+                            'Failed while sending string.', 2
+                        );
+                    }
                 }
             }
         }
-        fseek($stream, -$bytes, SEEK_CUR);
         return $bytes;
     }
 

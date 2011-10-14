@@ -44,7 +44,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $stream = fopen('php://temp', 'r+b');
         fwrite($stream, '3');
         rewind($stream);
-        $this->client->sendStream($stream);
+        $this->client->send($stream);
         $this->assertEquals(
             stream_get_contents($stream), $this->client->receive(1),
             'Wrong byte echoed.'
@@ -57,7 +57,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $stream = fopen('php://temp', 'r+b');
         fwrite($stream, str_repeat('4', $size));
         rewind($stream);
-        $this->client->sendStream($stream);
+        $this->client->send($stream);
         $this->assertEquals(
             stream_get_contents($stream), $this->client->receive($size),
             'Wrong contents echoed.'
@@ -160,7 +160,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         fwrite($stream, str_repeat('8', $size));
         rewind($stream);
         try {
-            $this->client->sendStream($stream);
+            $this->client->send($stream);
         } catch(SocketException $e) {
             $this->assertEquals(3, $e->getCode(), 'Improper exception code.');
         }

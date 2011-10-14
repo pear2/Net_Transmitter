@@ -74,7 +74,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         fwrite($stream, $this->conn->receive(1));
         rewind($stream);
         $this->assertEquals(
-            1, $this->conn->sendStream($stream),
+            1, $this->conn->send($stream),
             'Wrong amount echoed.'
         );
     }
@@ -86,7 +86,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         fwrite($stream, $this->conn->receive($size));
         rewind($stream);
         $this->assertEquals(
-            $size, $this->conn->sendStream($stream),
+            $size, $this->conn->send($stream),
             'Wrong amount echoed.'
         );
     }
