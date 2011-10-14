@@ -142,8 +142,8 @@ class Stream
         case self::DIRECTION_RECEIVE:
             return stream_set_read_buffer($this->stream, $size) === 0;
         case self::DIRECTION_ALL:
-            return stream_set_write_buffer($this->stream, $size) === 0
-                && stream_set_read_buffer($this->stream, $size) === 0;
+            return stream_set_read_buffer($this->stream, $size) === 0
+                && stream_set_write_buffer($this->stream, $size) === 0;
         }
         return false;
     }
@@ -179,6 +179,27 @@ class Stream
         }
         return false;
     }
+    
+    /**
+     * Gets the size of the chunk.
+     * 
+     * @param string $direction The chunk of which direction to get. Valid
+     * values are the DIRECTION_* constants.
+     * 
+     * @return int|array The chunk size in bytes, or an array of chunk sizes
+     * with the directions as keys. FALSE on invalid direction. 
+     */
+    public function getChunk($direction = self::DIRECTION_ALL)
+    {
+        switch($direction) {
+        case self::DIRECTION_SEND:
+        case self::DIRECTION_RECEIVE:
+            return $this->chunkSize[$direction];
+        case self::DIRECTION_ALL:
+            return $this->chunkSize;
+        }
+        return false;
+    }
 
     /**
      * Sends a string or stream over the wrapped stream.
@@ -207,7 +228,7 @@ class Stream
                 }
             }
             fseek($contents, -$bytes, SEEK_CUR);
-        }else {
+        } else {
             $contents = (string) $contents;
             $bytesToSend = (double) sprintf('%u', strlen($contents));
             while ($bytes < $bytesToSend) {

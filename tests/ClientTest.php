@@ -165,4 +165,101 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(3, $e->getCode(), 'Improper exception code.');
         }
     }
+    
+    public function testClientTimingOut()
+    {
+        $this->assertEquals('999', $this->client->receive(3));
+        $this->client->setTimeout(2);
+        //$this->client->setChunk(1);
+        try {
+            $this->client->receive(30);
+            $this->fail('Second receiving had to fail.');
+        } catch(SocketException $e) {
+            $this->assertEquals(4, $e->getCode(), 'Improper exception code.');
+        }
+    }
+    
+    public function testClientTimingOutStream()
+    {
+        $this->assertEquals('aaa', $this->client->receive(3));
+        $this->client->setTimeout(2);
+        //$this->client->setChunk(1);
+        try {
+            $this->client->receiveStream(30);
+            $this->fail('Second receiving had to fail.');
+        } catch(SocketException $e) {
+            $this->assertEquals(5, $e->getCode(), 'Improper exception code.');
+        }
+    }
+    
+    public function testSetBuffer()
+    {
+        $this->assertFalse($this->client->setBuffer(0, 'unknown direction'));
+        $this->assertFalse($this->client->setBuffer(-1));
+        $this->assertTrue(
+            $this->client->setBuffer(99, Stream::DIRECTION_RECEIVE)
+        );
+    }
+    
+    public function testSetChunk()
+    {
+        $defaultChunks = $this->client->getChunk();
+        $this->assertInternalType('array', $defaultChunks);
+        
+        $this->assertFalse($this->client->getChunk('unknown direction'));
+        $this->assertFalse($this->client->setChunk(1, 'unknown direction'));
+        
+        $this->assertFalse($this->client->setChunk(0));
+        $this->assertFalse($this->client->setChunk(0, Stream::DIRECTION_ALL));
+        $this->assertFalse($this->client->setChunk(0, Stream::DIRECTION_SEND));
+        $this->assertFalse(
+            $this->client->setChunk(0, Stream::DIRECTION_RECEIVE)
+        );
+        
+        $this->assertTrue(
+            $this->client->setChunk(1, Stream::DIRECTION_RECEIVE)
+        );
+        $this->assertEquals(
+            1, $this->client->getChunk(Stream::DIRECTION_RECEIVE)
+        );
+        $this->assertEquals(
+            $defaultChunks[Stream::DIRECTION_SEND],
+            $this->client->getChunk(Stream::DIRECTION_SEND)
+        );
+        $this->assertEquals(
+            array(
+                Stream::DIRECTION_RECEIVE => 1,
+                Stream::DIRECTION_SEND => $defaultChunks[Stream::DIRECTION_SEND]
+            ),
+            $this->client->getChunk()
+        );
+        
+        $this->assertTrue(
+            $this->client->setChunk(1, Stream::DIRECTION_SEND)
+        );
+        $this->assertEquals(
+            1, $this->client->getChunk(Stream::DIRECTION_SEND)
+        );
+        $this->assertEquals(
+            1, $this->client->getChunk(Stream::DIRECTION_RECEIVE)
+        );
+        $this->assertEquals(
+            array(Stream::DIRECTION_RECEIVE => 1,Stream::DIRECTION_SEND => 1),
+            $this->client->getChunk()
+        );
+        
+        $this->assertTrue(
+            $this->client->setChunk(2)
+        );
+        $this->assertEquals(
+            2, $this->client->getChunk(Stream::DIRECTION_SEND)
+        );
+        $this->assertEquals(
+            2, $this->client->getChunk(Stream::DIRECTION_RECEIVE)
+        );
+        $this->assertEquals(
+            array(Stream::DIRECTION_RECEIVE => 2,Stream::DIRECTION_SEND => 2),
+            $this->client->getChunk()
+        );
+    }
 }

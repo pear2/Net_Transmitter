@@ -170,4 +170,94 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('888', $this->conn->receive(3));
         $this->conn->close();
     }
+    
+    public function testClientTimingOut()
+    {
+        $this->conn->send('999');
+        sleep(1);
+        $this->conn->send('999');
+        sleep(3);
+        $this->conn->send('999');
+    }
+    
+    public function testClientTimingOutStream()
+    {
+        $this->conn->send('aaa');
+        sleep(1);
+        $this->conn->send('aaa');
+        sleep(3);
+        $this->conn->send('aaa');
+    }
+    
+    
+    public function testSetBuffer()
+    {
+        $this->assertFalse($this->conn->setBuffer(0, 'unknown direction'));
+        $this->assertFalse($this->conn->setBuffer(-1));
+        $this->assertTrue(
+            $this->conn->setBuffer(99, Stream::DIRECTION_RECEIVE)
+        );
+    }
+    
+    public function testSetChunk()
+    {
+        $defaultChunks = $this->conn->getChunk();
+        $this->assertInternalType('array', $defaultChunks);
+        
+        $this->assertFalse($this->conn->getChunk('unknown direction'));
+        $this->assertFalse($this->conn->setChunk(1, 'unknown direction'));
+        
+        $this->assertFalse($this->conn->setChunk(0));
+        $this->assertFalse($this->conn->setChunk(0, Stream::DIRECTION_ALL));
+        $this->assertFalse($this->conn->setChunk(0, Stream::DIRECTION_SEND));
+        $this->assertFalse(
+            $this->conn->setChunk(0, Stream::DIRECTION_RECEIVE)
+        );
+        
+        $this->assertTrue(
+            $this->conn->setChunk(1, Stream::DIRECTION_RECEIVE)
+        );
+        $this->assertEquals(
+            1, $this->conn->getChunk(Stream::DIRECTION_RECEIVE)
+        );
+        $this->assertEquals(
+            $defaultChunks[Stream::DIRECTION_SEND],
+            $this->conn->getChunk(Stream::DIRECTION_SEND)
+        );
+        $this->assertEquals(
+            array(
+                Stream::DIRECTION_RECEIVE => 1,
+                Stream::DIRECTION_SEND => $defaultChunks[Stream::DIRECTION_SEND]
+            ),
+            $this->conn->getChunk()
+        );
+        
+        $this->assertTrue(
+            $this->conn->setChunk(1, Stream::DIRECTION_SEND)
+        );
+        $this->assertEquals(
+            1, $this->conn->getChunk(Stream::DIRECTION_SEND)
+        );
+        $this->assertEquals(
+            1, $this->conn->getChunk(Stream::DIRECTION_RECEIVE)
+        );
+        $this->assertEquals(
+            array(Stream::DIRECTION_RECEIVE => 1,Stream::DIRECTION_SEND => 1),
+            $this->conn->getChunk()
+        );
+        
+        $this->assertTrue(
+            $this->conn->setChunk(2)
+        );
+        $this->assertEquals(
+            2, $this->conn->getChunk(Stream::DIRECTION_SEND)
+        );
+        $this->assertEquals(
+            2, $this->conn->getChunk(Stream::DIRECTION_RECEIVE)
+        );
+        $this->assertEquals(
+            array(Stream::DIRECTION_RECEIVE => 2,Stream::DIRECTION_SEND => 2),
+            $this->conn->getChunk()
+        );
+    }
 }
