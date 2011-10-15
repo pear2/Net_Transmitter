@@ -1,0 +1,8 @@
+Lots of reorganization and initial test suite.
+
+* Added test suite with nearly complete code coverage.
+* Added FilterCollection, in turn allowing for the same filter to be applied more than once.
+* Renamed all "Socket*Transmitter" classes to "Tcp*".
+* Merged sendStream() into send().
+* Removed redundant error variables in TcpServerConnection.
+* Removed the TcpServerConnection::isServer() function (can't tell apart server and client).

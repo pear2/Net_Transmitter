@@ -43,32 +43,37 @@
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
                     <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
                 </file>
-                <file name="PEAR2/Net/Transmitter/SocketClientTransmitter.php" role="php">
-                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
-                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
-                </file>
                 <file name="PEAR2/Net/Transmitter/SocketException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
                     <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
                 </file>
-                <file name="PEAR2/Net/Transmitter/SocketServerConnectionTransmitter.php" role="php">
+                <file name="PEAR2/Net/Transmitter/Stream.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
                     <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
                 </file>
-                <file name="PEAR2/Net/Transmitter/StreamTransmitter.php" role="php">
+                <file name="PEAR2/Net/Transmitter/TcpClient.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                </file>
+                <file name="PEAR2/Net/Transmitter/TcpServerConnection.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
                     <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
                 </file>
             </dir>
             <dir name="tests">
+                <file name="ClientTest.php" role="test" />
+                <file name="ServerTest.php" role="test" />
+                <file name="UnconnectedTest.php" role="test" />
                 <file name="bootstrap.php" role="test">
                     <tasks:replace type="pear-config" from="../src" to="php_dir" />
                 </file>
-                <file name="configuration.xml" role="test" />
+                <file name="phpunit.xml" role="test" />
+                <file name="secondaryPeer.bat" role="test" />
+                <file name="secondaryPeer.xml" role="test" />
             </dir>
             <dir name="docs">
                 <file name="doxygen.ini" role="doc">
@@ -102,30 +107,50 @@
                 as="PEAR2/Net/Transmitter/Exception.php"
             />
             <install
-                name="src/PEAR2/Net/Transmitter/SocketClientTransmitter.php"
-                as="PEAR2/Net/Transmitter/SocketClientTransmitter.php"
-            />
-            <install
                 name="src/PEAR2/Net/Transmitter/SocketException.php"
                 as="PEAR2/Net/Transmitter/SocketException.php"
             />
             <install
-                name="src/PEAR2/Net/Transmitter/SocketServerConnectionTransmitter.php"
-                as="PEAR2/Net/Transmitter/SocketServerConnectionTransmitter.php"
+                name="src/PEAR2/Net/Transmitter/Stream.php"
+                as="PEAR2/Net/Transmitter/Stream.php"
             />
             <install
-                name="src/PEAR2/Net/Transmitter/StreamTransmitter.php"
-                as="PEAR2/Net/Transmitter/StreamTransmitter.php"
+                name="src/PEAR2/Net/Transmitter/TcpClient.php"
+                as="PEAR2/Net/Transmitter/TcpClient.php"
+            />
+            <install
+                name="src/PEAR2/Net/Transmitter/TcpServerConnection.php"
+                as="PEAR2/Net/Transmitter/TcpServerConnection.php"
             />
             
             
+            <install
+                name="tests/ClientTest.php"
+                as="ClientTest.php"
+            />
+            <install
+                name="tests/ServerTest.php"
+                as="ServerTest.php"
+            />
+            <install
+                name="tests/UnconnectedTest.php"
+                as="UnconnectedTest.php"
+            />
             <install
                 name="tests/bootstrap.php"
                 as="bootstrap.php"
             />
             <install
-                name="tests/configuration.xml"
-                as="configuration.xml"
+                name="tests/phpunit.xml"
+                as="phpunit.xml"
+            />
+            <install
+                name="tests/secondaryPeer.bat"
+                as="secondaryPeer.bat"
+            />
+            <install
+                name="tests/secondaryPeer.xml"
+                as="secondaryPeer.xml"
             />
             
             <install
