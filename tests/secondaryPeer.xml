@@ -20,12 +20,12 @@
         <!--
         The name and port of phpunit.xml
         -->
-        <const name="REMOTE_HOSTNAME" value="127.0.0.1" />
+        <const name="REMOTE_HOSTNAME" value="::1" />
         <const name="REMOTE_PORT" value="6667" />
         <!--
         The name and port phpunit.xml must use.
         -->
-        <const name="LOCAL_HOSTNAME" value="127.0.0.1" />
+        <const name="LOCAL_HOSTNAME" value="::1" />
         <const name="LOCAL_PORT" value="6666" />
     </php>
     <testsuites>

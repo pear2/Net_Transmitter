@@ -142,8 +142,8 @@ class Stream
         case self::DIRECTION_RECEIVE:
             return stream_set_read_buffer($this->stream, $size) === 0;
         case self::DIRECTION_ALL:
-            return stream_set_read_buffer($this->stream, $size) === 0
-                && stream_set_write_buffer($this->stream, $size) === 0;
+            return $this->setBuffer($size, self::DIRECTION_RECEIVE)
+                && $this->setBuffer($size, self::DIRECTION_SEND);
         }
         return false;
     }
@@ -222,7 +222,7 @@ class Stream
                         $bytes += $bytesNow;
                     } else {
                         throw $this->createException(
-                            'Failed while sending stream.', 3
+                            'Failed while sending stream.', 2
                         );
                     }
                 }
@@ -240,7 +240,7 @@ class Stream
                         $bytes += $bytesNow;
                     } else {
                         throw $this->createException(
-                            'Failed while sending string.', 2
+                            'Failed while sending string.', 3
                         );
                     }
                 }

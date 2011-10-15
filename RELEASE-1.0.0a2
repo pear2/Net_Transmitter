@@ -1,8 +1,11 @@
 Lots of reorganization and initial test suite.
 
-* Added test suite with nearly complete code coverage.
-* Added FilterCollection, in turn allowing for the same filter to be applied more than once.
 * Renamed all "Socket*Transmitter" classes to "Tcp*".
+* Added test suite with nearly complete code coverage. Remaining coverage is due to forward compatibility issues.
+* Added FilterCollection, in turn allowing for the same filter to be applied more than once.
+* Added NetworkStream, and made Tpc* classes inherit from it. This new class contains a new method called shutdown().
+* IPv6 addresses must now be written literally, without the surrounding "[" and "]".
+* TcpServerConnection can now accept IPv6 connections.
 * Merged sendStream() into send().
 * Removed redundant error variables in TcpServerConnection.
 * Removed the TcpServerConnection::isServer() function (can't tell apart server and client).

@@ -148,8 +148,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $contents = str_repeat('7', $size);
         try {
             $this->client->send($contents);
+            $this->fail('Sending had to fail.');
         } catch(SocketException $e) {
-            $this->assertEquals(2, $e->getCode(), 'Improper exception code.');
+            $this->assertEquals(3, $e->getCode(), 'Improper exception code.');
         }
     }
     
@@ -161,8 +162,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         rewind($stream);
         try {
             $this->client->send($stream);
+            $this->fail('Sending had to fail.');
         } catch(SocketException $e) {
-            $this->assertEquals(3, $e->getCode(), 'Improper exception code.');
+            $this->assertEquals(2, $e->getCode(), 'Improper exception code.');
         }
     }
     
@@ -170,7 +172,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('999', $this->client->receive(3));
         $this->client->setTimeout(2);
-        //$this->client->setChunk(1);
         try {
             $this->client->receive(30);
             $this->fail('Second receiving had to fail.');
@@ -183,7 +184,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('aaa', $this->client->receive(3));
         $this->client->setTimeout(2);
-        //$this->client->setChunk(1);
         try {
             $this->client->receiveStream(30);
             $this->fail('Second receiving had to fail.');
@@ -261,5 +261,19 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             array(Stream::DIRECTION_RECEIVE => 2,Stream::DIRECTION_SEND => 2),
             $this->client->getChunk()
         );
+    }
+    
+    public function testShutdown()
+    {
+        $this->client->send('bbb');
+        $this->assertEquals('bbb', $this->client->receive(3));
+        $this->assertFalse($this->client->shutdown('undefined direction'));
+        $this->assertTrue($this->client->shutdown(Stream::DIRECTION_SEND));
+        try {
+            $this->client->send('b');
+            $this->fail('Sending had to fail.');
+        } catch(SocketException $e) {
+            $this->assertEquals(3, $e->getCode(), 'Improper exception code.');
+        }
     }
 }

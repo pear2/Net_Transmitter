@@ -20,12 +20,12 @@
         <!--
         The hostname and port of secondaryPeer.xml
         -->
-        <const name="REMOTE_HOSTNAME" value="127.0.0.1" />
+        <const name="REMOTE_HOSTNAME" value="::1" />
         <const name="REMOTE_PORT" value="6666" />
         <!--
         The hostname and port secondaryPeer.xml must use.
         -->
-        <const name="LOCAL_HOSTNAME" value="127.0.0.1" />
+        <const name="LOCAL_HOSTNAME" value="::1" />
         <const name="LOCAL_PORT" value="6667" />
         <!--
         A hostname which doesn't provide a serive on any port present here.

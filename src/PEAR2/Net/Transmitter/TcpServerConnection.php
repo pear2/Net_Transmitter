@@ -34,7 +34,7 @@ namespace PEAR2\Net\Transmitter;
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     http://pear2.php.net/PEAR2_Net_Transmitter
  */
-class TcpServerConnection extends Stream
+class TcpServerConnection extends NetworkStream
 {
 
     /**
@@ -66,9 +66,17 @@ class TcpServerConnection extends Stream
             parent::__construct(
                 @stream_socket_accept($server, $timeout, $peername)
             );
-            $hostPortCombo = explode(':', $peername);
-            $this->peerIP = $hostPortCombo[0];
-            $this->peerPort = (int) $hostPortCombo[1];
+            $portString = strrchr($peername, ':');
+            $this->peerPort = (int) substr($portString, 1);
+            $ipString = substr(
+                $peername, 0, strlen($peername) - strlen($portString)
+            );
+            if (strpos($ipString, '[') === 0
+                && strpos(strrev($ipString), ']') === 0
+            ) {
+                $ipString = substr($ipString, 1, strlen($ipString) - 2);
+            }
+            $this->peerIP = $ipString;
         } catch (Exception $e) {
             throw $this->createException('Failed to initialize connection.', 9);
         }
@@ -92,20 +100,6 @@ class TcpServerConnection extends Stream
     public function getPeerPort()
     {
         return $this->peerPort;
-    }
-
-    /**
-     * Checks whether there is data to be read from the socket.
-     * 
-     * @return bool TRUE if there is data to be read, FALSE otherwise.
-     */
-    public function isDataAwaiting()
-    {
-        if (parent::isDataAwaiting()) {
-            $meta = stream_get_meta_data($this->stream);
-            return!$meta['timed_out'] && !$meta['eof'];
-        }
-        return false;
     }
 
     /**

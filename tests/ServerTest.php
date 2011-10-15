@@ -26,8 +26,10 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     
     public static function setUpBeforeClass()
     {
+        $hostname = strpos(LOCAL_HOSTNAME, ':') !== false
+            ? '[' . LOCAL_HOSTNAME . ']' : LOCAL_HOSTNAME;
         self::$server = stream_socket_server(
-            'tcp://' . LOCAL_HOSTNAME . ':' . LOCAL_PORT,
+            "tcp://{$hostname}:" . LOCAL_PORT,
             self::$errorno, self::$errstr
         );
     }
@@ -259,5 +261,19 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             array(Stream::DIRECTION_RECEIVE => 2,Stream::DIRECTION_SEND => 2),
             $this->conn->getChunk()
         );
+    }
+    
+    public function testShutdown()
+    {
+        $this->assertEquals('bbb', $this->conn->receive(3));
+        $this->conn->send('bbb');
+        $this->assertFalse($this->conn->shutdown('undefined direction'));
+        $this->assertTrue($this->conn->shutdown(Stream::DIRECTION_RECEIVE));
+        try {
+            $this->conn->receive(1);
+            $this->fail('Receiving had to fail.');
+        } catch(SocketException $e) {
+            $this->assertEquals(4, $e->getCode(), 'Improper exception code.');
+        }
     }
 }

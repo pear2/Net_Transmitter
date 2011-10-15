@@ -32,7 +32,7 @@ namespace PEAR2\Net\Transmitter;
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     http://pear2.php.net/PEAR2_Net_Transmitter
  */
-class TcpClient extends Stream
+class TcpClient extends NetworkStream
 {
 
     /**
@@ -60,6 +60,9 @@ class TcpClient extends Stream
     public function __construct($host, $port, $persist = false,
         $timeout = null, $key = '', $context = null
     ) {
+        if (strpos($host, ':') !== false) {
+            $host = "[{$host}]";
+        }
         $flags = STREAM_CLIENT_CONNECT;
         if ($persist) {
             $flags |= STREAM_CLIENT_PERSISTENT;
@@ -89,20 +92,6 @@ class TcpClient extends Stream
         } catch (\Exception $e) {
             throw $this->createException('Failed to initialize socket.', 7);
         }
-    }
-
-    /**
-     * Checks whether there is data to be read from the socket.
-     * 
-     * @return bool TRUE if there is data to be read, FALSE otherwise.
-     */
-    public function isDataAwaiting()
-    {
-        if (parent::isDataAwaiting()) {
-            $meta = stream_get_meta_data($this->stream);
-            return!$meta['timed_out'] && !$meta['eof'];
-        }
-        return false;
     }
 
     /**
