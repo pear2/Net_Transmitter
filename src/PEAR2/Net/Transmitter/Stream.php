@@ -204,17 +204,37 @@ class Stream
     /**
      * Sends a string or stream over the wrapped stream.
      * 
+     * Sends a string or stream over the wrapped stream. If a seekable stream is
+     * provided, it will be seeked back to the same position it was passed as,
+     * regardless of the $offset parameter.
+     * 
      * @param string|resource $contents The string or stream to send.
+     * @param int             $offset   The offset from which to start sending.
+     * If a stream is provided, and this is set to NULL, sending will start from
+     * the current stream position.
+     * @param int             $length   The maximum length to send. If omitted,
+     * the string/stream will be sent to its end.
      * 
      * @return int The number of bytes sent.
      */
-    public function send($contents)
+    public function send($contents, $offset = null, $length = null)
     {
         $bytes = 0;
         $chunkSize = $this->chunkSize[self::DIRECTION_SEND];
+        $lengthIsNotNull = null !== $length;
+        $offsetIsNotNull = null !== $offset;
         if (self::isStream($contents)) {
+            if ($offsetIsNotNull) {
+                $oldPos = ftell($contents);
+                fseek($contents, $offset, SEEK_SET);
+            }
             while (!feof($contents)) {
                 if ($this->isAcceptingData()) {
+                    if ($lengthIsNotNull
+                        && 0 === $chunkSize = min($chunkSize, $length - $bytes)
+                    ) {
+                        break;
+                    }
                     $bytesNow = @stream_copy_to_stream(
                         $contents, $this->stream, $chunkSize
                     );
@@ -227,9 +247,19 @@ class Stream
                     }
                 }
             }
-            fseek($contents, -$bytes, SEEK_CUR);
+            if ($offsetIsNotNull) {
+                fseek($contents, $oldPos, SEEK_SET);
+            } else {
+                fseek($contents, -$bytes, SEEK_CUR);
+            }
         } else {
             $contents = (string) $contents;
+            if ($offsetIsNotNull) {
+                $contents = substr($contents, $offset);
+            }
+            if ($lengthIsNotNull) {
+                $contents = substr($contents, 0, $length);
+            }
             $bytesToSend = (double) sprintf('%u', strlen($contents));
             while ($bytes < $bytesToSend) {
                 if ($this->isAcceptingData()) {

@@ -116,6 +116,22 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         );
     }
     
+    public function testOffsetSend()
+    {
+        $this->assertEquals('bcd', $this->conn->receive(3));
+        $this->assertEquals('bcd', $this->conn->receive(3));
+        $this->assertEquals('d', $this->conn->receive(1));
+        $this->assertEquals('cd', $this->conn->receive(2));
+    }
+    
+    public function testLengthSend()
+    {
+        $this->assertEquals('a', $this->conn->receive(1));
+        $this->assertEquals('a', $this->conn->receive(1));
+        $this->assertEquals('c', $this->conn->receive(1));
+        $this->assertEquals('bc', $this->conn->receive(2));
+    }
+    
     public function testClientReceivingFilterCollection()
     {
         $this->assertEquals(1, $this->conn->send('t'), 'Wrong amount sent.');

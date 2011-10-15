@@ -85,6 +85,34 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         );
     }
     
+    public function testOffsetSend()
+    {
+        $contents = 'abcd';
+        $this->assertEquals(3, $this->client->send($contents, 1));
+        
+        $stream = fopen('php://temp', 'r+b');
+        fwrite($stream, $contents);
+        rewind($stream);
+        $this->assertEquals(3, $this->client->send($stream, 1));
+        fseek($stream, 3, SEEK_SET);
+        $this->assertEquals(1, $this->client->send($stream));
+        $this->assertEquals(2, $this->client->send($stream, 2));
+    }
+    
+    public function testLengthSend()
+    {
+        $contents = 'abcd';
+        $this->assertEquals(1, $this->client->send($contents, null, 1));
+        
+        $stream = fopen('php://temp', 'r+b');
+        fwrite($stream, $contents);
+        rewind($stream);
+        $this->assertEquals(1, $this->client->send($stream, null, 1));
+        fseek($stream, 2, SEEK_SET);
+        $this->assertEquals(1, $this->client->send($stream, null, 1));
+        $this->assertEquals(2, $this->client->send($stream, 1, 2));
+    }
+    
     public function testClientReceivingFilterCollection()
     {
         $filters = new FilterCollection();

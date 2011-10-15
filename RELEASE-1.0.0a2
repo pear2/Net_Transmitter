@@ -7,5 +7,6 @@ Lots of reorganization and initial test suite.
 * IPv6 addresses must now be written literally, without the surrounding "[" and "]".
 * TcpServerConnection can now accept IPv6 connections.
 * Merged sendStream() into send().
+* Added $offset and $length to send().
 * Removed redundant error variables in TcpServerConnection.
 * Removed the TcpServerConnection::isServer() function (can't tell apart server and client).
