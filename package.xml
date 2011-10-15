@@ -43,6 +43,11 @@
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
                     <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
                 </file>
+                <file name="PEAR2/Net/Transmitter/NetworkStream.php" role="php">
+                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
+                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
+                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                </file>
                 <file name="PEAR2/Net/Transmitter/SocketException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
@@ -105,6 +110,10 @@
             <install
                 name="src/PEAR2/Net/Transmitter/Exception.php"
                 as="PEAR2/Net/Transmitter/Exception.php"
+            />
+            <install
+                name="src/PEAR2/Net/Transmitter/NetworkStream.php"
+                as="PEAR2/Net/Transmitter/NetworkStream.php"
             />
             <install
                 name="src/PEAR2/Net/Transmitter/SocketException.php"
