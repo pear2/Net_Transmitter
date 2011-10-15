@@ -1,0 +1,1338 @@
+<?xml version="1.0"?>
+<project version="0.15.1" title="PEAR2_Net_Transmitter documentation">
+  <file path="\Autoload.php" hash="fb289bccb8d513512d19555a064a71ad" package="PEAR2\Net\Transmitter">
+    <docblock>
+      <description>Wrapper for network stream functionality.</description>
+      <long-description>&lt;p&gt;PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.&lt;/p&gt;
+
+&lt;p&gt;This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).&lt;/p&gt;
+
+&lt;p&gt;PHP version 5&lt;/p&gt;
+</long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a2"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <function namespace="PEAR2\Net\Transmitter" line="35" package="PEAR2\Net\Transmitter">
+      <name>autoload</name>
+      <type>function</type>
+      <docblock>
+        <description>Loads a specified class.</description>
+        <long-description>&lt;p&gt;Loads a specified class from the namespace.&lt;/p&gt;
+</long-description>
+        <tag line="26" name="param" description="The classname (with namespace) to load." type="string" variable="$class">
+          <type by_reference="false">string</type>
+        </tag>
+        <tag line="26" name="return" description="" type="void">
+          <type by_reference="false">void</type>
+        </tag>
+      </docblock>
+      <argument line="35">
+        <name>$class</name>
+        <default/>
+        <type/>
+      </argument>
+    </function>
+  </file>
+  <file path="\Exception.php" hash="1fc044c1cfc8ebcf69d89d6774ae3300" package="PEAR2\Net\Transmitter">
+    <docblock>
+      <description>Wrapper for network stream functionality.</description>
+      <long-description>&lt;p&gt;PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.&lt;/p&gt;
+
+&lt;p&gt;This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).&lt;/p&gt;
+
+&lt;p&gt;PHP version 5&lt;/p&gt;
+</long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a2"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <interface namespace="PEAR2\Net\Transmitter" line="35" package="PEAR2\Net\Transmitter">
+      <name>Exception</name>
+      <extends/>
+      <full_name>\PEAR2\Net\Transmitter\Exception</full_name>
+      <docblock>
+        <description>Generic exception class of this package.</description>
+        <long-description>
+</long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+    </interface>
+  </file>
+  <file path="\FilterCollection.php" hash="2427b062c71f4b2875673e457fcebf94" package="PEAR2\Net\Transmitter">
+    <docblock>
+      <description>Wrapper for network stream functionality.</description>
+      <long-description>&lt;p&gt;PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.&lt;/p&gt;
+
+&lt;p&gt;This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).&lt;/p&gt;
+
+&lt;p&gt;PHP version 5&lt;/p&gt;
+</long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a2"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <parse_markers>
+      <critical line="40">No short description for property $filters</critical>
+      <critical line="45">No short description for property $position</critical>
+    </parse_markers>
+    <class final="false" abstract="false" line="38" namespace="PEAR2\Net\Transmitter" package="PEAR2\Net\Transmitter">
+      <name>FilterCollection</name>
+      <extends/>
+      <full_name>\PEAR2\Net\Transmitter\FilterCollection</full_name>
+      <docblock>
+        <description>A filter collection.</description>
+        <long-description>&lt;p&gt;Represents a collection of stream filters.&lt;/p&gt;
+</long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+        <tag line="26" name="see" description="\PEAR2\Net\Transmitter\Client" refers="\PEAR2\Net\Transmitter\Client"/>
+      </docblock>
+      <implements>\SeekableIterator</implements>
+      <implements>\Countable</implements>
+      <property final="false" static="false" visibility="protected" line="43" package="PEAR2_Net_Transmitter">
+        <name>$filters</name>
+        <default>array()</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag line="40" name="var" description="The filter collection itself." type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="48" package="PEAR2_Net_Transmitter">
+        <name>$position</name>
+        <default>0</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag line="45" name="var" description="A pointer, as required by SeekableIterator." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" line="58" package="PEAR2_Net_Transmitter">
+        <name>append</name>
+        <docblock>
+          <description>Appends a filter to the collection</description>
+          <long-description>
+</long-description>
+          <tag line="50" name="param" description="The name of the filter." type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="50" name="param" description="An array of parameters for the filter." type="array" variable="$params">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="50" name="return" description="The collection itself." type="\PEAR2\Net\Transmitter\FilterCollection">
+            <type by_reference="false">\PEAR2\Net\Transmitter\FilterCollection</type>
+          </tag>
+        </docblock>
+        <argument line="58">
+          <name>$name</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="58">
+          <name>$params</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="78" package="PEAR2_Net_Transmitter">
+        <name>insertBefore</name>
+        <docblock>
+          <description>Inserts the filter before a position.</description>
+          <long-description>&lt;p&gt;Inserts the specified filter before a filter at a specified position. The
+new filter takes the specified position, while previous filters are moved
+forward by one.&lt;/p&gt;
+</long-description>
+          <tag line="64" name="param" description="The position before which the filter will be inserted." type="int" variable="$position">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="64" name="param" description="The name of the filter." type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="64" name="param" description="An array of parameters for the filter." type="array" variable="$params">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="64" name="return" description="The collection itself." type="\PEAR2\Net\Transmitter\FilterCollection">
+            <type by_reference="false">\PEAR2\Net\Transmitter\FilterCollection</type>
+          </tag>
+        </docblock>
+        <argument line="78">
+          <name>$position</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="78">
+          <name>$name</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="78">
+          <name>$params</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="106" package="PEAR2_Net_Transmitter">
+        <name>removeAt</name>
+        <docblock>
+          <description>Removes a filter at a specified position.</description>
+          <long-description>
+</long-description>
+          <tag line="99" name="param" description="The position from which to remove a filter." type="int" variable="$position">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="99" name="return" description="The collection itself." type="\PEAR2\Net\Transmitter\FilterCollection">
+            <type by_reference="false">\PEAR2\Net\Transmitter\FilterCollection</type>
+          </tag>
+        </docblock>
+        <argument line="106">
+          <name>$position</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="118" package="PEAR2_Net_Transmitter">
+        <name>clear</name>
+        <docblock>
+          <description>Clears the collection</description>
+          <long-description>
+</long-description>
+          <tag line="113" name="return" description="The collection itself." type="\PEAR2\Net\Transmitter\FilterCollection">
+            <type by_reference="false">\PEAR2\Net\Transmitter\FilterCollection</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="129" package="PEAR2_Net_Transmitter">
+        <name>count</name>
+        <docblock>
+          <description>Gets the number of filters in the collection.</description>
+          <long-description>
+</long-description>
+          <tag line="124" name="return" description="The number of filters in the collection." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="139" package="PEAR2_Net_Transmitter">
+        <name>rewind</name>
+        <docblock>
+          <description>Resets the pointer to 0.</description>
+          <long-description>
+</long-description>
+          <tag line="134" name="return" description="TRUE if the collection is not empty, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="151" package="PEAR2_Net_Transmitter">
+        <name>seek</name>
+        <docblock>
+          <description>Moves the pointer to a specified position.</description>
+          <long-description>
+</long-description>
+          <tag line="144" name="param" description="The position to move to." type="int" variable="$position">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="144" name="return" description="TRUE if the specified position is valid, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="151">
+          <name>$position</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="162" package="PEAR2_Net_Transmitter">
+        <name>getCurrentPosition</name>
+        <docblock>
+          <description>Gets the current position.</description>
+          <long-description>
+</long-description>
+          <tag line="157" name="return" description="The current position." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="172" package="PEAR2_Net_Transmitter">
+        <name>next</name>
+        <docblock>
+          <description>Moves the pointer forward by 1.</description>
+          <long-description>
+</long-description>
+          <tag line="167" name="return" description="TRUE if the new position is valid, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="183" package="PEAR2_Net_Transmitter">
+        <name>key</name>
+        <docblock>
+          <description>Gets the key at the current pointer position.</description>
+          <long-description>
+</long-description>
+          <tag line="178" name="return" description="The name of the filter at the current position." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="194" package="PEAR2_Net_Transmitter">
+        <name>current</name>
+        <docblock>
+          <description>Gets the response at the current pointer position.</description>
+          <long-description>
+</long-description>
+          <tag line="188" name="return" description="An array of parameters for the filter at the current position." type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="204" package="PEAR2_Net_Transmitter">
+        <name>prev</name>
+        <docblock>
+          <description>Moves the pointer backwards by 1.</description>
+          <long-description>
+</long-description>
+          <tag line="199" name="return" description="TRUE if the new position is valid, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="215" package="PEAR2_Net_Transmitter">
+        <name>end</name>
+        <docblock>
+          <description>Moves the pointer to the last valid position.</description>
+          <long-description>
+</long-description>
+          <tag line="210" name="return" description="TRUE if the collection is not empty, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="226" package="PEAR2_Net_Transmitter">
+        <name>valid</name>
+        <docblock>
+          <description>Checks if the pointer is still pointing to an existing offset.</description>
+          <long-description>
+</long-description>
+          <tag line="221" name="return" description="TRUE if the pointer is valid, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="\NetworkStream.php" hash="f288ec2da77d787854f122197d01ca61" package="PEAR2\Net\Transmitter">
+    <docblock>
+      <description>Wrapper for network stream functionality.</description>
+      <long-description>&lt;p&gt;PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.&lt;/p&gt;
+
+&lt;p&gt;This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).&lt;/p&gt;
+
+&lt;p&gt;PHP version 5&lt;/p&gt;
+</long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a2"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <parse_markers>
+      <error line="55">No DocBlock was found for Method setBuffer</error>
+    </parse_markers>
+    <class final="false" abstract="false" line="38" namespace="PEAR2\Net\Transmitter" package="PEAR2\Net\Transmitter">
+      <name>NetworkStream</name>
+      <extends>\PEAR2\Net\Transmitter\Stream</extends>
+      <full_name>\PEAR2\Net\Transmitter\NetworkStream</full_name>
+      <docblock>
+        <description>A network transmitter.</description>
+        <long-description>&lt;p&gt;This is a convinience wrapper for network streams. Used to ensure data
+integrity.&lt;/p&gt;
+</long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+      <method final="false" abstract="false" static="false" visibility="public" line="46" package="PEAR2_Net_Transmitter">
+        <name>isDataAwaiting</name>
+        <docblock>
+          <description>Checks whether there is data to be read from the socket.</description>
+          <long-description>
+</long-description>
+          <tag line="41" name="return" description="TRUE if there is data to be read, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="55" package="PEAR2_Net_Transmitter">
+        <name>setBuffer</name>
+        <argument line="55">
+          <name>$size</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="55">
+          <name>$direction</name>
+          <default>self::DIRECTION_ALL</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="76" package="PEAR2_Net_Transmitter">
+        <name>shutdown</name>
+        <docblock>
+          <description>Shutdown a full-duplex connection</description>
+          <long-description>&lt;p&gt;Shutdowns (partially or not) a full-duplex connection.&lt;/p&gt;
+</long-description>
+          <tag line="66" name="param" description="The direction for which to disable further communications." type="string" variable="$direction">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="66" name="return" description="TRUE on success, FALSE on failure." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="76">
+          <name>$direction</name>
+          <default>self::DIRECTION_ALL</default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="\SocketException.php" hash="f3ca94bec668ca780965e50c54165238" package="PEAR2\Net\Transmitter">
+    <docblock>
+      <description>Wrapper for network stream functionality.</description>
+      <long-description>&lt;p&gt;PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.&lt;/p&gt;
+
+&lt;p&gt;This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).&lt;/p&gt;
+
+&lt;p&gt;PHP version 5&lt;/p&gt;
+</long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a2"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <parse_markers>
+      <critical line="38">No short description for property $error_no</critical>
+      <critical line="43">No short description for property $error_str</critical>
+    </parse_markers>
+    <class final="false" abstract="false" line="35" namespace="PEAR2\Net\Transmitter" package="PEAR2\Net\Transmitter">
+      <name>SocketException</name>
+      <extends>\RuntimeException</extends>
+      <full_name>\PEAR2\Net\Transmitter\SocketException</full_name>
+      <docblock>
+        <description>Exception thrown when something goes wrong with the connection.</description>
+        <long-description>
+</long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+      <implements>\PEAR2\Net\Transmitter\Exception</implements>
+      <property final="false" static="false" visibility="protected" line="41" package="PEAR2_Net_Transmitter">
+        <name>$error_no</name>
+        <default>0</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag line="38" name="var" description="The error code of the last error on the socket." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="46" package="PEAR2_Net_Transmitter">
+        <name>$error_str</name>
+        <default>''</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag line="43" name="var" description="The error message of the last error on the socket." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" line="59" package="PEAR2_Net_Transmitter">
+        <name>__construct</name>
+        <docblock>
+          <description>Creates a new socket exception.</description>
+          <long-description>
+</long-description>
+          <tag line="48" name="param" description="The Exception message to throw." type="string" variable="$message">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="48" name="param" description="The Exception code." type="int" variable="$code">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="48" name="param" description="The previous exception used for the exception chaining." type="\PEAR2\Net\Transmitter\Exception" variable="$previous">
+            <type by_reference="false">\PEAR2\Net\Transmitter\Exception</type>
+          </tag>
+          <tag line="48" name="param" description="If provided, holds the system level error number that occurred in the system-level connect() call." type="int" variable="$error_no">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="48" name="param" description="The error message as a string." type="string" variable="$error_str">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="59">
+          <name>$message</name>
+          <default>''</default>
+          <type/>
+        </argument>
+        <argument line="59">
+          <name>$code</name>
+          <default>0</default>
+          <type/>
+        </argument>
+        <argument line="59">
+          <name>$previous</name>
+          <default>null</default>
+          <type/>
+        </argument>
+        <argument line="60">
+          <name>$error_no</name>
+          <default>null</default>
+          <type/>
+        </argument>
+        <argument line="60">
+          <name>$error_str</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="72" package="PEAR2_Net_Transmitter">
+        <name>getSocketErrorNumber</name>
+        <docblock>
+          <description>Gets the error code of the last error on the socket.</description>
+          <long-description>
+</long-description>
+          <tag line="67" name="return" description="NULL if none was provided or the number itself." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="85" package="PEAR2_Net_Transmitter">
+        <name>getSocketErrorMessage</name>
+        <docblock>
+          <description>Gets the error message of the last error on the socket.</description>
+          <long-description>
+</long-description>
+          <tag line="80" name="return" description="The error message." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="95" package="PEAR2_Net_Transmitter">
+        <name>__toString</name>
+        <docblock>
+          <description>Returns a string representation of the exception.</description>
+          <long-description>
+</long-description>
+          <tag line="90" name="return" description="The exception as a string." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="\Stream.php" hash="4bef53783a1a7ba16dd649052ace83d2" package="PEAR2\Net\Transmitter">
+    <docblock>
+      <description>Wrapper for network stream functionality.</description>
+      <long-description>&lt;p&gt;PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.&lt;/p&gt;
+
+&lt;p&gt;This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).&lt;/p&gt;
+
+&lt;p&gt;PHP version 5&lt;/p&gt;
+</long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a2"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <parse_markers>
+      <critical line="54">No short description for property $stream</critical>
+      <critical line="59">No short description for property $persist</critical>
+      <critical line="64">No short description for property $chunkSize</critical>
+    </parse_markers>
+    <class final="false" abstract="false" line="39" namespace="PEAR2\Net\Transmitter" package="PEAR2\Net\Transmitter">
+      <name>Stream</name>
+      <extends/>
+      <full_name>\PEAR2\Net\Transmitter\Stream</full_name>
+      <docblock>
+        <description>A stream transmitter.</description>
+        <long-description>&lt;p&gt;This is a convinience wrapper for stream functionality. Used to ensure data
+integrity. Designed for TCP sockets, but it has intentionally been made to
+accept any stream.&lt;/p&gt;
+</long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+      <constant namespace="PEAR2\Net\Transmitter" line="44" package="PEAR2_Net_Transmitter">
+        <name>DIRECTION_ALL</name>
+        <value>'|||'</value>
+        <docblock>
+          <description>Used to apply settings to both sending and receiving.</description>
+          <long-description>
+</long-description>
+        </docblock>
+      </constant>
+      <constant namespace="PEAR2\Net\Transmitter" line="48" package="PEAR2_Net_Transmitter">
+        <name>DIRECTION_SEND</name>
+        <value>'&lt;&lt;&lt;'</value>
+        <docblock>
+          <description>Used to apply settings only to sending.</description>
+          <long-description>
+</long-description>
+        </docblock>
+      </constant>
+      <constant namespace="PEAR2\Net\Transmitter" line="52" package="PEAR2_Net_Transmitter">
+        <name>DIRECTION_RECEIVE</name>
+        <value>'&gt;&gt;&gt;'</value>
+        <docblock>
+          <description>Used to apply settings only to receiving.</description>
+          <long-description>
+</long-description>
+        </docblock>
+      </constant>
+      <property final="false" static="false" visibility="protected" line="57" package="PEAR2_Net_Transmitter">
+        <name>$stream</name>
+        <default/>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag line="54" name="var" description="The stream to wrap around." type="resource">
+            <type by_reference="false">resource</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="62" package="PEAR2_Net_Transmitter">
+        <name>$persist</name>
+        <default/>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag line="59" name="var" description="A flag that tells whether or not the stream is persistent." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="68" package="PEAR2_Net_Transmitter">
+        <name>$chunkSize</name>
+        <default>array(
+        self::DIRECTION_SEND =&gt; 0xFFFFF</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag line="64" name="var" description="An associative array with the chunk size of each direction. Key is the direction, value is the size in bytes as integer." type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" line="79" package="PEAR2_Net_Transmitter">
+        <name>__construct</name>
+        <docblock>
+          <description>Wraps around the specified stream.</description>
+          <long-description>
+</long-description>
+          <tag line="72" name="param" description="The stream to wrap around." type="resource" variable="$stream">
+            <type by_reference="false">resource</type>
+          </tag>
+          <tag line="72" name="see" description="\PEAR2\Net\Transmitter\isFresh()" refers="\PEAR2\Net\Transmitter\isFresh()"/>
+        </docblock>
+        <argument line="79">
+          <name>$stream</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" line="97" package="PEAR2_Net_Transmitter">
+        <name>isStream</name>
+        <docblock>
+          <description>Checks if a given variable is a stream resource.</description>
+          <long-description>
+</long-description>
+          <tag line="90" name="param" description="The variable to check." type="mixed" variable="$var">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="90" name="return" description="TRUE on success, FALSE on failure." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="97">
+          <name>$var</name>
+          <default/>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="112" package="PEAR2_Net_Transmitter">
+        <name>isFresh</name>
+        <docblock>
+          <description>Checks whether the wrapped stream is fresh.</description>
+          <long-description>&lt;p&gt;Checks whether the wrapped stream is fresh. A stream is considered fresh
+if there hasn't been any activity on it. Particularly useful for
+detecting reused persistent connections.&lt;/p&gt;
+</long-description>
+          <tag line="103" name="return" description="TRUE if the socket is fresh, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="126" package="PEAR2_Net_Transmitter">
+        <name>setTimeout</name>
+        <docblock>
+          <description>Sets the timeout for the stream.</description>
+          <long-description>
+</long-description>
+          <tag line="117" name="param" description="Timeout in seconds." type="int" variable="$seconds">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="117" name="param" description="Timeout in microseconds to be added to the seconds." type="int" variable="$microseconds">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="117" name="return" description="TRUE on success, FALSE on failure." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="126">
+          <name>$seconds</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="126">
+          <name>$microseconds</name>
+          <default>0</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="140" package="PEAR2_Net_Transmitter">
+        <name>setBuffer</name>
+        <docblock>
+          <description>Sets the size of a stream's buffer.</description>
+          <long-description>
+</long-description>
+          <tag line="131" name="param" description="The desired size of the buffer, in bytes." type="int" variable="$size">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="131" name="param" description="The buffer of which direction to set. Valid values are the DIRECTION_* constants." type="string" variable="$direction">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="131" name="return" description="TRUE on success, FALSE on failure." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="140">
+          <name>$size</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="140">
+          <name>$direction</name>
+          <default>self::DIRECTION_ALL</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="167" package="PEAR2_Net_Transmitter">
+        <name>setChunk</name>
+        <docblock>
+          <description>Sets the size of the chunk.</description>
+          <long-description>&lt;p&gt;To ensure data integrity, as well as to allow for lower memory
+consumption, data is sent/received in chunks. This function
+allows you to set the size of each chunk. The default is 0xFFFFF.&lt;/p&gt;
+</long-description>
+          <tag line="154" name="param" description="The desired size of the chunk, in bytes." type="int" variable="$size">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="154" name="param" description="The chunk of which direction to set. Valid values are the DIRECTION_* constants." type="string" variable="$direction">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="154" name="return" description="TRUE on success, FALSE on failure." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="167">
+          <name>$size</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="167">
+          <name>$direction</name>
+          <default>self::DIRECTION_ALL</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="195" package="PEAR2_Net_Transmitter">
+        <name>getChunk</name>
+        <docblock>
+          <description>Gets the size of the chunk.</description>
+          <long-description>
+</long-description>
+          <tag line="186" name="param" description="The chunk of which direction to get. Valid values are the DIRECTION_* constants." type="string" variable="$direction">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="186" name="return" description="The chunk size in bytes, or an array of chunk sizes with the directions as keys. FALSE on invalid direction." type="int|array">
+            <type by_reference="false">int</type>
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="195">
+          <name>$direction</name>
+          <default>self::DIRECTION_ALL</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="223" package="PEAR2_Net_Transmitter">
+        <name>send</name>
+        <docblock>
+          <description>Sends a string or stream over the wrapped stream.</description>
+          <long-description>&lt;p&gt;Sends a string or stream over the wrapped stream. If a seekable stream is
+provided, it will be seeked back to the same position it was passed as,
+regardless of the $offset parameter.&lt;/p&gt;
+</long-description>
+          <tag line="207" name="param" description="The string or stream to send." type="string|resource" variable="$contents">
+            <type by_reference="false">string</type>
+            <type by_reference="false">resource</type>
+          </tag>
+          <tag line="207" name="param" description="The offset from which to start sending. If a stream is provided, and this is set to NULL, sending will start from the current stream position." type="int" variable="$offset">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="207" name="param" description="The maximum length to send. If omitted, the string/stream will be sent to its end." type="int" variable="$length">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="207" name="return" description="The number of bytes sent." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+        <argument line="223">
+          <name>$contents</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="223">
+          <name>$offset</name>
+          <default>null</default>
+          <type/>
+        </argument>
+        <argument line="223">
+          <name>$length</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="296" package="PEAR2_Net_Transmitter">
+        <name>receive</name>
+        <docblock>
+          <description>Reads from the wrapped stream to receive.</description>
+          <long-description>&lt;p&gt;Reads from the wrapped stream to receive content as a string.&lt;/p&gt;
+</long-description>
+          <tag line="285" name="param" description="The number of bytes to read." type="int" variable="$length">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="285" name="param" description="Descriptive string about what is being received (used in exception messages)." type="string" variable="$what">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="285" name="return" description="The received content." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="296">
+          <name>$length</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="296">
+          <name>$what</name>
+          <default>'data'</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="331" package="PEAR2_Net_Transmitter">
+        <name>receiveStream</name>
+        <docblock>
+          <description>Reads from the wrapped stream to receive.</description>
+          <long-description>&lt;p&gt;Reads from the wrapped stream to receive content as a stream.&lt;/p&gt;
+</long-description>
+          <tag line="318" name="param" description="The number of bytes to read." type="int" variable="$length">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="318" name="param" description="A collection of filters to apply to the stream while receiving." type="\PEAR2\Net\Transmitter\FilterCollection" variable="$filters">
+            <type by_reference="false">\PEAR2\Net\Transmitter\FilterCollection</type>
+          </tag>
+          <tag line="318" name="param" description="Descriptive string about what is being received (used in exception messages)." type="string" variable="$what">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="318" name="return" description="The received content." type="resource">
+            <type by_reference="false">resource</type>
+          </tag>
+        </docblock>
+        <argument line="332">
+          <name>$length</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="332">
+          <name>$filters</name>
+          <default>null</default>
+          <type>FilterCollection</type>
+        </argument>
+        <argument line="332">
+          <name>$what</name>
+          <default>'stream data'</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="373" package="PEAR2_Net_Transmitter">
+        <name>isAvailable</name>
+        <docblock>
+          <description>Checks whether the stream is available for operations.</description>
+          <long-description>
+</long-description>
+          <tag line="368" name="return" description="TRUE if the stream is available, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="383" package="PEAR2_Net_Transmitter">
+        <name>isDataAwaiting</name>
+        <docblock>
+          <description>Checks whether there is data to be read from the wrapped stream.</description>
+          <long-description>
+</long-description>
+          <tag line="378" name="return" description="TRUE if there is data to be read, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="394" package="PEAR2_Net_Transmitter">
+        <name>isAcceptingData</name>
+        <docblock>
+          <description>Checks whether the wrapped stream can be written to without a block.</description>
+          <long-description>
+</long-description>
+          <tag line="388" name="return" description="TRUE if the wrapped stream would not block on a write, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="405" package="PEAR2_Net_Transmitter">
+        <name>__destruct</name>
+        <docblock>
+          <description>Closes the opened stream, unless it's a persistent one.</description>
+          <long-description>
+</long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="417" package="PEAR2_Net_Transmitter">
+        <name>close</name>
+        <docblock>
+          <description>Closes the opened stream, even if it is a persistent one.</description>
+          <long-description>
+</long-description>
+          <tag line="412" name="return" description="TRUE on success, FALSE on failure." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" line="433" package="PEAR2_Net_Transmitter">
+        <name>createException</name>
+        <docblock>
+          <description>Creates a new exception.</description>
+          <long-description>&lt;p&gt;Creates a new exception. Used by the rest of the functions in this class.
+Override in derived classes for custom exception handling.&lt;/p&gt;
+</long-description>
+          <tag line="422" name="param" description="The exception message." type="string" variable="$message">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="422" name="param" description="The exception code." type="int" variable="$code">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="422" name="return" description="The exception to then be thrown." type="\Exception">
+            <type by_reference="false">\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="433">
+          <name>$message</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="433">
+          <name>$code</name>
+          <default>0</default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="\StreamException.php" hash="cb789cc28944d9469948211ee21b2a8d" package="PEAR2\Net\Transmitter">
+    <docblock>
+      <description>Wrapper for network stream functionality.</description>
+      <long-description>&lt;p&gt;PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.&lt;/p&gt;
+
+&lt;p&gt;This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).&lt;/p&gt;
+
+&lt;p&gt;PHP version 5&lt;/p&gt;
+</long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a2"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <class final="false" abstract="false" line="35" namespace="PEAR2\Net\Transmitter" package="PEAR2\Net\Transmitter">
+      <name>StreamException</name>
+      <extends>\RuntimeException</extends>
+      <full_name>\PEAR2\Net\Transmitter\StreamException</full_name>
+      <docblock>
+        <description>Exception thrown when something goes wrong with the connection.</description>
+        <long-description>
+</long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+      <implements>\PEAR2\Net\Transmitter\Exception</implements>
+    </class>
+  </file>
+  <file path="\TcpClient.php" hash="e8287f6264007645733e9d4fac7ab39a" package="PEAR2\Net\Transmitter">
+    <docblock>
+      <description>Wrapper for network stream functionality.</description>
+      <long-description>&lt;p&gt;PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.&lt;/p&gt;
+
+&lt;p&gt;This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).&lt;/p&gt;
+
+&lt;p&gt;PHP version 5&lt;/p&gt;
+</long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a2"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <parse_markers>
+      <critical line="41">No short description for property $error_no</critical>
+      <critical line="46">No short description for property $error_str</critical>
+    </parse_markers>
+    <class final="false" abstract="false" line="38" namespace="PEAR2\Net\Transmitter" package="PEAR2\Net\Transmitter">
+      <name>TcpClient</name>
+      <extends>\PEAR2\Net\Transmitter\NetworkStream</extends>
+      <full_name>\PEAR2\Net\Transmitter\TcpClient</full_name>
+      <docblock>
+        <description>A socket transmitter.</description>
+        <long-description>&lt;p&gt;This is a convinience wrapper for socket functionality. Used to ensure data
+integrity.&lt;/p&gt;
+</long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="44" package="PEAR2_Net_Transmitter">
+        <name>$error_no</name>
+        <default>null</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag line="41" name="var" description="The error code of the last error on the socket." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="49" package="PEAR2_Net_Transmitter">
+        <name>$error_str</name>
+        <default>null</default>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag line="46" name="var" description="The error message of the last error on the socket." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" line="63" package="PEAR2_Net_Transmitter">
+        <name>__construct</name>
+        <docblock>
+          <description>Creates a new connection with the specified options.</description>
+          <long-description>
+</long-description>
+          <tag line="51" name="param" description="Hostname (IP or domain) of the server." type="string" variable="$host">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="51" name="param" description="The port on the server." type="int" variable="$port">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="51" name="param" description="Whether or not the connection should be a persistent one." type="bool" variable="$persist">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="51" name="param" description="The timeout for the connection." type="float" variable="$timeout">
+            <type by_reference="false">float</type>
+          </tag>
+          <tag line="51" name="param" description="A string that uniquely identifies the connection." type="string" variable="$key">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="51" name="param" description="A context for the socket." type="resource" variable="$context">
+            <type by_reference="false">resource</type>
+          </tag>
+        </docblock>
+        <argument line="63">
+          <name>$host</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="63">
+          <name>$port</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="63">
+          <name>$persist</name>
+          <default>false</default>
+          <type/>
+        </argument>
+        <argument line="64">
+          <name>$timeout</name>
+          <default>null</default>
+          <type/>
+        </argument>
+        <argument line="64">
+          <name>$key</name>
+          <default>''</default>
+          <type/>
+        </argument>
+        <argument line="64">
+          <name>$context</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" line="110" package="PEAR2_Net_Transmitter">
+        <name>createException</name>
+        <docblock>
+          <description>Creates a new exception.</description>
+          <long-description>&lt;p&gt;Creates a new exception. Used by the rest of the functions in this class.&lt;/p&gt;
+</long-description>
+          <tag line="100" name="param" description="The exception message." type="string" variable="$message">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="100" name="param" description="The exception code." type="int" variable="$code">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="100" name="return" description="The exception to then be thrown." type="\PEAR2\Net\Transmitter\SocketException">
+            <type by_reference="false">\PEAR2\Net\Transmitter\SocketException</type>
+          </tag>
+        </docblock>
+        <argument line="110">
+          <name>$message</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="110">
+          <name>$code</name>
+          <default>0</default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="\TcpServerConnection.php" hash="5975affc384334d51f4e229f13a8914c" package="PEAR2\Net\Transmitter">
+    <docblock>
+      <description>Wrapper for network stream functionality.</description>
+      <long-description>&lt;p&gt;PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.&lt;/p&gt;
+
+&lt;p&gt;This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).&lt;/p&gt;
+
+&lt;p&gt;PHP version 5&lt;/p&gt;
+</long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a2"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <parse_markers>
+      <critical line="43">No short description for property $peerIP</critical>
+      <critical line="48">No short description for property $peerPort</critical>
+    </parse_markers>
+    <class final="false" abstract="false" line="40" namespace="PEAR2\Net\Transmitter" package="PEAR2\Net\Transmitter">
+      <name>TcpServerConnection</name>
+      <extends>\PEAR2\Net\Transmitter\NetworkStream</extends>
+      <full_name>\PEAR2\Net\Transmitter\TcpServerConnection</full_name>
+      <docblock>
+        <description>A transmitter for connections to a socket server.</description>
+        <long-description>&lt;p&gt;This is a convinience wrapper for functionality of socket server connections.
+Used to ensure data integrity. Server handling is not part of the class in
+order to allow its usage as part of various server implementations (e.g. fork
+and/or sequential).&lt;/p&gt;
+</long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="46" package="PEAR2_Net_Transmitter">
+        <name>$peerIP</name>
+        <default/>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag line="43" name="var" description="The IP address of the connected client." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="51" package="PEAR2_Net_Transmitter">
+        <name>$peerPort</name>
+        <default/>
+        <docblock>
+          <description/>
+          <long-description>
+</long-description>
+          <tag line="48" name="var" description="The port of the connected client." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" line="60" package="PEAR2_Net_Transmitter">
+        <name>__construct</name>
+        <docblock>
+          <description>Creates a new connection with the specified options.</description>
+          <long-description>
+</long-description>
+          <tag line="53" name="param" description="A socket server, created with {@link stream_socket_server()}." type="resource" variable="$server">
+            <type by_reference="false">resource</type>
+          </tag>
+          <tag line="53" name="param" description="The timeout for the connection." type="float" variable="$timeout">
+            <type by_reference="false">float</type>
+          </tag>
+        </docblock>
+        <argument line="60">
+          <name>$server</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="60">
+          <name>$timeout</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="93" package="PEAR2_Net_Transmitter">
+        <name>getPeerIP</name>
+        <docblock>
+          <description>Gets the IP address of the connected client.</description>
+          <long-description>
+</long-description>
+          <tag line="88" name="return" description="The IP address of the connected client." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" line="103" package="PEAR2_Net_Transmitter">
+        <name>getPeerPort</name>
+        <docblock>
+          <description>Gets the port of the connected client.</description>
+          <long-description>
+</long-description>
+          <tag line="98" name="return" description="The port of the connected client." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" line="118" package="PEAR2_Net_Transmitter">
+        <name>createException</name>
+        <docblock>
+          <description>Creates a new exception.</description>
+          <long-description>&lt;p&gt;Creates a new exception. Used by the rest of the functions in this class.&lt;/p&gt;
+</long-description>
+          <tag line="108" name="param" description="The exception message." type="string" variable="$message">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="108" name="param" description="The exception code." type="int" variable="$code">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="108" name="return" description="The exception to then be thrown." type="\PEAR2\Net\Transmitter\SocketException">
+            <type by_reference="false">\PEAR2\Net\Transmitter\SocketException</type>
+          </tag>
+        </docblock>
+        <argument line="118">
+          <name>$message</name>
+          <default/>
+          <type/>
+        </argument>
+        <argument line="118">
+          <name>$code</name>
+          <default>0</default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <package name="PEAR2">
+    <package name="Net">
+      <package name="Transmitter"/>
+    </package>
+  </package>
+  <package name="PEAR2_Net_Transmitter"/>
+  <namespace name="PEAR2">
+    <namespace name="Net">
+      <namespace name="Transmitter"/>
+    </namespace>
+  </namespace>
+  <marker>todo</marker>
+  <marker>fixme</marker>
+</project>
