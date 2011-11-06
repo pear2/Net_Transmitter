@@ -36,37 +36,37 @@
                 <file name="PEAR2/Net/Transmitter/Autoload.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
                 </file>
                 <file name="PEAR2/Net/Transmitter/Exception.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
                 </file>
                 <file name="PEAR2/Net/Transmitter/NetworkStream.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
                 </file>
                 <file name="PEAR2/Net/Transmitter/SocketException.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
                 </file>
                 <file name="PEAR2/Net/Transmitter/Stream.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
                 </file>
                 <file name="PEAR2/Net/Transmitter/TcpClient.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
                 </file>
                 <file name="PEAR2/Net/Transmitter/TcpServerConnection.php" role="php">
                     <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
                     <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version"/>
+                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
                 </file>
             </dir>
             <dir name="tests">
@@ -82,7 +82,7 @@
             </dir>
             <dir name="docs">
                 <file name="doxygen.ini" role="doc">
-                    <tasks:replace type="package-info" from="SVN: $WCREV$" to="version" />
+                    <tasks:replace type="package-info" from="GIT: $Id$" to="version" />
                     <tasks:replace type="pear-config" from="../src" to="php_dir" />
                 </file>
                 <file name="docblox.xml" role="doc">

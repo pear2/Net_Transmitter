@@ -30,7 +30,7 @@ $srcFileTasks = array(
         ),
         array(
             'attribs' => array(
-                'from' => 'SVN: $WCREV$',
+                'from' => 'GIT: $Id$',
                 'to' => 'version',
                 'type' => 'package-info'
             )
@@ -54,7 +54,7 @@ $package->files['docs/doxygen.ini'] = array_merge_recursive(
         'tasks:replace' => array(
             array(
                 'attribs' => array(
-                    'from' => 'SVN: $WCREV$',
+                    'from' => 'GIT: $Id$',
                     'to' => 'version',
                     'type' => 'package-info'
                 )
@@ -87,7 +87,7 @@ $compatible->files["doc/{$package->channel}/{$package->name}/doxygen.ini"]
             'tasks:replace' => array(
                 array(
                     'attribs' => array(
-                        'from' => 'SVN: $WCREV$',
+                        'from' => 'GIT: $Id$',
                         'to' => 'version',
                         'type' => 'package-info'
                     )
