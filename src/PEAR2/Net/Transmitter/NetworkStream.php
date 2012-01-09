@@ -49,6 +49,15 @@ class NetworkStream extends Stream
         return false;
     }
     
+    /**
+     * Sets the size of a stream's buffer.
+     * 
+     * @param int    $size      The desired size of the buffer, in bytes.
+     * @param string $direction The buffer of which direction to set. Valid
+     * values are the DIRECTION_* constants.
+     * 
+     * @return bool TRUE on success, FALSE on failure.
+     */
     public function setBuffer($size, $direction = self::DIRECTION_ALL)
     {
         $result = parent::setBuffer($size, $direction);

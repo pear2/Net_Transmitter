@@ -319,7 +319,8 @@ class Stream
      * 
      * @param int              $length  The number of bytes to read.
      * @param FilterCollection $filters A collection of filters to apply to the
-     * stream while receiving.
+     * stream while receiving. Note that the filters will not be present on the
+     * stream after receiving is done.
      * @param string           $what    Descriptive string about what is being
      * received (used in exception messages).
      * 
@@ -387,6 +388,7 @@ class Stream
      * 
      * @return bool TRUE if the wrapped stream would not block on a write, FALSE
      * otherwise.
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function isAcceptingData()
     {
