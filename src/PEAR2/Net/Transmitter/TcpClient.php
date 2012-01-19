@@ -44,6 +44,10 @@ class TcpClient extends NetworkStream
      * @var string The error message of the last error on the socket.
      */
     protected $error_str = null;
+    
+    protected $persistentId = null;
+    
+    protected $persistentHandler = null;
 
     /**
      * Creates a new connection with the specified options.
@@ -83,12 +87,22 @@ class TcpClient extends NetworkStream
         }
 
         try {
+            $uri = "tcp://{$host}:{$port}/{$key}";
             parent::__construct(
                 @stream_socket_client(
-                    "tcp://{$host}:{$port}/{$key}", $this->error_no,
+                    $uri, $this->error_no,
                     $this->error_str, $timeout, $flags, $context
                 )
             );
+            $this->persistentId
+                = str_replace(
+                    array('!' , '|', '/', '\\', '<', '>', '?', '*', '"'),
+                    array('~!', '!', '!', '!' , '!', '!', '!', '!', '!'),
+                    __NAMESPACE__ . '\TcpClient ' . $uri
+                ) . ' ';
+            if (version_compare(phpversion('wincache'), '1.1.0', '>=')) {
+                $this->persistentHandler = 'wincache';
+            }
         } catch (\Exception $e) {
             throw $this->createException('Failed to initialize socket.', 7);
         }
@@ -109,6 +123,76 @@ class TcpClient extends NetworkStream
         return new SocketException(
             $message, $code, null, $this->error_no, $this->error_str
         );
+    }
+    
+    protected function lock($key)
+    {
+        if ($this->persist) {
+            switch($this->persistentHandler) {
+            case 'wincache':
+                return wincache_lock($this->persistentId . $key);
+            default:
+                throw $this->createException(
+                    'Make sure WinCache is enabled.', 8
+                );
+            }
+        }
+        return true;
+    }
+    
+    protected function unlock($key)
+    {
+        if ($this->persist) {
+            switch($this->persistentHandler) {
+            case 'wincache':
+                return wincache_unlock($this->persistentId . $key);
+            default:
+                throw $this->createException(
+                    'Make sure WinCache is enabled.', 8
+                );
+            }
+        }
+        return true;
+    }
+    
+    public function receive($length, $what = 'data')
+    {
+        if ($this->lock('r')) {
+            $result = parent::receive($length, $what);
+            $this->unlock('r');
+            return $result;
+        } else {
+            throw $this->createException(
+                'Unable to obtain receiving lock', 9
+            );
+        }
+    }
+    
+    public function receiveStream(
+        $length, FilterCollection $filters = null, $what = 'stream data'
+    ) {
+        if ($this->lock('r')) {
+            $result = parent::receiveStream($length, $filters, $what);
+            $this->unlock('r');
+            return $result;
+        } else {
+            throw $this->createException(
+                'Unable to obtain receiving lock', 9
+            );
+        }
+    }
+    
+    public function send($contents, $offset = null, $length = null)
+    {
+        if ($this->lock('w')) {
+            $result = parent::send($contents, $offset, $length);
+            $this->unlock('w');
+            return $result;
+        } else {
+            throw $this->createException(
+                'Unable to obtain sending lock', 10
+            );
+        }
     }
 
 }
