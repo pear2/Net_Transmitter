@@ -54,7 +54,7 @@ class TcpClient extends NetworkStream
      * @var SHM Persistent connection handler. Remains NULL for non-persistent
      * connections. 
      */
-    protected $persistentHandler = null;
+    protected $shmHandler = null;
     
     /**
      * @var int A bitmask with the locked directions. 
@@ -109,9 +109,10 @@ class TcpClient extends NetworkStream
             throw $this->createException('Failed to initialize socket.', 7);
         }
         if ($persist) {
-            $this->persistentHandler = new SHM(
+            $this->shmHandler = new SHM(
                 'PEAR2\Net\Transmitter\TcpClient ' . $uri . ' '
             );
+            $this->shmHandler->add('lockState', self::DIRECTION_NONE);
         }
     }
 
@@ -142,48 +143,54 @@ class TcpClient extends NetworkStream
      * such calls.
      * 
      * @param int $direction The direction(s) to have locked. Acceptable values
-     * are the DIRECTION_* constants.
+     * are the DIRECTION_* constants. If a lock for a direction can't be
+     * obtained immediatly, the function will block until one is aquired.
      * 
      * @return int The previous state or FALSE on failure.
      */
     public function lock($direction = self::DIRECTION_ALL)
     {
-        if ($this->persist) {
-            $result = $this->lockState;
-            if ($direction & self::DIRECTION_RECEIVE) {
-                if (($this->lockState & self::DIRECTION_RECEIVE)
-                    || $this->persistentHandler->lock(self::DIRECTION_RECEIVE)
-                ) {
-                    $result |= self::DIRECTION_RECEIVE;
+        if ($this->persist && $this->shmHandler->lock('lockState')) {
+            try {
+                $result = $old = $this->shmHandler->get('lockState');
+                if ($direction & self::DIRECTION_RECEIVE) {
+                    if (($this->lockState & self::DIRECTION_RECEIVE)
+                        || $this->shmHandler->lock(self::DIRECTION_RECEIVE)
+                    ) {
+                        $result |= self::DIRECTION_RECEIVE;
+                    } else {
+                        throw new \Exception();
+                    }
                 } else {
-                    return false;
+                    if ($this->shmHandler->unlock(self::DIRECTION_RECEIVE)) {
+                        $result |= ~self::DIRECTION_RECEIVE;
+                    } else {
+                        throw new \Exception();
+                    }
                 }
-            } else {
-                if ($this->persistentHandler->unlock(self::DIRECTION_RECEIVE)) {
-                    $result |= ~self::DIRECTION_RECEIVE;
+
+                if ($direction & self::DIRECTION_SEND) {
+                    if (($this->lockState & self::DIRECTION_SEND)
+                        || $this->shmHandler->lock(self::DIRECTION_SEND)
+                    ) {
+                        $result |= self::DIRECTION_SEND;
+                    } else {
+                        throw new \Exception();
+                    }
                 } else {
-                    return false;
+                    if ($this->shmHandler->unlock(self::DIRECTION_SEND)) {
+                        $result |= ~self::DIRECTION_SEND;
+                    } else {
+                        throw new \Exception();
+                    }
                 }
+                $this->shmHandler->set('lockState', $result);
+                $this->shmHandler->unlock('lockState');
+                return $old;
+            } catch(\Exception $e) {
+                $this->shmHandler->unlock('lockState');
+                return false;
             }
-            
-            if ($direction & self::DIRECTION_SEND) {
-                if (($this->lockState & self::DIRECTION_SEND)
-                    || $this->persistentHandler->lock(self::DIRECTION_SEND)
-                ) {
-                    $result |= self::DIRECTION_SEND;
-                } else {
-                    return false;
-                }
-            } else {
-                if ($this->persistentHandler->unlock(self::DIRECTION_SEND)) {
-                    $result |= ~self::DIRECTION_SEND;
-                } else {
-                    return false;
-                }
-            }
-            $oldState = $this->lockState;
-            $this->lockState = $result;
-            return $oldState;
         }
         return false;
     }
