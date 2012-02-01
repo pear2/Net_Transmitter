@@ -21,6 +21,11 @@
 namespace PEAR2\Net\Transmitter;
 
 /**
+ * Used for managing persistent connections.
+ */
+use PEAR2\Cache\SHM;
+
+/**
  * A socket transmitter.
  * 
  * This is a convinience wrapper for socket functionality. Used to ensure data
@@ -45,9 +50,16 @@ class TcpClient extends NetworkStream
      */
     protected $error_str = null;
     
-    protected $persistentId = null;
-    
+    /**
+     * @var SHM Persistent connection handler. Remains NULL for non-persistent
+     * connections. 
+     */
     protected $persistentHandler = null;
+    
+    /**
+     * @var int A bitmask with the locked directions. 
+     */
+    protected $lockState = self::DIRECTION_NONE;
 
     /**
      * Creates a new connection with the specified options.
@@ -85,26 +97,21 @@ class TcpClient extends NetworkStream
         ) {
             throw $this->createException('Invalid context supplied.', 6);
         }
-
+        $uri = "tcp://{$host}:{$port}/{$key}";
         try {
-            $uri = "tcp://{$host}:{$port}/{$key}";
             parent::__construct(
                 @stream_socket_client(
-                    $uri, $this->error_no,
-                    $this->error_str, $timeout, $flags, $context
+                    $uri, $this->error_no, $this->error_str,
+                    $timeout, $flags, $context
                 )
             );
-            $this->persistentId
-                = str_replace(
-                    array('!' , '|', '/', '\\', '<', '>', '?', '*', '"'),
-                    array('~!', '!', '!', '!' , '!', '!', '!', '!', '!'),
-                    __NAMESPACE__ . '\TcpClient ' . $uri
-                ) . ' ';
-            if (version_compare(phpversion('wincache'), '1.1.0', '>=')) {
-                $this->persistentHandler = 'wincache';
-            }
         } catch (\Exception $e) {
             throw $this->createException('Failed to initialize socket.', 7);
+        }
+        if ($persist) {
+            $this->persistentHandler = new SHM(
+                'PEAR2\Net\Transmitter\TcpClient ' . $uri . ' '
+            );
         }
     }
 
@@ -125,74 +132,100 @@ class TcpClient extends NetworkStream
         );
     }
     
-    protected function lock($key)
+    /**
+     * Locks transmission.
+     * 
+     * Locks transmission in one or more directions. Useful when dealing with
+     * persistent connections. Note that every send/receive call implicitly
+     * calls this function and then restores it to the previous state. You only
+     * need to call this function if you need to do an uninterrputed sequence of
+     * such calls.
+     * 
+     * @param int $direction The direction(s) to have locked. Acceptable values
+     * are the DIRECTION_* constants.
+     * 
+     * @return int The previous state or FALSE on failure.
+     */
+    public function lock($direction = self::DIRECTION_ALL)
     {
         if ($this->persist) {
-            switch($this->persistentHandler) {
-            case 'wincache':
-                return wincache_lock($this->persistentId . $key);
-            default:
-                throw $this->createException(
-                    'Make sure WinCache is enabled.', 8
-                );
+            $result = $this->lockState;
+            if ($direction & self::DIRECTION_RECEIVE) {
+                if (($this->lockState & self::DIRECTION_RECEIVE)
+                    || $this->persistentHandler->lock(self::DIRECTION_RECEIVE)
+                ) {
+                    $result |= self::DIRECTION_RECEIVE;
+                } else {
+                    return false;
+                }
+            } else {
+                if ($this->persistentHandler->unlock(self::DIRECTION_RECEIVE)) {
+                    $result |= ~self::DIRECTION_RECEIVE;
+                } else {
+                    return false;
+                }
             }
-        }
-        return true;
-    }
-    
-    protected function unlock($key)
-    {
-        if ($this->persist) {
-            switch($this->persistentHandler) {
-            case 'wincache':
-                return wincache_unlock($this->persistentId . $key);
-            default:
-                throw $this->createException(
-                    'Make sure WinCache is enabled.', 8
-                );
+            
+            if ($direction & self::DIRECTION_SEND) {
+                if (($this->lockState & self::DIRECTION_SEND)
+                    || $this->persistentHandler->lock(self::DIRECTION_SEND)
+                ) {
+                    $result |= self::DIRECTION_SEND;
+                } else {
+                    return false;
+                }
+            } else {
+                if ($this->persistentHandler->unlock(self::DIRECTION_SEND)) {
+                    $result |= ~self::DIRECTION_SEND;
+                } else {
+                    return false;
+                }
             }
+            $oldState = $this->lockState;
+            $this->lockState = $result;
+            return $oldState;
         }
-        return true;
+        return false;
     }
     
     public function receive($length, $what = 'data')
     {
-        if ($this->lock('r')) {
-            $result = parent::receive($length, $what);
-            $this->unlock('r');
-            return $result;
-        } else {
+        $previousState = $this->lock(self::DIRECTION_RECEIVE);
+        if ($this->persist && false === $previousState) {
             throw $this->createException(
                 'Unable to obtain receiving lock', 9
             );
         }
+        $result = parent::receive($length, $what);
+        $this->lock($previousState);
+        return $result;
     }
     
     public function receiveStream(
         $length, FilterCollection $filters = null, $what = 'stream data'
     ) {
-        if ($this->lock('r')) {
-            $result = parent::receiveStream($length, $filters, $what);
-            $this->unlock('r');
-            return $result;
-        } else {
+        $previousState = $this->lock(self::DIRECTION_RECEIVE);
+        if ($this->persist && false === $previousState) {
             throw $this->createException(
                 'Unable to obtain receiving lock', 9
             );
         }
+        $result = parent::receiveStream($length, $filters, $what);
+        $this->lock($previousState);
+        return $result;
     }
     
     public function send($contents, $offset = null, $length = null)
     {
-        if ($this->lock('w')) {
-            $result = parent::send($contents, $offset, $length);
-            $this->unlock('w');
-            return $result;
-        } else {
+        $previousState = $this->lock(self::DIRECTION_SEND);
+        if ($this->persist && false === $previousState) {
             throw $this->createException(
                 'Unable to obtain sending lock', 10
             );
         }
+        $result = parent::send($contents, $offset, $length);
+        $this->lock($previousState);
+        return $result;
     }
 
 }

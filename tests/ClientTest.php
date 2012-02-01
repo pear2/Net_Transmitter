@@ -126,6 +126,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     
     public function testPersistentClientConnection()
     {
+//        $this->client->close();
+//        $phpt = new \PHPUnit_Extensions_PhptTestCase(
+//            __DIR__ . '\PHPT\testNormalPersistentConnection.phpt'
+//        );
+//        $this->setResult($phpt->run());
+//        $this->client = new TcpClient(REMOTE_HOST, REMOTE_PORT);
         $this->client = new TcpClient(
             REMOTE_HOSTNAME, REMOTE_PORT, true
         );

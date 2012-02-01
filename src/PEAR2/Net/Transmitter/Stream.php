@@ -36,17 +36,21 @@ namespace PEAR2\Net\Transmitter;
 class Stream
 {
     /**
-     * Used to apply settings to both sending and receiving.
+     * Used to stop settings in either direction being applied.
      */
-    const DIRECTION_ALL = '|||';
-    /**
-     * Used to apply settings only to sending.
-     */
-    const DIRECTION_SEND = '<<<';
+    const DIRECTION_NONE = 0;
     /**
      * Used to apply settings only to receiving.
      */
-    const DIRECTION_RECEIVE = '>>>';
+    const DIRECTION_RECEIVE = 1;
+    /**
+     * Used to apply settings only to sending.
+     */
+    const DIRECTION_SEND = 2;
+    /**
+     * Used to apply settings to both sending and receiving.
+     */
+    const DIRECTION_ALL = 3;
 
     /**
      * @var resource The stream to wrap around.
