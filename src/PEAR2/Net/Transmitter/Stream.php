@@ -288,7 +288,7 @@ class Stream
      * 
      * Reads from the wrapped stream to receive content as a string.
      * 
-     * @param int    $length The number of bytes to read.
+     * @param int    $length The number of bytes to receive.
      * @param string $what   Descriptive string about what is being received
      * (used in exception messages).
      * 
@@ -321,7 +321,7 @@ class Stream
      * 
      * Reads from the wrapped stream to receive content as a stream.
      * 
-     * @param int              $length  The number of bytes to read.
+     * @param int              $length  The number of bytes to receive.
      * @param FilterCollection $filters A collection of filters to apply to the
      * stream while receiving. Note that the filters will not be present on the
      * stream after receiving is done.
