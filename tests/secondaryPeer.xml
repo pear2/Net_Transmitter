@@ -36,7 +36,7 @@
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">../src/PEAR2/Net/Transmitter</directory>
+            <directory suffix=".php">../src/PEAR2/Net/Transmitter/</directory>
         </whitelist>
     </filter>
 </phpunit>

@@ -140,6 +140,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertTrue($this->client->isFresh());
         $this->assertTrue($client->isFresh());
+        $this->assertTrue($this->client->isPersistent());
+        $this->assertTrue($client->isPersistent());
         $this->assertEquals('t', $this->client->receive(1));
         $this->assertFalse($this->client->isFresh());
         $this->assertFalse($client->isFresh());

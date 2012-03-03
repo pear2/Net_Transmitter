@@ -116,6 +116,16 @@ class Stream
     }
     
     /**
+     * Checks whether the wrapped stream is a persistent one.
+     * 
+     * @return bool TRUE if the stream is a persistent one, FALSE otherwise. 
+     */
+    public function isPersistent()
+    {
+        return $this->persist;
+    }
+    
+    /**
      * Sets the timeout for the stream.
      * 
      * @param int $seconds      Timeout in seconds.
