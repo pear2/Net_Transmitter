@@ -55,6 +55,17 @@ class TcpClient extends NetworkStream
      * connections. 
      */
     protected $shmHandler = null;
+    
+    /**
+     * @var array An array with all connections from this PHP request (as keys)
+     * and their lock state (as a value). 
+     */
+    protected static $lockState = array();
+    
+    /**
+     * @var string The URI of this connection.
+     */
+    protected $uri;
 
     /**
      * Creates a new connection with the specified options.
@@ -92,11 +103,11 @@ class TcpClient extends NetworkStream
         ) {
             throw $this->createException('Invalid context supplied.', 6);
         }
-        $uri = "tcp://{$host}:{$port}/{$key}";
+        $this->uri = "tcp://{$host}:{$port}/{$key}";
         try {
             parent::__construct(
                 @stream_socket_client(
-                    $uri, $this->error_no, $this->error_str,
+                    $this->uri, $this->error_no, $this->error_str,
                     $timeout, $flags, $context
                 )
             );
@@ -105,9 +116,9 @@ class TcpClient extends NetworkStream
         }
         if ($persist) {
             $this->shmHandler = new SHM(
-                'PEAR2\Net\Transmitter\TcpClient ' . $uri . ' '
+                'PEAR2\Net\Transmitter\TcpClient ' . $this->uri . ' '
             );
-            $this->shmHandler->add('lockState', self::DIRECTION_NONE);
+            self::$lockState[$this->uri] = self::DIRECTION_NONE;
         }
     }
 
@@ -137,57 +148,62 @@ class TcpClient extends NetworkStream
      * need to call this function if you need to do an uninterrputed sequence of
      * such calls.
      * 
-     * @param int $direction The direction(s) to have locked. Acceptable values
+     * @param int  $direction The direction(s) to have locked. Acceptable values
      * are the DIRECTION_* constants. If a lock for a direction can't be
-     * obtained immediatly, the function will block until one is aquired.
+     * obtained immediatly, the function will block until one is aquired. Note
+     * that if you specify {@link DIRECTION_ALL}, the sending lock will be
+     * obtained before the receiving one, and if obtaining the receiving lock
+     * afterwards fails, the sending lock will be released too.
+     * @param bool $replace   Whether to replace all locks with the specified
+     * ones. Setting this to FALSE will make the function only obtain the locks
+     * which are not already obtained.
      * 
      * @return int The previous state or FALSE on failure.
      */
-    public function lock($direction = self::DIRECTION_ALL)
+    public function lock($direction = self::DIRECTION_ALL, $replace = false)
     {
-        if ($this->persist && is_int($direction)
-            && $this->shmHandler->lock('lockState')
-        ) {
+        if ($this->persist && is_int($direction)) {
+            $result = $old = self::$lockState[$this->uri];
+
+            if ($direction & self::DIRECTION_SEND) {
+                if (($old & self::DIRECTION_SEND)
+                    || $this->shmHandler->lock(self::DIRECTION_SEND)
+                ) {
+                    $result |= self::DIRECTION_SEND;
+                } else {
+                    return false;
+                }
+            } elseif ($replace && !($old & self::DIRECTION_SEND)
+                || $this->shmHandler->unlock(self::DIRECTION_SEND)
+            ) {
+                $result &= ~self::DIRECTION_SEND;
+            } else {
+                return false;
+            }
+            
             try {
-                $result = $old = $this->shmHandler->get('lockState');
                 if ($direction & self::DIRECTION_RECEIVE) {
                     if (($old & self::DIRECTION_RECEIVE)
                         || $this->shmHandler->lock(self::DIRECTION_RECEIVE)
                     ) {
                         $result |= self::DIRECTION_RECEIVE;
                     } else {
-                        throw new \Exception();
+                        throw new \Exception;
                     }
-                } elseif (!($old & self::DIRECTION_RECEIVE)
+                } elseif ($replace && !($old & self::DIRECTION_RECEIVE)
                     || $this->shmHandler->unlock(self::DIRECTION_RECEIVE)
                 ) {
                     $result &= ~self::DIRECTION_RECEIVE;
                 } else {
-                    throw new \Exception();
+                    throw new \Exception;
                 }
-
-                if ($direction & self::DIRECTION_SEND) {
-                    if (($old & self::DIRECTION_SEND)
-                        || $this->shmHandler->lock(self::DIRECTION_SEND)
-                    ) {
-                        $result |= self::DIRECTION_SEND;
-                    } else {
-                        throw new \Exception();
-                    }
-                } elseif (!($old & self::DIRECTION_SEND)
-                    || $this->shmHandler->unlock(self::DIRECTION_SEND)
-                ) {
-                    $result &= ~self::DIRECTION_SEND;
-                } else {
-                    throw new \Exception();
-                }
-                $this->shmHandler->set('lockState', $result);
-                $this->shmHandler->unlock('lockState');
-                return $old;
             } catch(\Exception $e) {
-                $this->shmHandler->unlock('lockState');
+                if ($direction & self::DIRECTION_SEND) {
+                    $this->shmHandler->unlock(self::DIRECTION_SEND);
+                }
                 return false;
             }
+            return $old;
         }
         return false;
     }
@@ -218,7 +234,7 @@ class TcpClient extends NetworkStream
             );
         }
         $result = parent::send($contents, $offset, $length);
-        $this->lock($previousState);
+        $this->lock($previousState, true);
         return $result;
     }
 
@@ -242,7 +258,7 @@ class TcpClient extends NetworkStream
             );
         }
         $result = parent::receive($length, $what);
-        $this->lock($previousState);
+        $this->lock($previousState, true);
         return $result;
     }
 
@@ -270,7 +286,7 @@ class TcpClient extends NetworkStream
             );
         }
         $result = parent::receiveStream($length, $filters, $what);
-        $this->lock($previousState);
+        $this->lock($previousState, true);
         return $result;
     }
 
