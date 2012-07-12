@@ -304,5 +304,4 @@ class TcpClient extends NetworkStream
         $this->lock($previousState, true);
         return $result;
     }
-
 }

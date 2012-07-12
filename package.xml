@@ -1,175 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package
-    version="2.0"
-    xmlns="http://pear.php.net/dtd/package-2.0"
-    xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
-    http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd
-    http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd
-    "
->
-    <name>PEAR2_Net_Transmitter</name>
-    <channel>pear2.php.net</channel>
-    <summary>Wrapper for stream functionality.</summary>
-    <description>This package provides data integrity to stream functionality, particularly useful for sockets.</description>
-    <lead>
-        <name>Vasil Rangelov</name>
-        <user>boen_robot</user>
-        <email>boen.robot@gmail.com</email>
-        <active>yes</active>
-    </lead>
-    <date>2011-09-26</date>
-    <version>
-        <release>1.0.0a1</release>
-        <api>1.0.0</api>
-    </version>
-    <stability>
-        <release>beta</release>
-        <api>beta</api>
-    </stability>
-    <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</license>
-    <notes>First PEAR2 compatible release.</notes>
-    <contents>
-        <dir name="/">
-            <dir name="src" baseinstalldir="/">
-                <file name="PEAR2/Net/Transmitter/Autoload.php" role="php">
-                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
-                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
-                </file>
-                <file name="PEAR2/Net/Transmitter/Exception.php" role="php">
-                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
-                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
-                </file>
-                <file name="PEAR2/Net/Transmitter/NetworkStream.php" role="php">
-                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
-                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
-                </file>
-                <file name="PEAR2/Net/Transmitter/SocketException.php" role="php">
-                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
-                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
-                </file>
-                <file name="PEAR2/Net/Transmitter/Stream.php" role="php">
-                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
-                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
-                </file>
-                <file name="PEAR2/Net/Transmitter/TcpClient.php" role="php">
-                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
-                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
-                </file>
-                <file name="PEAR2/Net/Transmitter/TcpServerConnection.php" role="php">
-                    <tasks:replace type="package-info" from="~~summary~~" to="summary"/>
-                    <tasks:replace type="package-info" from="~~description~~" to="description"/>
-                    <tasks:replace type="package-info" from="GIT: $Id$" to="version"/>
-                </file>
-            </dir>
-            <dir name="tests">
-                <file name="ClientTest.php" role="test" />
-                <file name="ServerTest.php" role="test" />
-                <file name="UnconnectedTest.php" role="test" />
-                <file name="bootstrap.php" role="test">
-                    <tasks:replace type="pear-config" from="../src" to="php_dir" />
-                </file>
-                <file name="phpunit.xml" role="test" />
-                <file name="secondaryPeer.bat" role="test" />
-                <file name="secondaryPeer.xml" role="test" />
-            </dir>
-            <dir name="docs">
-                <file name="doxygen.ini" role="doc">
-                    <tasks:replace type="package-info" from="GIT: $Id$" to="version" />
-                    <tasks:replace type="pear-config" from="../src" to="php_dir" />
-                </file>
-                <file name="docblox.xml" role="doc">
-                    <tasks:replace type="pear-config" from="../src" to="php_dir" />
-                </file>
-            </dir>
-        </dir>
-    </contents>
-    <dependencies>
-        <required>
-            <php>
-                <min>5.3.0</min>
-            </php>
-            <pearinstaller>
-                <min>1.4.0</min>
-            </pearinstaller>
-        </required>
-    </dependencies>
-    <phprelease>
-        <filelist>
-            <install
-                name="src/PEAR2/Net/Transmitter/Autoload.php"
-                as="PEAR2/Net/Transmitter/Autoload.php"
-            />
-            <install
-                name="src/PEAR2/Net/Transmitter/Exception.php"
-                as="PEAR2/Net/Transmitter/Exception.php"
-            />
-            <install
-                name="src/PEAR2/Net/Transmitter/NetworkStream.php"
-                as="PEAR2/Net/Transmitter/NetworkStream.php"
-            />
-            <install
-                name="src/PEAR2/Net/Transmitter/SocketException.php"
-                as="PEAR2/Net/Transmitter/SocketException.php"
-            />
-            <install
-                name="src/PEAR2/Net/Transmitter/Stream.php"
-                as="PEAR2/Net/Transmitter/Stream.php"
-            />
-            <install
-                name="src/PEAR2/Net/Transmitter/TcpClient.php"
-                as="PEAR2/Net/Transmitter/TcpClient.php"
-            />
-            <install
-                name="src/PEAR2/Net/Transmitter/TcpServerConnection.php"
-                as="PEAR2/Net/Transmitter/TcpServerConnection.php"
-            />
-            
-            
-            <install
-                name="tests/ClientTest.php"
-                as="ClientTest.php"
-            />
-            <install
-                name="tests/ServerTest.php"
-                as="ServerTest.php"
-            />
-            <install
-                name="tests/UnconnectedTest.php"
-                as="UnconnectedTest.php"
-            />
-            <install
-                name="tests/bootstrap.php"
-                as="bootstrap.php"
-            />
-            <install
-                name="tests/phpunit.xml"
-                as="phpunit.xml"
-            />
-            <install
-                name="tests/secondaryPeer.bat"
-                as="secondaryPeer.bat"
-            />
-            <install
-                name="tests/secondaryPeer.xml"
-                as="secondaryPeer.xml"
-            />
-            
-            <install
-                name="docs/doxygen.ini"
-                as="doxygen.ini"
-            />
-            <install
-                name="docs/docblox.xml"
-                as="docblox.xml"
-            />
-        </filelist>
-    </phprelease>
+<package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
+ <name>PEAR2_Net_Transmitter</name>
+ <channel>pear2.php.net</channel>
+ <summary>Wrapper for network stream functionality.
+</summary>
+ <description>PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.
+
+This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).</description>
+ <lead>
+  <name>Vasil Rangelov</name>
+  <user>boen_robot</user>
+  <email>boen.robot@gmail.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2012-07-11</date>
+ <time>00:15:41</time>
+ <version>
+  <release>1.0.0a3</release>
+  <api>1.0.0</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</license>
+ <notes>Added locking support at TcpClient, particularly for persistent connections. Also some doc fixes.</notes>
+ <contents>
+  <dir name="/">
+   <dir name="docs" baseinstalldir="/">
+    <file role="doc" name="doxygen.ini">
+     <tasks:replace from="../src" to="php_dir" type="pear-config"/>
+     <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+    </file>
+    <file role="doc" name="phpdoc.dist.xml">
+     <tasks:replace from="../src" to="php_dir" type="pear-config"/>
+    </file>
+   </dir>
+   <dir name="src" baseinstalldir="/">
+    <dir name="PEAR2">
+     <dir name="Net">
+      <dir name="Transmitter">
+       <file role="php" name="Exception.php">
+        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
+        <tasks:replace from="~~description~~" to="description" type="package-info"/>
+        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+       </file>
+       <file role="php" name="FilterCollection.php">
+        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
+        <tasks:replace from="~~description~~" to="description" type="package-info"/>
+        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+       </file>
+       <file role="php" name="LockException.php">
+        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
+        <tasks:replace from="~~description~~" to="description" type="package-info"/>
+        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+       </file>
+       <file role="php" name="NetworkStream.php">
+        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
+        <tasks:replace from="~~description~~" to="description" type="package-info"/>
+        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+       </file>
+       <file role="php" name="SocketException.php">
+        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
+        <tasks:replace from="~~description~~" to="description" type="package-info"/>
+        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+       </file>
+       <file role="php" name="Stream.php">
+        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
+        <tasks:replace from="~~description~~" to="description" type="package-info"/>
+        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+       </file>
+       <file role="php" name="StreamException.php">
+        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
+        <tasks:replace from="~~description~~" to="description" type="package-info"/>
+        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+       </file>
+       <file role="php" name="TcpClient.php">
+        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
+        <tasks:replace from="~~description~~" to="description" type="package-info"/>
+        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+       </file>
+       <file role="php" name="TcpServerConnection.php">
+        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
+        <tasks:replace from="~~description~~" to="description" type="package-info"/>
+        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+       </file>
+      </dir>
+     </dir>
+    </dir>
+   </dir>
+   <dir name="tests" baseinstalldir="/">
+    <dir name="PHPT">
+     <file role="test" name="testNormalPersistentConnection.phpt"/>
+    </dir>
+    <file role="test" name="bootstrap.php">
+     <tasks:replace from="../src" to="php_dir" type="pear-config"/>
+    </file>
+    <file role="test" name="ClientTest.php"/>
+    <file role="test" name="phpunit.xml"/>
+    <file role="test" name="secondaryPeer.bat"/>
+    <file role="test" name="secondaryPeer.xml"/>
+    <file role="test" name="ServerTest.php"/>
+    <file role="test" name="UnconnectedTest.php"/>
+   </dir>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease>
+  <filelist>
+   <install name="docs/doxygen.ini" as="doxygen.ini"/>
+   <install name="docs/phpdoc.dist.xml" as="phpdoc.dist.xml"/>
+   <install name="src/PEAR2/Net/Transmitter/Exception.php" as="PEAR2/Net/Transmitter/Exception.php"/>
+   <install name="src/PEAR2/Net/Transmitter/NetworkStream.php" as="PEAR2/Net/Transmitter/NetworkStream.php"/>
+   <install name="src/PEAR2/Net/Transmitter/SocketException.php" as="PEAR2/Net/Transmitter/SocketException.php"/>
+   <install name="src/PEAR2/Net/Transmitter/Stream.php" as="PEAR2/Net/Transmitter/Stream.php"/>
+   <install name="src/PEAR2/Net/Transmitter/TcpClient.php" as="PEAR2/Net/Transmitter/TcpClient.php"/>
+   <install name="src/PEAR2/Net/Transmitter/TcpServerConnection.php" as="PEAR2/Net/Transmitter/TcpServerConnection.php"/>
+   <install name="tests/bootstrap.php" as="bootstrap.php"/>
+   <install name="tests/ClientTest.php" as="ClientTest.php"/>
+   <install name="tests/phpunit.xml" as="phpunit.xml"/>
+   <install name="tests/secondaryPeer.bat" as="secondaryPeer.bat"/>
+   <install name="tests/secondaryPeer.xml" as="secondaryPeer.xml"/>
+   <install name="tests/ServerTest.php" as="ServerTest.php"/>
+   <install name="tests/UnconnectedTest.php" as="UnconnectedTest.php"/>
+  </filelist>
+ </phprelease>
 </package>

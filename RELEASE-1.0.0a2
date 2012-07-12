@@ -1,6 +1,6 @@
 Lots of reorganization and initial test suite.
 
-* Renamed all "Socket*Transmitter" classes to "Tcp*".
+* Renamed all "Socket\*Transmitter" classes to "Tcp\*".
 * Added test suite with nearly complete code coverage. Remaining coverage is due to forward compatibility issues.
 * Added FilterCollection, in turn allowing for the same filter to be applied more than once.
 * Added NetworkStream, and made Tcp* classes inherit from it. This new class contains a new method called shutdown().

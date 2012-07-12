@@ -1,0 +1,1 @@
+Added locking support at TcpClient, particularly for persistent connections. Also some doc fixes.
