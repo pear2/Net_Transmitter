@@ -2,4 +2,5 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://pear.php.net/dtd/tasks-1.0.xsd" uri="pear.php.net/dtd/tasks-1.0.xsd"/>
     <system systemId="http://pear.php.net/dtd/package-2.0.xsd" uri="pear.php.net/dtd/package-2.0.xsd"/>
+    <system systemId="http://pear.php.net/dtd/package-2.1.xsd" uri="pear.php.net/dtd/package-2.1.xsd"/>
 </catalog>

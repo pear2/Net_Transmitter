@@ -114,6 +114,13 @@ This package abstracts this away, so that when you want to get exactly N amount 
     <min>1.4.0</min>
    </pearinstaller>
   </required>
+  <optional>
+      <package>
+          <name>PEAR2_Cache_SHM</name>
+          <channel>pear2.php.net</channel>
+          <min>0.1.0</min>
+      </package>
+  </optional>
  </dependencies>
  <phprelease>
   <filelist>

@@ -161,8 +161,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             new SC(
                 stream_socket_server(
                     'tcp://' . LOCAL_HOSTNAME . ':' . LOCAL_PORT
-                )
-                ,
+                ),
                 2
             );
             $this->fail('Server creation had to fail.');
