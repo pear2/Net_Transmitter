@@ -115,8 +115,8 @@ class TcpClient extends NetworkStream
             throw $this->createException('Failed to initialize socket.', 7);
         }
         if ($persist) {
-            $this->shmHandler = new SHM(
-                'PEAR2\Net\Transmitter\TcpClient ' . $this->uri . ' '
+            $this->shmHandler = SHM::factory(
+                __CLASS__ . ' ' . $this->uri . ' '
             );
             self::$lockState[$this->uri] = self::DIRECTION_NONE;
         }

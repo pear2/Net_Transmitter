@@ -90,9 +90,6 @@ This package abstracts this away, so that when you want to get exactly N amount 
     </dir>
    </dir>
    <dir name="tests" baseinstalldir="/">
-    <dir name="PHPT">
-     <file role="test" name="testNormalPersistentConnection.phpt"/>
-    </dir>
     <file role="test" name="bootstrap.php">
      <tasks:replace from="../src" to="php_dir" type="pear-config"/>
     </file>
