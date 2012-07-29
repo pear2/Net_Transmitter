@@ -33,25 +33,24 @@ class SocketException extends \RuntimeException implements Exception
 {
 
     /**
-     * @var int The error code of the last error on the socket.
+     * @var int The system level error code.
      */
-    protected $error_no = 0;
+    protected $error_no;
 
     /**
-     * @var string The error message of the last error on the socket.
+     * @var string The system level error message.
      */
-    protected $error_str = '';
+    protected $error_str;
 
     /**
      * Creates a new socket exception.
      * 
-     * @param string    $message   The Exception message to throw.
-     * @param int       $code      The Exception code.
-     * @param Exception $previous  The previous exception used for the exception
-     * chaining.
-     * @param int       $error_no  If provided, holds the system level error
-     * number that occurred in the system-level connect() call.
-     * @param string    $error_str The error message as a string.
+     * @param string     $message   The Exception message to throw.
+     * @param int        $code      The Exception code.
+     * @param \Exception $previous  The previous exception used for the
+     * exception chaining.
+     * @param int        $error_no  The system level error number.
+     * @param string     $error_str The system level error message.
      */
     public function __construct($message = '', $code = 0, $previous = null,
         $error_no = null, $error_str = null
@@ -62,9 +61,9 @@ class SocketException extends \RuntimeException implements Exception
     }
 
     /**
-     * Gets the error code of the last error on the socket.
+     * Gets the system level error code on the socket.
      * 
-     * @return int NULL if none was provided or the number itself.  
+     * @return int The system level error number.
      */
     public function getSocketErrorNumber()
     {
@@ -75,9 +74,9 @@ class SocketException extends \RuntimeException implements Exception
     // Unreliable in testing.
 
     /**
-     * Gets the error message of the last error on the socket.
+     * Gets the system level error message on the socket.
      * 
-     * @return string The error message.
+     * @return string The system level error message.
      */
     public function getSocketErrorMessage()
     {
@@ -92,10 +91,10 @@ class SocketException extends \RuntimeException implements Exception
     public function __toString()
     {
         $result = parent::__toString();
-        if (0 !== $this->getSocketErrorNumber()) {
+        if (null !== $this->getSocketErrorNumber()) {
             $result .= "\nSocket error number:" . $this->getSocketErrorNumber();
         }
-        if ('' !== $this->getSocketErrorMessage()) {
+        if (null !== $this->getSocketErrorMessage()) {
             $result .= "\nSocket error message:"
                 . $this->getSocketErrorMessage();
         }

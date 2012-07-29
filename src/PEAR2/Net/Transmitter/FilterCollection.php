@@ -50,7 +50,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      * @param string $name   The name of the filter.
      * @param array  $params An array of parameters for the filter.
      * 
-     * @return FilterCollection The collection itself.
+     * @return self|FilterCollection The collection itself.
      */
     public function append($name, array $params = array())
     {
@@ -70,7 +70,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      * @param string $name     The name of the filter.
      * @param array  $params   An array of parameters for the filter.
      * 
-     * @return FilterCollection The collection itself.
+     * @return self|FilterCollection The collection itself.
      */
     public function insertBefore($position, $name, array $params = array())
     {
@@ -98,7 +98,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      * 
      * @param int $position The position from which to remove a filter.
      * 
-     * @return FilterCollection The collection itself.
+     * @return self|FilterCollection The collection itself.
      */
     public function removeAt($position)
     {
@@ -110,7 +110,7 @@ class FilterCollection implements \SeekableIterator, \Countable
     /**
      * Clears the collection
      * 
-     * @return FilterCollection The collection itself.
+     * @return self|FilterCollection The collection itself.
      */
     public function clear()
     {
@@ -173,7 +173,7 @@ class FilterCollection implements \SeekableIterator, \Countable
     }
 
     /**
-     * Gets the key at the current pointer position.
+     * Gets the filter name at the current pointer position.
      * 
      * @return string The name of the filter at the current position.
      */
@@ -183,7 +183,7 @@ class FilterCollection implements \SeekableIterator, \Countable
     }
 
     /**
-     * Gets the response at the current pointer position.
+     * Gets the filter parameters at the current pointer position.
      * 
      * @return array An array of parameters for the filter at the current
      * position.
