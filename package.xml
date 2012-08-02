@@ -13,8 +13,8 @@ This package abstracts this away, so that when you want to get exactly N amount 
   <email>boen.robot@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2012-07-11</date>
- <time>00:15:41</time>
+ <date>2012-08-03</date>
+ <time>02:47:16</time>
  <version>
   <release>1.0.0a3</release>
   <api>1.0.0</api>
@@ -112,11 +112,16 @@ This package abstracts this away, so that when you want to get exactly N amount 
    </pearinstaller>
   </required>
   <optional>
-      <package>
-          <name>PEAR2_Cache_SHM</name>
-          <channel>pear2.php.net</channel>
-          <min>0.1.0</min>
-      </package>
+   <package>
+    <name>PEAR2_Autoload</name>
+    <channel>pear2.php.net</channel>
+    <min>0.2.4</min>
+   </package>
+   <package>
+    <name>PEAR2_Cache_SHM</name>
+    <channel>pear2.php.net</channel>
+    <min>0.1.0</min>
+   </package>
   </optional>
  </dependencies>
  <phprelease>

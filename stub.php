@@ -11,7 +11,7 @@ if (count(get_included_files()) > 1) {
     if ($isNotCli) {
         header('Content-Type: text/plain;charset=UTF-8');
     }
-    echo "PEAR2_Net_Transmitter @PACKAGE_VERSION@\n";
+    echo "@PACKAGE_NAME@ @PACKAGE_VERSION@\n";
     
     if (version_compare(phpversion(), '5.3.0', '<')) {
         echo "\nThis package requires PHP 5.3.0 or later.";
@@ -26,15 +26,15 @@ if (count(get_included_files()) > 1) {
     
     if (function_exists('stream_socket_client')) {
         echo <<<HEREDOC
-The stream_socket_client() function is enabled.\n
+The stream_socket_client() function is enabled.
 If you can't connect to a host, this means one
-of the following:\n
+of the following:
 1. You've mistyped the IP and/or port. Check the IP and port you've specified
-are the one you intended.\n
+are the one you intended.
 2. The host is not reachable from your web server. Try to reach the host
 from the web server by other means (e.g. ping) using the same IP, and if
-you're unable to reach it, check your network's settings.\n
-2. Your web server is configured to forbid that outgoing connection. If you're
+you're unable to reach it, check your network's settings.
+3. Your web server is configured to forbid that outgoing connection. If you're
 the web server administrator, check your firewall's settings. If you're on a
 hosting plan... Typically, shared hosts block all outgoing connections, but it's
 also possible that only connections to that port are blocked. If the remote host
