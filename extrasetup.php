@@ -1,26 +1,28 @@
 <?php
 $extrafiles = array();
 
-foreach (
-    array(
-        dirname(__DIR__) . DIRECTORY_SEPARATOR . 'PEAR2_Cache_SHM.git'
-    ) as $packageRoot
-) {
-    $pkg = new \Pyrus\Package(
-        $packageRoot . DIRECTORY_SEPARATOR . 'package.xml'
-    );
-    foreach (array('tests', 'docs') as $folder) {
+$phpDir = Pyrus\Config::current()->php_dir . DIRECTORY_SEPARATOR;
+$packages = array('PEAR2/Autoload', 'PEAR2/Cache/SHM');
+
+foreach ($packages as $pkg) {
+    $prefix = $phpDir . $pkg;
+    
+    if (is_dir($prefix)) {
         foreach (
             new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator(
-                    $packageRoot . DIRECTORY_SEPARATOR . $folder,
+                    $prefix,
                     RecursiveDirectoryIterator::UNIX_PATHS
                 ),
                 RecursiveIteratorIterator::LEAVES_ONLY
             ) as $path
         ) {
-            unset($pkg->files[$path->getPathname()]);
+            $pathname = $path->getPathname();
+            $extrafiles['src/' . $pathname] = $pathname;
         }
     }
-    $extrafiles[] = $pkg;
+    
+    if (is_file($prefix . '.php')) {
+        $extrafiles['src/' . $pkg . '.php'] = $prefix . '.php';
+    }
 }
