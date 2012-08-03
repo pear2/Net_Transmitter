@@ -1,0 +1,1508 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project version="2.0.0a8" title="PEAR2_Net_Transmitter documentation">
+  <file path="Exception.php" hash="2169bd055c338c0783f3ff8d55b936d8" package="PEAR2\Net\Transmitter">
+    <docblock line="3">
+      <description><![CDATA[Wrapper for network stream functionality.]]></description>
+      <long-description><![CDATA[<p>PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.</p>
+
+<p>This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).</p>
+
+<p>PHP version 5</p>]]></long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a3"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <interface namespace="PEAR2\Net\Transmitter" line="35" package="PEAR2\Net\Transmitter">
+      <name>Exception</name>
+      <full_name>\PEAR2\Net\Transmitter\Exception</full_name>
+      <docblock line="26">
+        <description><![CDATA[Generic exception class of this package.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+    </interface>
+  </file>
+  <file path="FilterCollection.php" hash="19e6fe30725ee14ccfdfcd3826e8bdb0" package="PEAR2\Net\Transmitter">
+    <docblock line="3">
+      <description><![CDATA[Wrapper for network stream functionality.]]></description>
+      <long-description><![CDATA[<p>PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.</p>
+
+<p>This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).</p>
+
+<p>PHP version 5</p>]]></long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a3"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="PEAR2\Net\Transmitter" line="38" package="PEAR2\Net\Transmitter">
+      <extends/>
+      <implements>\SeekableIterator</implements>
+      <implements>\Countable</implements>
+      <name>FilterCollection</name>
+      <full_name>\PEAR2\Net\Transmitter\FilterCollection</full_name>
+      <docblock line="26">
+        <description><![CDATA[A filter collection.]]></description>
+        <long-description><![CDATA[<p>Represents a collection of stream filters.</p>]]></long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+        <tag line="26" name="see" description="\PEAR2\Net\Transmitter\Client" refers="\PEAR2\Net\Transmitter\Client"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="43" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$filters</name>
+        <default><![CDATA[array()]]></default>
+        <docblock line="40">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="40" name="var" description="The filter collection itself." type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="48" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$position</name>
+        <default><![CDATA[0]]></default>
+        <docblock line="45">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="45" name="var" description="A pointer, as required by SeekableIterator." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="58" package="PEAR2\Net\Transmitter">
+        <name>append</name>
+        <full_name>append</full_name>
+        <docblock line="50">
+          <description><![CDATA[Appends a filter to the collection]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="50" name="param" description="The name of the filter." type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="50" name="param" description="An array of parameters for the filter." type="array" variable="$params">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="50" name="return" description="The collection itself." type="\PEAR2\Net\Transmitter\self|\PEAR2\Net\Transmitter\FilterCollection">
+            <type by_reference="false">\PEAR2\Net\Transmitter\self</type>
+            <type by_reference="false">\PEAR2\Net\Transmitter\FilterCollection</type>
+          </tag>
+        </docblock>
+        <argument line="58">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="58">
+          <name>$params</name>
+          <default><![CDATA[array()]]></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="78" package="PEAR2\Net\Transmitter">
+        <name>insertBefore</name>
+        <full_name>insertBefore</full_name>
+        <docblock line="64">
+          <description><![CDATA[Inserts the filter before a position.]]></description>
+          <long-description><![CDATA[<p>Inserts the specified filter before a filter at a specified position. The
+new filter takes the specified position, while previous filters are moved
+forward by one.</p>]]></long-description>
+          <tag line="64" name="param" description="The position before which the filter will be inserted." type="int" variable="$position">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="64" name="param" description="The name of the filter." type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="64" name="param" description="An array of parameters for the filter." type="array" variable="$params">
+            <type by_reference="false">array</type>
+          </tag>
+          <tag line="64" name="return" description="The collection itself." type="\PEAR2\Net\Transmitter\self|\PEAR2\Net\Transmitter\FilterCollection">
+            <type by_reference="false">\PEAR2\Net\Transmitter\self</type>
+            <type by_reference="false">\PEAR2\Net\Transmitter\FilterCollection</type>
+          </tag>
+        </docblock>
+        <argument line="78">
+          <name>$position</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="78">
+          <name>$name</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="78">
+          <name>$params</name>
+          <default><![CDATA[array()]]></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="106" package="PEAR2\Net\Transmitter">
+        <name>removeAt</name>
+        <full_name>removeAt</full_name>
+        <docblock line="99">
+          <description><![CDATA[Removes a filter at a specified position.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="99" name="param" description="The position from which to remove a filter." type="int" variable="$position">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="99" name="return" description="The collection itself." type="\PEAR2\Net\Transmitter\self|\PEAR2\Net\Transmitter\FilterCollection">
+            <type by_reference="false">\PEAR2\Net\Transmitter\self</type>
+            <type by_reference="false">\PEAR2\Net\Transmitter\FilterCollection</type>
+          </tag>
+        </docblock>
+        <argument line="106">
+          <name>$position</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="118" package="PEAR2\Net\Transmitter">
+        <name>clear</name>
+        <full_name>clear</full_name>
+        <docblock line="113">
+          <description><![CDATA[Clears the collection]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="113" name="return" description="The collection itself." type="\PEAR2\Net\Transmitter\self|\PEAR2\Net\Transmitter\FilterCollection">
+            <type by_reference="false">\PEAR2\Net\Transmitter\self</type>
+            <type by_reference="false">\PEAR2\Net\Transmitter\FilterCollection</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="129" package="PEAR2\Net\Transmitter">
+        <name>count</name>
+        <full_name>count</full_name>
+        <docblock line="124">
+          <description><![CDATA[Gets the number of filters in the collection.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="124" name="return" description="The number of filters in the collection." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="139" package="PEAR2\Net\Transmitter">
+        <name>rewind</name>
+        <full_name>rewind</full_name>
+        <docblock line="134">
+          <description><![CDATA[Resets the pointer to 0.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="134" name="return" description="TRUE if the collection is not empty, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="151" package="PEAR2\Net\Transmitter">
+        <name>seek</name>
+        <full_name>seek</full_name>
+        <docblock line="144">
+          <description><![CDATA[Moves the pointer to a specified position.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="144" name="param" description="The position to move to." type="int" variable="$position">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="144" name="return" description="TRUE if the specified position is valid, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="151">
+          <name>$position</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="162" package="PEAR2\Net\Transmitter">
+        <name>getCurrentPosition</name>
+        <full_name>getCurrentPosition</full_name>
+        <docblock line="157">
+          <description><![CDATA[Gets the current position.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="157" name="return" description="The current position." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="172" package="PEAR2\Net\Transmitter">
+        <name>next</name>
+        <full_name>next</full_name>
+        <docblock line="167">
+          <description><![CDATA[Moves the pointer forward by 1.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="167" name="return" description="TRUE if the new position is valid, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="183" package="PEAR2\Net\Transmitter">
+        <name>key</name>
+        <full_name>key</full_name>
+        <docblock line="178">
+          <description><![CDATA[Gets the filter name at the current pointer position.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="178" name="return" description="The name of the filter at the current position." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="194" package="PEAR2\Net\Transmitter">
+        <name>current</name>
+        <full_name>current</full_name>
+        <docblock line="188">
+          <description><![CDATA[Gets the filter parameters at the current pointer position.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="188" name="return" description="An array of parameters for the filter at the current position." type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="204" package="PEAR2\Net\Transmitter">
+        <name>prev</name>
+        <full_name>prev</full_name>
+        <docblock line="199">
+          <description><![CDATA[Moves the pointer backwards by 1.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="199" name="return" description="TRUE if the new position is valid, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="215" package="PEAR2\Net\Transmitter">
+        <name>end</name>
+        <full_name>end</full_name>
+        <docblock line="210">
+          <description><![CDATA[Moves the pointer to the last valid position.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="210" name="return" description="TRUE if the collection is not empty, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="226" package="PEAR2\Net\Transmitter">
+        <name>valid</name>
+        <full_name>valid</full_name>
+        <docblock line="221">
+          <description><![CDATA[Checks if the pointer is still pointing to an existing offset.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="221" name="return" description="TRUE if the pointer is valid, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+    <parse_markers>
+      <critical line="40" code="50019">No short description for property $filters</critical>
+      <critical line="45" code="50019">No short description for property $position</critical>
+    </parse_markers>
+  </file>
+  <file path="LockException.php" hash="ade19434ab7761ec0ab39afa76f149c2" package="PEAR2\Net\Transmitter">
+    <docblock line="3">
+      <description><![CDATA[Wrapper for network stream functionality.]]></description>
+      <long-description><![CDATA[<p>PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.</p>
+
+<p>This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).</p>
+
+<p>PHP version 5</p>]]></long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a3"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="PEAR2\Net\Transmitter" line="35" package="PEAR2\Net\Transmitter">
+      <extends>\RuntimeException</extends>
+      <implements>\PEAR2\Net\Transmitter\Exception</implements>
+      <name>LockException</name>
+      <full_name>\PEAR2\Net\Transmitter\LockException</full_name>
+      <docblock line="26">
+        <description><![CDATA[Exception thrown when something goes wrong when dealing with locks.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="NetworkStream.php" hash="9ee45ed7fa97a82f36617927a4940bc5" package="PEAR2\Net\Transmitter">
+    <docblock line="3">
+      <description><![CDATA[Wrapper for network stream functionality.]]></description>
+      <long-description><![CDATA[<p>PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.</p>
+
+<p>This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).</p>
+
+<p>PHP version 5</p>]]></long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a3"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="PEAR2\Net\Transmitter" line="38" package="PEAR2\Net\Transmitter">
+      <extends>\PEAR2\Net\Transmitter\Stream</extends>
+      <name>NetworkStream</name>
+      <full_name>\PEAR2\Net\Transmitter\NetworkStream</full_name>
+      <docblock line="26">
+        <description><![CDATA[A network transmitter.]]></description>
+        <long-description><![CDATA[<p>This is a convinience wrapper for network streams. Used to ensure data
+integrity.</p>]]></long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="46" package="PEAR2\Net\Transmitter">
+        <name>isDataAwaiting</name>
+        <full_name>isDataAwaiting</full_name>
+        <docblock line="41">
+          <description><![CDATA[Checks whether there is data to be read from the socket.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="41" name="return" description="TRUE if there is data to be read, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="64" package="PEAR2\Net\Transmitter">
+        <name>setBuffer</name>
+        <full_name>setBuffer</full_name>
+        <docblock line="55">
+          <description><![CDATA[Sets the size of a stream's buffer.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="55" name="param" description="The desired size of the buffer, in bytes." type="int" variable="$size">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="55" name="param" description="The buffer of which direction to set. Valid values are the DIRECTION_* constants." type="string" variable="$direction">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="55" name="return" description="TRUE on success, FALSE on failure." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="64">
+          <name>$size</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="64">
+          <name>$direction</name>
+          <default><![CDATA[self::DIRECTION_ALL]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="85" package="PEAR2\Net\Transmitter">
+        <name>shutdown</name>
+        <full_name>shutdown</full_name>
+        <docblock line="75">
+          <description><![CDATA[Shutdown a full-duplex connection]]></description>
+          <long-description><![CDATA[<p>Shutdowns (partially or not) a full-duplex connection.</p>]]></long-description>
+          <tag line="75" name="param" description="The direction for which to disable further communications." type="string" variable="$direction">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="75" name="return" description="TRUE on success, FALSE on failure." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="85">
+          <name>$direction</name>
+          <default><![CDATA[self::DIRECTION_ALL]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="SocketException.php" hash="2ede78f07a866b4ae805d7db2a70b188" package="PEAR2\Net\Transmitter">
+    <docblock line="3">
+      <description><![CDATA[Wrapper for network stream functionality.]]></description>
+      <long-description><![CDATA[<p>PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.</p>
+
+<p>This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).</p>
+
+<p>PHP version 5</p>]]></long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a3"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="PEAR2\Net\Transmitter" line="35" package="PEAR2\Net\Transmitter">
+      <extends>\RuntimeException</extends>
+      <implements>\PEAR2\Net\Transmitter\Exception</implements>
+      <name>SocketException</name>
+      <full_name>\PEAR2\Net\Transmitter\SocketException</full_name>
+      <docblock line="26">
+        <description><![CDATA[Exception thrown when something goes wrong with the connection.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="41" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$error_no</name>
+        <default><![CDATA[]]></default>
+        <docblock line="38">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="38" name="var" description="The system level error code." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="46" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$error_str</name>
+        <default><![CDATA[]]></default>
+        <docblock line="43">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="43" name="var" description="The system level error message." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="58" package="PEAR2\Net\Transmitter">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="48">
+          <description><![CDATA[Creates a new socket exception.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="48" name="param" description="The Exception message to throw." type="string" variable="$message">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="48" name="param" description="The Exception code." type="int" variable="$code">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="48" name="param" description="The previous exception used for the exception chaining." type="\Exception" variable="$previous">
+            <type by_reference="false">\Exception</type>
+          </tag>
+          <tag line="48" name="param" description="The system level error number." type="int" variable="$error_no">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="48" name="param" description="The system level error message." type="string" variable="$error_str">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="58">
+          <name>$message</name>
+          <default><![CDATA['']]></default>
+          <type/>
+        </argument>
+        <argument line="58">
+          <name>$code</name>
+          <default><![CDATA[0]]></default>
+          <type/>
+        </argument>
+        <argument line="58">
+          <name>$previous</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="59">
+          <name>$error_no</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="59">
+          <name>$error_str</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="71" package="PEAR2\Net\Transmitter">
+        <name>getSocketErrorNumber</name>
+        <full_name>getSocketErrorNumber</full_name>
+        <docblock line="66">
+          <description><![CDATA[Gets the system level error code on the socket.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="66" name="return" description="The system level error number." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="84" package="PEAR2\Net\Transmitter">
+        <name>getSocketErrorMessage</name>
+        <full_name>getSocketErrorMessage</full_name>
+        <docblock line="79">
+          <description><![CDATA[Gets the system level error message on the socket.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="79" name="return" description="The system level error message." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="94" package="PEAR2\Net\Transmitter">
+        <name>__toString</name>
+        <full_name>__toString</full_name>
+        <docblock line="89">
+          <description><![CDATA[Returns a string representation of the exception.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="89" name="return" description="The exception as a string." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+    <parse_markers>
+      <critical line="38" code="50019">No short description for property $error_no</critical>
+      <critical line="43" code="50019">No short description for property $error_str</critical>
+    </parse_markers>
+  </file>
+  <file path="Stream.php" hash="108efdf15666c2c8f75ad94e2b81425f" package="PEAR2\Net\Transmitter">
+    <docblock line="3">
+      <description><![CDATA[Wrapper for network stream functionality.]]></description>
+      <long-description><![CDATA[<p>PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.</p>
+
+<p>This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).</p>
+
+<p>PHP version 5</p>]]></long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a3"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="PEAR2\Net\Transmitter" line="39" package="PEAR2\Net\Transmitter">
+      <extends/>
+      <name>Stream</name>
+      <full_name>\PEAR2\Net\Transmitter\Stream</full_name>
+      <docblock line="26">
+        <description><![CDATA[A stream transmitter.]]></description>
+        <long-description><![CDATA[<p>This is a convinience wrapper for stream functionality. Used to ensure data
+integrity. Designed for TCP sockets, but it has intentionally been made to
+accept any stream.</p>]]></long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+      <constant namespace="PEAR2\Net\Transmitter" line="44" package="PEAR2\Net\Transmitter">
+        <name>DIRECTION_NONE</name>
+        <full_name>DIRECTION_NONE</full_name>
+        <value><![CDATA[0]]></value>
+        <docblock line="41">
+          <description><![CDATA[Used to stop settings in either direction being applied.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="PEAR2\Net\Transmitter" line="48" package="PEAR2\Net\Transmitter">
+        <name>DIRECTION_RECEIVE</name>
+        <full_name>DIRECTION_RECEIVE</full_name>
+        <value><![CDATA[1]]></value>
+        <docblock line="45">
+          <description><![CDATA[Used to apply settings only to receiving.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="PEAR2\Net\Transmitter" line="52" package="PEAR2\Net\Transmitter">
+        <name>DIRECTION_SEND</name>
+        <full_name>DIRECTION_SEND</full_name>
+        <value><![CDATA[2]]></value>
+        <docblock line="49">
+          <description><![CDATA[Used to apply settings only to sending.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="PEAR2\Net\Transmitter" line="56" package="PEAR2\Net\Transmitter">
+        <name>DIRECTION_ALL</name>
+        <full_name>DIRECTION_ALL</full_name>
+        <value><![CDATA[3]]></value>
+        <docblock line="53">
+          <description><![CDATA[Used to apply settings to both sending and receiving.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </constant>
+      <property final="false" static="false" visibility="protected" line="61" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$stream</name>
+        <default><![CDATA[]]></default>
+        <docblock line="58">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="58" name="var" description="The stream to wrap around." type="resource">
+            <type by_reference="false">resource</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="66" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$persist</name>
+        <default><![CDATA[]]></default>
+        <docblock line="63">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="63" name="var" description="A flag that tells whether or not the stream is persistent." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="72" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$chunkSize</name>
+        <default><![CDATA[array(self::DIRECTION_SEND => 1048575, self::DIRECTION_RECEIVE => 1048575)]]></default>
+        <docblock line="68">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="68" name="var" description="An associative array with the chunk size of each direction. Key is the direction, value is the size in bytes as integer." type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="83" package="PEAR2\Net\Transmitter">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="76">
+          <description><![CDATA[Wraps around the specified stream.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="76" name="param" description="The stream to wrap around." type="resource" variable="$stream">
+            <type by_reference="false">resource</type>
+          </tag>
+          <tag line="76" name="see" description="\PEAR2\Net\Transmitter\isFresh()" refers="\PEAR2\Net\Transmitter\isFresh()"/>
+        </docblock>
+        <argument line="83">
+          <name>$stream</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="PEAR2\Net\Transmitter" line="101" package="PEAR2\Net\Transmitter">
+        <name>isStream</name>
+        <full_name>isStream</full_name>
+        <docblock line="94">
+          <description><![CDATA[Checks if a given variable is a stream resource.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="94" name="param" description="The variable to check." type="mixed" variable="$var">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="94" name="return" description="TRUE on success, FALSE on failure." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="101">
+          <name>$var</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="116" package="PEAR2\Net\Transmitter">
+        <name>isFresh</name>
+        <full_name>isFresh</full_name>
+        <docblock line="107">
+          <description><![CDATA[Checks whether the wrapped stream is fresh.]]></description>
+          <long-description><![CDATA[<p>Checks whether the wrapped stream is fresh. A stream is considered fresh
+if there hasn't been any activity on it. Particularly useful for
+detecting reused persistent connections.</p>]]></long-description>
+          <tag line="107" name="return" description="TRUE if the socket is fresh, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="126" package="PEAR2\Net\Transmitter">
+        <name>isPersistent</name>
+        <full_name>isPersistent</full_name>
+        <docblock line="121">
+          <description><![CDATA[Checks whether the wrapped stream is a persistent one.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="121" name="return" description="TRUE if the stream is a persistent one, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="140" package="PEAR2\Net\Transmitter">
+        <name>setTimeout</name>
+        <full_name>setTimeout</full_name>
+        <docblock line="131">
+          <description><![CDATA[Sets the timeout for the stream.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="131" name="param" description="Timeout in seconds." type="int" variable="$seconds">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="131" name="param" description="Timeout in microseconds to be added to the seconds." type="int" variable="$microseconds">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="131" name="return" description="TRUE on success, FALSE on failure." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="140">
+          <name>$seconds</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="140">
+          <name>$microseconds</name>
+          <default><![CDATA[0]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="154" package="PEAR2\Net\Transmitter">
+        <name>setBuffer</name>
+        <full_name>setBuffer</full_name>
+        <docblock line="145">
+          <description><![CDATA[Sets the size of a stream's buffer.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="145" name="param" description="The desired size of the buffer, in bytes." type="int" variable="$size">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="145" name="param" description="The buffer of which direction to set. Valid values are the DIRECTION_* constants." type="string" variable="$direction">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="145" name="return" description="TRUE on success, FALSE on failure." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="154">
+          <name>$size</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="154">
+          <name>$direction</name>
+          <default><![CDATA[self::DIRECTION_ALL]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="181" package="PEAR2\Net\Transmitter">
+        <name>setChunk</name>
+        <full_name>setChunk</full_name>
+        <docblock line="168">
+          <description><![CDATA[Sets the size of the chunk.]]></description>
+          <long-description><![CDATA[<p>To ensure data integrity, as well as to allow for lower memory
+consumption, data is sent/received in chunks. This function
+allows you to set the size of each chunk. The default is 0xFFFFF.</p>]]></long-description>
+          <tag line="168" name="param" description="The desired size of the chunk, in bytes." type="int" variable="$size">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="168" name="param" description="The chunk of which direction to set. Valid values are the DIRECTION_* constants." type="string" variable="$direction">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="168" name="return" description="TRUE on success, FALSE on failure." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="181">
+          <name>$size</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="181">
+          <name>$direction</name>
+          <default><![CDATA[self::DIRECTION_ALL]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="209" package="PEAR2\Net\Transmitter">
+        <name>getChunk</name>
+        <full_name>getChunk</full_name>
+        <docblock line="200">
+          <description><![CDATA[Gets the size of the chunk.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="200" name="param" description="The chunk of which direction to get. Valid values are the DIRECTION_* constants." type="string" variable="$direction">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="200" name="return" description="The chunk size in bytes, or an array of chunk sizes with the directions as keys. FALSE on invalid direction." type="int|array">
+            <type by_reference="false">int</type>
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+        <argument line="209">
+          <name>$direction</name>
+          <default><![CDATA[self::DIRECTION_ALL]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="237" package="PEAR2\Net\Transmitter">
+        <name>send</name>
+        <full_name>send</full_name>
+        <docblock line="221">
+          <description><![CDATA[Sends a string or stream over the wrapped stream.]]></description>
+          <long-description><![CDATA[<p>Sends a string or stream over the wrapped stream. If a seekable stream is
+provided, it will be seeked back to the same position it was passed as,
+regardless of the $offset parameter.</p>]]></long-description>
+          <tag line="221" name="param" description="The string or stream to send." type="string|resource" variable="$contents">
+            <type by_reference="false">string</type>
+            <type by_reference="false">resource</type>
+          </tag>
+          <tag line="221" name="param" description="The offset from which to start sending. If a stream is provided, and this is set to NULL, sending will start from the current stream position." type="int" variable="$offset">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="221" name="param" description="The maximum length to send. If omitted, the string/stream will be sent to its end." type="int" variable="$length">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="221" name="return" description="The number of bytes sent." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+        <argument line="237">
+          <name>$contents</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="237">
+          <name>$offset</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="237">
+          <name>$length</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="310" package="PEAR2\Net\Transmitter">
+        <name>receive</name>
+        <full_name>receive</full_name>
+        <docblock line="299">
+          <description><![CDATA[Reads from the wrapped stream to receive.]]></description>
+          <long-description><![CDATA[<p>Reads from the wrapped stream to receive content as a string.</p>]]></long-description>
+          <tag line="299" name="param" description="The number of bytes to receive." type="int" variable="$length">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="299" name="param" description="Descriptive string about what is being received (used in exception messages)." type="string" variable="$what">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="299" name="return" description="The received content." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="310">
+          <name>$length</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="310">
+          <name>$what</name>
+          <default><![CDATA['data']]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="346" package="PEAR2\Net\Transmitter">
+        <name>receiveStream</name>
+        <full_name>receiveStream</full_name>
+        <docblock line="332">
+          <description><![CDATA[Reads from the wrapped stream to receive.]]></description>
+          <long-description><![CDATA[<p>Reads from the wrapped stream to receive content as a stream.</p>]]></long-description>
+          <tag line="332" name="param" description="The number of bytes to receive." type="int" variable="$length">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="332" name="param" description="A collection of filters to apply to the stream while receiving. Note that the filters will not be present on the stream after receiving is done." type="\PEAR2\Net\Transmitter\FilterCollection" variable="$filters">
+            <type by_reference="false">\PEAR2\Net\Transmitter\FilterCollection</type>
+          </tag>
+          <tag line="332" name="param" description="Descriptive string about what is being received (used in exception messages)." type="string" variable="$what">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="332" name="return" description="The received content." type="resource">
+            <type by_reference="false">resource</type>
+          </tag>
+        </docblock>
+        <argument line="347">
+          <name>$length</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="347">
+          <name>$filters</name>
+          <default><![CDATA[null]]></default>
+          <type>\PEAR2\Net\Transmitter\FilterCollection</type>
+        </argument>
+        <argument line="347">
+          <name>$what</name>
+          <default><![CDATA['stream data']]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="388" package="PEAR2\Net\Transmitter">
+        <name>isAvailable</name>
+        <full_name>isAvailable</full_name>
+        <docblock line="383">
+          <description><![CDATA[Checks whether the stream is available for operations.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="383" name="return" description="TRUE if the stream is available, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="398" package="PEAR2\Net\Transmitter">
+        <name>isDataAwaiting</name>
+        <full_name>isDataAwaiting</full_name>
+        <docblock line="393">
+          <description><![CDATA[Checks whether there is data to be read from the wrapped stream.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="393" name="return" description="TRUE if there is data to be read, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="410" package="PEAR2\Net\Transmitter">
+        <name>isAcceptingData</name>
+        <full_name>isAcceptingData</full_name>
+        <docblock line="403">
+          <description><![CDATA[Checks whether the wrapped stream can be written to without a block.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="403" name="return" description="TRUE if the wrapped stream would not block on a write, FALSE otherwise." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="403" name="SuppressWarnings" description="(PHPMD.ShortVariable)"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="421" package="PEAR2\Net\Transmitter">
+        <name>__destruct</name>
+        <full_name>__destruct</full_name>
+        <docblock line="418">
+          <description><![CDATA[Closes the opened stream, unless it's a persistent one.]]></description>
+          <long-description><![CDATA[]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="433" package="PEAR2\Net\Transmitter">
+        <name>close</name>
+        <full_name>close</full_name>
+        <docblock line="428">
+          <description><![CDATA[Closes the opened stream, even if it is a persistent one.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="428" name="return" description="TRUE on success, FALSE on failure." type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="PEAR2\Net\Transmitter" line="449" package="PEAR2\Net\Transmitter">
+        <name>createException</name>
+        <full_name>createException</full_name>
+        <docblock line="438">
+          <description><![CDATA[Creates a new exception.]]></description>
+          <long-description><![CDATA[<p>Creates a new exception. Used by the rest of the functions in this class.
+Override in derived classes for custom exception handling.</p>]]></long-description>
+          <tag line="438" name="param" description="The exception message." type="string" variable="$message">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="438" name="param" description="The exception code." type="int" variable="$code">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="438" name="return" description="The exception to then be thrown." type="\PEAR2\Net\Transmitter\StreamException">
+            <type by_reference="false">\PEAR2\Net\Transmitter\StreamException</type>
+          </tag>
+        </docblock>
+        <argument line="449">
+          <name>$message</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="449">
+          <name>$code</name>
+          <default><![CDATA[0]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <parse_markers>
+      <critical line="58" code="50019">No short description for property $stream</critical>
+      <critical line="63" code="50019">No short description for property $persist</critical>
+      <critical line="68" code="50019">No short description for property $chunkSize</critical>
+    </parse_markers>
+  </file>
+  <file path="StreamException.php" hash="7b72bfadb38826467ef6fdbd6725656d" package="PEAR2\Net\Transmitter">
+    <docblock line="3">
+      <description><![CDATA[Wrapper for network stream functionality.]]></description>
+      <long-description><![CDATA[<p>PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.</p>
+
+<p>This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).</p>
+
+<p>PHP version 5</p>]]></long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a3"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="PEAR2\Net\Transmitter" line="35" package="PEAR2\Net\Transmitter">
+      <extends>\RuntimeException</extends>
+      <implements>\PEAR2\Net\Transmitter\Exception</implements>
+      <name>StreamException</name>
+      <full_name>\PEAR2\Net\Transmitter\StreamException</full_name>
+      <docblock line="26">
+        <description><![CDATA[Exception thrown when something goes wrong with the connection.]]></description>
+        <long-description><![CDATA[]]></long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+    </class>
+  </file>
+  <file path="TcpClient.php" hash="89559e2f438a98d1ed6326986de38c8d" package="PEAR2\Net\Transmitter">
+    <docblock line="3">
+      <description><![CDATA[Wrapper for network stream functionality.]]></description>
+      <long-description><![CDATA[<p>PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.</p>
+
+<p>This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).</p>
+
+<p>PHP version 5</p>]]></long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a3"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <namespace-alias name="SHM">PEAR2\Cache\SHM</namespace-alias>
+    <class final="false" abstract="false" namespace="PEAR2\Net\Transmitter" line="43" package="PEAR2\Net\Transmitter">
+      <extends>\PEAR2\Net\Transmitter\NetworkStream</extends>
+      <name>TcpClient</name>
+      <full_name>\PEAR2\Net\Transmitter\TcpClient</full_name>
+      <docblock line="31">
+        <description><![CDATA[A socket transmitter.]]></description>
+        <long-description><![CDATA[<p>This is a convinience wrapper for socket functionality. Used to ensure data
+integrity.</p>]]></long-description>
+        <tag line="31" name="category" description="Net"/>
+        <tag line="31" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="31" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="31" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="31" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="49" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$error_no</name>
+        <default><![CDATA[null]]></default>
+        <docblock line="46">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="46" name="var" description="The error code of the last error on the socket." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="54" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$error_str</name>
+        <default><![CDATA[null]]></default>
+        <docblock line="51">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="51" name="var" description="The error message of the last error on the socket." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="60" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$shmHandler</name>
+        <default><![CDATA[null]]></default>
+        <docblock line="56">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="56" name="var" description="Persistent connection handler. Remains NULL for non-persistent connections." type="\PEAR2\Cache\SHM">
+            <type by_reference="false">\PEAR2\Cache\SHM</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="true" visibility="protected" line="66" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$lockState</name>
+        <default><![CDATA[array()]]></default>
+        <docblock line="62">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="62" name="var" description="An array with all connections from this PHP request (as keys) and their lock state (as a value)." type="array">
+            <type by_reference="false">array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="71" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$uri</name>
+        <default><![CDATA[]]></default>
+        <docblock line="68">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="68" name="var" description="The URI of this connection." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="85" package="PEAR2\Net\Transmitter">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="73">
+          <description><![CDATA[Creates a new connection with the specified options.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="73" name="param" description="Hostname (IP or domain) of the server." type="string" variable="$host">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="73" name="param" description="The port on the server." type="int" variable="$port">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="73" name="param" description="Whether or not the connection should be a persistent one." type="bool" variable="$persist">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="73" name="param" description="The timeout for the connection." type="float" variable="$timeout">
+            <type by_reference="false">float</type>
+          </tag>
+          <tag line="73" name="param" description="A string that uniquely identifies the connection." type="string" variable="$key">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="73" name="param" description="A context for the socket." type="resource" variable="$context">
+            <type by_reference="false">resource</type>
+          </tag>
+        </docblock>
+        <argument line="85">
+          <name>$host</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="85">
+          <name>$port</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="85">
+          <name>$persist</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+        <argument line="86">
+          <name>$timeout</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="86">
+          <name>$key</name>
+          <default><![CDATA['']]></default>
+          <type/>
+        </argument>
+        <argument line="86">
+          <name>$context</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="PEAR2\Net\Transmitter" line="138" package="PEAR2\Net\Transmitter">
+        <name>createException</name>
+        <full_name>createException</full_name>
+        <docblock line="128">
+          <description><![CDATA[Creates a new exception.]]></description>
+          <long-description><![CDATA[<p>Creates a new exception. Used by the rest of the functions in this class.</p>]]></long-description>
+          <tag line="128" name="param" description="The exception message." type="string" variable="$message">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="128" name="param" description="The exception code." type="int" variable="$code">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="128" name="return" description="The exception to then be thrown." type="\PEAR2\Net\Transmitter\SocketException">
+            <type by_reference="false">\PEAR2\Net\Transmitter\SocketException</type>
+          </tag>
+        </docblock>
+        <argument line="138">
+          <name>$message</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="138">
+          <name>$code</name>
+          <default><![CDATA[0]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="167" package="PEAR2\Net\Transmitter">
+        <name>lock</name>
+        <full_name>lock</full_name>
+        <docblock line="145">
+          <description><![CDATA[Locks transmission.]]></description>
+          <long-description><![CDATA[<p>Locks transmission in one or more directions. Useful when dealing with
+persistent connections. Note that every send/receive call implicitly
+calls this function and then restores it to the previous state. You only
+need to call this function if you need to do an uninterrputed sequence of
+such calls.</p>]]></long-description>
+          <tag line="145" name="param" description="The direction(s) to have locked. Acceptable values are the DIRECTION_* constants. If a lock for a direction can't be obtained immediatly, the function will block until one is aquired. Note that if you specify {@link DIRECTION_ALL}, the sending lock will be obtained before the receiving one, and if obtaining the receiving lock afterwards fails, the sending lock will be released too." type="int" variable="$direction">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="145" name="param" description="Whether to replace all locks with the specified ones. Setting this to FALSE will make the function only obtain the locks which are not already obtained." type="bool" variable="$replace">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="145" name="return" description="The previous state or FALSE if the connection is not persistent or arguments are invalid." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+        <argument line="167">
+          <name>$direction</name>
+          <default><![CDATA[self::DIRECTION_ALL]]></default>
+          <type/>
+        </argument>
+        <argument line="167">
+          <name>$replace</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="243" package="PEAR2\Net\Transmitter">
+        <name>send</name>
+        <full_name>send</full_name>
+        <docblock line="227">
+          <description><![CDATA[Sends a string or stream to the server.]]></description>
+          <long-description><![CDATA[<p>Sends a string or stream to the server. If a seekable stream is
+provided, it will be seeked back to the same position it was passed as,
+regardless of the $offset parameter.</p>]]></long-description>
+          <tag line="227" name="param" description="The string or stream to send." type="string|resource" variable="$contents">
+            <type by_reference="false">string</type>
+            <type by_reference="false">resource</type>
+          </tag>
+          <tag line="227" name="param" description="The offset from which to start sending. If a stream is provided, and this is set to NULL, sending will start from the current stream position." type="int" variable="$offset">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="227" name="param" description="The maximum length to send. If omitted, the string/stream will be sent to its end." type="int" variable="$length">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="227" name="return" description="The number of bytes sent." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+        <argument line="243">
+          <name>$contents</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="243">
+          <name>$offset</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="243">
+          <name>$length</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="268" package="PEAR2\Net\Transmitter">
+        <name>receive</name>
+        <full_name>receive</full_name>
+        <docblock line="257">
+          <description><![CDATA[Receives data from the server.]]></description>
+          <long-description><![CDATA[<p>Receives data from the server as a string.</p>]]></long-description>
+          <tag line="257" name="param" description="The number of bytes to receive." type="int" variable="$length">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="257" name="param" description="Descriptive string about what is being received (used in exception messages)." type="string" variable="$what">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="257" name="return" description="The received content." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="268">
+          <name>$length</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="268">
+          <name>$what</name>
+          <default><![CDATA['data']]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="296" package="PEAR2\Net\Transmitter">
+        <name>receiveStream</name>
+        <full_name>receiveStream</full_name>
+        <docblock line="282">
+          <description><![CDATA[Receives data from the server.]]></description>
+          <long-description><![CDATA[<p>Receives data from the server as a stream.</p>]]></long-description>
+          <tag line="282" name="param" description="The number of bytes to receive." type="int" variable="$length">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="282" name="param" description="A collection of filters to apply to the stream while receiving. Note that the filters will not be present on the stream after receiving is done." type="\PEAR2\Net\Transmitter\FilterCollection" variable="$filters">
+            <type by_reference="false">\PEAR2\Net\Transmitter\FilterCollection</type>
+          </tag>
+          <tag line="282" name="param" description="Descriptive string about what is being received (used in exception messages)." type="string" variable="$what">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="282" name="return" description="The received content." type="resource">
+            <type by_reference="false">resource</type>
+          </tag>
+        </docblock>
+        <argument line="297">
+          <name>$length</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="297">
+          <name>$filters</name>
+          <default><![CDATA[null]]></default>
+          <type>\PEAR2\Net\Transmitter\FilterCollection</type>
+        </argument>
+        <argument line="297">
+          <name>$what</name>
+          <default><![CDATA['stream data']]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <parse_markers>
+      <critical line="46" code="50019">No short description for property $error_no</critical>
+      <critical line="51" code="50019">No short description for property $error_str</critical>
+      <critical line="56" code="50019">No short description for property $shmHandler</critical>
+      <critical line="62" code="50019">No short description for property $lockState</critical>
+      <critical line="68" code="50019">No short description for property $uri</critical>
+    </parse_markers>
+  </file>
+  <file path="TcpServerConnection.php" hash="37dbabedd9fd3551ed899537b940b802" package="PEAR2\Net\Transmitter">
+    <docblock line="3">
+      <description><![CDATA[Wrapper for network stream functionality.]]></description>
+      <long-description><![CDATA[<p>PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.</p>
+
+<p>This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).</p>
+
+<p>PHP version 5</p>]]></long-description>
+      <tag line="3" name="category" description="Net"/>
+      <tag line="3" name="package" description="PEAR2_Net_Transmitter"/>
+      <tag line="3" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+      <tag line="3" name="copyright" description="2011 Vasil Rangelov"/>
+      <tag line="3" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+      <tag line="3" name="version" description="1.0.0a3"/>
+      <tag line="3" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="PEAR2\Net\Transmitter" line="40" package="PEAR2\Net\Transmitter">
+      <extends>\PEAR2\Net\Transmitter\NetworkStream</extends>
+      <name>TcpServerConnection</name>
+      <full_name>\PEAR2\Net\Transmitter\TcpServerConnection</full_name>
+      <docblock line="26">
+        <description><![CDATA[A transmitter for connections to a socket server.]]></description>
+        <long-description><![CDATA[<p>This is a convinience wrapper for functionality of socket server connections.
+Used to ensure data integrity. Server handling is not part of the class in
+order to allow its usage as part of various server implementations (e.g. fork
+and/or sequential).</p>]]></long-description>
+        <tag line="26" name="category" description="Net"/>
+        <tag line="26" name="package" description="PEAR2_Net_Transmitter"/>
+        <tag line="26" name="author" description="Vasil Rangelov &lt;boen.robot@gmail.com&gt;"/>
+        <tag line="26" name="license" description="http://www.gnu.org/copyleft/lesser.html LGPL License 2.1"/>
+        <tag line="26" name="link" description="http://pear2.php.net/PEAR2_Net_Transmitter" link="http://pear2.php.net/PEAR2_Net_Transmitter"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="46" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$peerIP</name>
+        <default><![CDATA[]]></default>
+        <docblock line="43">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="43" name="var" description="The IP address of the connected client." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="51" namespace="PEAR2\Net\Transmitter" package="Default">
+        <name>$peerPort</name>
+        <default><![CDATA[]]></default>
+        <docblock line="48">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="48" name="var" description="The port of the connected client." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="60" package="PEAR2\Net\Transmitter">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="53">
+          <description><![CDATA[Creates a new connection with the specified options.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="53" name="param" description="A socket server, created with {@link stream_socket_server()}." type="resource" variable="$server">
+            <type by_reference="false">resource</type>
+          </tag>
+          <tag line="53" name="param" description="The timeout for the connection." type="float" variable="$timeout">
+            <type by_reference="false">float</type>
+          </tag>
+        </docblock>
+        <argument line="60">
+          <name>$server</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="60">
+          <name>$timeout</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="93" package="PEAR2\Net\Transmitter">
+        <name>getPeerIP</name>
+        <full_name>getPeerIP</full_name>
+        <docblock line="88">
+          <description><![CDATA[Gets the IP address of the connected client.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="88" name="return" description="The IP address of the connected client." type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="PEAR2\Net\Transmitter" line="103" package="PEAR2\Net\Transmitter">
+        <name>getPeerPort</name>
+        <full_name>getPeerPort</full_name>
+        <docblock line="98">
+          <description><![CDATA[Gets the port of the connected client.]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="98" name="return" description="The port of the connected client." type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="PEAR2\Net\Transmitter" line="118" package="PEAR2\Net\Transmitter">
+        <name>createException</name>
+        <full_name>createException</full_name>
+        <docblock line="108">
+          <description><![CDATA[Creates a new exception.]]></description>
+          <long-description><![CDATA[<p>Creates a new exception. Used by the rest of the functions in this class.</p>]]></long-description>
+          <tag line="108" name="param" description="The exception message." type="string" variable="$message">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="108" name="param" description="The exception code." type="int" variable="$code">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="108" name="return" description="The exception to then be thrown." type="\PEAR2\Net\Transmitter\SocketException">
+            <type by_reference="false">\PEAR2\Net\Transmitter\SocketException</type>
+          </tag>
+        </docblock>
+        <argument line="118">
+          <name>$message</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="118">
+          <name>$code</name>
+          <default><![CDATA[0]]></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <parse_markers>
+      <critical line="43" code="50019">No short description for property $peerIP</critical>
+      <critical line="48" code="50019">No short description for property $peerPort</critical>
+    </parse_markers>
+  </file>
+  <package name="Default" full_name="Default"/>
+  <package name="PEAR2" full_name="PEAR2">
+    <package name="Net" full_name="PEAR2\Net">
+      <package name="Transmitter" full_name="PEAR2\Net\Transmitter"/>
+    </package>
+  </package>
+  <namespace name="PEAR2" full_name="PEAR2">
+    <namespace name="Net" full_name="PEAR2\Net">
+      <namespace name="Transmitter" full_name="PEAR2\Net\Transmitter"/>
+    </namespace>
+  </namespace>
+  <marker count="0">todo</marker>
+  <marker count="0">fixme</marker>
+  <deprecated count="0"/>
+</project>
