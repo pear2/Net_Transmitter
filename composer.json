@@ -1,0 +1,43 @@
+{
+    "name": "pear2/net_transmitter",
+    "description": "A stream wrapper that ensures data integrity. Particularly useful for sockets.",
+    "keywords": ["integrity", "sockets", "networking", "pear2", "package", "network", "socket"],
+    "homepage": "http://pear2.github.com/Net_Transmitter/",
+    "license": "LGPL-2.1",
+    "authors": [
+        {
+            "name": "Vasil Rangelov",
+            "email": "boen.robot@gmail.com",
+            "role": "lead"
+        }
+    ],
+    "support": {
+        "issues": "http://github.com/pear2/Net_Transmitter/issues",
+        "wiki": "http://github.com/pear2/Net_Transmitter/wiki"
+    },
+    "require": {
+        "php": ">=5.3.0",
+        "pear2/cache_shm": "@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "PEAR2\\Net\\Transmitter\\": "src/",
+            "PEAR2\\Cache\\SHM": "vendor/pear2/cache_shm/src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "pear2/cache_shm",
+                "version": "@dev",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/pear2/Cache_SHM.git",
+                    "reference": "master"
+                }
+            }
+        }
+    ]
+}
