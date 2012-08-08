@@ -1,0 +1,14 @@
+source: ../src
+
+destination: PEAR2_Net_Transmitter__ApiGen_Documentation
+
+extensions: php
+
+charset: UTF-8
+
+title: PEAR2_Net_Transmitter documentation
+
+autocomplete:
+    - classes
+    - methods
+    - classconstants
