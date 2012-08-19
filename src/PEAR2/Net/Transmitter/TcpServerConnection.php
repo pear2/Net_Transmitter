@@ -57,7 +57,7 @@ class TcpServerConnection extends NetworkStream
     public function __construct($server, $timeout = null)
     {
         if (!self::isStream($server)) {
-            throw $this->createException('Invalid server supplied.', 8);
+            throw $this->createException('Invalid server supplied.', 9);
         }
         $timeout
             = null == $timeout ? ini_get('default_socket_timeout') : $timeout;
@@ -78,7 +78,9 @@ class TcpServerConnection extends NetworkStream
             }
             $this->peerIP = $ipString;
         } catch (Exception $e) {
-            throw $this->createException('Failed to initialize connection.', 9);
+            throw $this->createException(
+                'Failed to initialize connection.', 10
+            );
         }
     }
     

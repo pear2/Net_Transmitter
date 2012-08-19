@@ -43,7 +43,7 @@ class TcpClient extends NetworkStream
     /**
      * @var int The error code of the last error on the socket.
      */
-    protected $error_no = null;
+    protected $error_no = 0;
 
     /**
      * @var string The error message of the last error on the socket.
@@ -112,7 +112,10 @@ class TcpClient extends NetworkStream
                 )
             );
         } catch (\Exception $e) {
-            throw $this->createException('Failed to initialize socket.', 7);
+            if (0 === $this->error_no) {
+                throw $this->createException('Failed to initialize socket.', 7);
+            }
+            throw $this->createException('Failed to connect with socket.', 8);
         }
         if ($persist) {
             $this->shmHandler = SHM::factory(

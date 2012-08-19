@@ -127,7 +127,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             $this->fail('Client creation had to fail.');
         } catch(SocketException $e)
         {
-            $this->assertEquals(7, $e->getCode(), 'Improper exception code.');
+            $this->assertEquals(8, $e->getCode(), 'Improper exception code.');
             $this->assertEquals(
                 10061, $e->getSocketErrorNumber(), 'Improper exception code.'
             );
@@ -137,9 +137,23 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             $this->fail('Client creation had to fail.');
         } catch(SocketException $e)
         {
-            $this->assertEquals(7, $e->getCode(), 'Improper exception code.');
+            $this->assertEquals(8, $e->getCode(), 'Improper exception code.');
             $this->assertEquals(
                 10061, $e->getSocketErrorNumber(), 'Improper exception code.'
+            );
+        }
+    }
+    
+    public function testInvalidClient()
+    {
+        try {
+            new C('@', REMOTE_PORT);
+            $this->fail('Client creation had to fail.');
+        } catch(SocketException $e)
+        {
+            $this->assertEquals(7, $e->getCode(), 'Improper exception code.');
+            $this->assertEquals(
+                0, $e->getSocketErrorNumber(), 'Improper exception code.'
             );
         }
     }
@@ -151,7 +165,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             $this->fail('Server creation had to fail.');
         } catch(SocketException $e)
         {
-            $this->assertEquals(8, $e->getCode(), 'Improper exception code.');
+            $this->assertEquals(9, $e->getCode(), 'Improper exception code.');
         }
     }
     
@@ -167,7 +181,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             $this->fail('Server creation had to fail.');
         } catch(SocketException $e)
         {
-            $this->assertEquals(9, $e->getCode(), 'Improper exception code.');
+            $this->assertEquals(10, $e->getCode(), 'Improper exception code.');
         }
     }
 }
