@@ -224,5 +224,4 @@ class FilterCollection implements \SeekableIterator, \Countable
     {
         return array_key_exists($this->position, $this->filters);
     }
-
 }

@@ -40,15 +40,18 @@ $srcFileTasks = array(
 
 
 $package->files['tests/bootstrap.php'] = array_merge_recursive(
-    $package->files['tests/bootstrap.php']->getArrayCopy(), $srcDirTask
+    $package->files['tests/bootstrap.php']->getArrayCopy(),
+    $srcDirTask
 );
 
 $package->files['docs/phpdoc.dist.xml'] = array_merge_recursive(
-    $package->files['docs/phpdoc.dist.xml']->getArrayCopy(), $srcDirTask
+    $package->files['docs/phpdoc.dist.xml']->getArrayCopy(),
+    $srcDirTask
 );
 
 $package->files['docs/doxygen.ini'] = array_merge_recursive(
-    $package->files['docs/doxygen.ini']->getArrayCopy(), $srcDirTask,
+    $package->files['docs/doxygen.ini']->getArrayCopy(),
+    $srcDirTask,
     array(
         'tasks:replace' => array(
             array(
@@ -70,7 +73,8 @@ if ($hasCompatible) {
         ] = array_merge_recursive(
             $compatible->files[
             "test/{$package->channel}/{$package->name}/bootstrap.php"
-            ]->getArrayCopy(), $srcDirTask
+            ]->getArrayCopy(),
+            $srcDirTask
         );
 
     $compatible->files[
@@ -78,14 +82,16 @@ if ($hasCompatible) {
         ] = array_merge_recursive(
             $compatible->files[
             "doc/{$package->channel}/{$package->name}/phpdoc.dist.xml"
-            ]->getArrayCopy(), $srcDirTask
+            ]->getArrayCopy(),
+            $srcDirTask
         );
 
     $compatible->files["doc/{$package->channel}/{$package->name}/doxygen.ini"]
         = array_merge_recursive(
             $compatible->files[
             "doc/{$package->channel}/{$package->name}/doxygen.ini"
-            ]->getArrayCopy(), $srcDirTask,
+            ]->getArrayCopy(),
+            $srcDirTask,
             array(
                 'tasks:replace' => array(
                     array(
@@ -113,7 +119,8 @@ foreach (
         $filename = $path->getPathname();
         
         $package->files[$filename] = array_merge_recursive(
-            $package->files[$filename]->getArrayCopy(), $srcFileTasks
+            $package->files[$filename]->getArrayCopy(),
+            $srcFileTasks
         );
         
     if ($hasCompatible) {

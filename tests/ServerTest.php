@@ -30,7 +30,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             ? '[' . LOCAL_HOSTNAME . ']' : LOCAL_HOSTNAME;
         self::$server = stream_socket_server(
             "tcp://{$hostname}:" . LOCAL_PORT,
-            self::$errorno, self::$errstr
+            self::$errorno,
+            self::$errstr
         );
     }
     
@@ -42,7 +43,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->conn = new TcpServerConnection(
-            self::$server, 1/*h*/ * 60/*m*/ * 60/*s*/
+            self::$server,
+            1/*h*/ * 60/*m*/ * 60/*s*/
         );
         $this->assertEquals(REMOTE_HOSTNAME, $this->conn->getPeerIP());
         $this->assertInternalType('int', $this->conn->getPeerPort());
@@ -56,7 +58,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testOneByteEcho()
     {
         $this->assertEquals(
-            1, $this->conn->send($this->conn->receive(1)),
+            1,
+            $this->conn->send($this->conn->receive(1)),
             'Wrong amount echoed.'
         );
     }
@@ -65,7 +68,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
         $this->assertEquals(
-            $size, $this->conn->send($this->conn->receive($size)),
+            $size,
+            $this->conn->send($this->conn->receive($size)),
             'Wrong amount echoed.'
         );
     }
@@ -76,7 +80,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         fwrite($stream, $this->conn->receive(1));
         rewind($stream);
         $this->assertEquals(
-            1, $this->conn->send($stream),
+            1,
+            $this->conn->send($stream),
             'Wrong amount echoed.'
         );
     }
@@ -88,7 +93,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         fwrite($stream, $this->conn->receive($size));
         rewind($stream);
         $this->assertEquals(
-            $size, $this->conn->send($stream),
+            $size,
+            $this->conn->send($stream),
             'Wrong amount echoed.'
         );
     }
@@ -162,7 +168,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         try {
             $this->conn->receive(2);
             $this->fail('Receiving had to fail.');
-        } catch(SocketException $e) {
+        } catch (SocketException $e) {
             $this->assertEquals(4, $e->getCode(), 'Improper exception code.');
         }
     }
@@ -172,7 +178,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         try {
             $this->conn->receiveStream(2);
             $this->fail('Receiving had to fail.');
-        } catch(SocketException $e) {
+        } catch (SocketException $e) {
             $this->assertEquals(5, $e->getCode(), 'Improper exception code.');
         }
     }
@@ -236,7 +242,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->conn->setChunk(1, Stream::DIRECTION_RECEIVE)
         );
         $this->assertEquals(
-            1, $this->conn->getChunk(Stream::DIRECTION_RECEIVE)
+            1,
+            $this->conn->getChunk(Stream::DIRECTION_RECEIVE)
         );
         $this->assertEquals(
             $defaultChunks[Stream::DIRECTION_SEND],
@@ -254,10 +261,12 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->conn->setChunk(1, Stream::DIRECTION_SEND)
         );
         $this->assertEquals(
-            1, $this->conn->getChunk(Stream::DIRECTION_SEND)
+            1,
+            $this->conn->getChunk(Stream::DIRECTION_SEND)
         );
         $this->assertEquals(
-            1, $this->conn->getChunk(Stream::DIRECTION_RECEIVE)
+            1,
+            $this->conn->getChunk(Stream::DIRECTION_RECEIVE)
         );
         $this->assertEquals(
             array(Stream::DIRECTION_RECEIVE => 1,Stream::DIRECTION_SEND => 1),
@@ -268,10 +277,12 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->conn->setChunk(2)
         );
         $this->assertEquals(
-            2, $this->conn->getChunk(Stream::DIRECTION_SEND)
+            2,
+            $this->conn->getChunk(Stream::DIRECTION_SEND)
         );
         $this->assertEquals(
-            2, $this->conn->getChunk(Stream::DIRECTION_RECEIVE)
+            2,
+            $this->conn->getChunk(Stream::DIRECTION_RECEIVE)
         );
         $this->assertEquals(
             array(Stream::DIRECTION_RECEIVE => 2,Stream::DIRECTION_SEND => 2),
@@ -288,7 +299,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         try {
             $this->conn->receive(1);
             $this->fail('Receiving had to fail.');
-        } catch(SocketException $e) {
+        } catch (SocketException $e) {
             $this->assertEquals(4, $e->getCode(), 'Improper exception code.');
         }
     }

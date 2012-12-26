@@ -69,7 +69,9 @@ class TcpServerConnection extends NetworkStream
             $portString = strrchr($peername, ':');
             $this->peerPort = (int) substr($portString, 1);
             $ipString = substr(
-                $peername, 0, strlen($peername) - strlen($portString)
+                $peername,
+                0,
+                strlen($peername) - strlen($portString)
             );
             if (strpos($ipString, '[') === 0
                 && strpos(strrev($ipString), ']') === 0
@@ -79,7 +81,8 @@ class TcpServerConnection extends NetworkStream
             $this->peerIP = $ipString;
         } catch (Exception $e) {
             throw $this->createException(
-                'Failed to initialize connection.', 10
+                'Failed to initialize connection.',
+                10
             );
         }
     }
@@ -118,5 +121,4 @@ class TcpServerConnection extends NetworkStream
     {
         return new SocketException($message, $code);
     }
-
 }

@@ -31,5 +31,4 @@ namespace PEAR2\Net\Transmitter;
  */
 class StreamException extends \RuntimeException implements Exception
 {
-    
 }

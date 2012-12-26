@@ -31,5 +31,4 @@ namespace PEAR2\Net\Transmitter;
  */
 interface Exception
 {
-    
 }

@@ -52,8 +52,12 @@ class SocketException extends \RuntimeException implements Exception
      * @param int        $error_no  The system level error number.
      * @param string     $error_str The system level error message.
      */
-    public function __construct($message = '', $code = 0, $previous = null,
-        $error_no = null, $error_str = null
+    public function __construct(
+        $message = '',
+        $code = 0,
+        $previous = null,
+        $error_no = null,
+        $error_str = null
     ) {
         parent::__construct($message, $code, $previous);
         $this->error_no = $error_no;
@@ -100,6 +104,5 @@ class SocketException extends \RuntimeException implements Exception
         }
         return $result;
     }
-
     // @codeCoverageIgnoreEnd
 }

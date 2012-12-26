@@ -84,7 +84,8 @@ class Stream
         }
         $this->stream = $stream;
         $this->persist = (bool) preg_match(
-            '#\s?persistent\s?#sm', get_resource_type($stream)
+            '#\s?persistent\s?#sm',
+            get_resource_type($stream)
         );
     }
 
@@ -250,13 +251,16 @@ class Stream
                         break;
                     }
                     $bytesNow = @stream_copy_to_stream(
-                        $contents, $this->stream, $chunkSize
+                        $contents,
+                        $this->stream,
+                        $chunkSize
                     );
                     if (0 != $bytesNow) {
                         $bytes += $bytesNow;
                     } else {
                         throw $this->createException(
-                            'Failed while sending stream.', 2
+                            'Failed while sending stream.',
+                            2
                         );
                     }
                 }
@@ -278,13 +282,15 @@ class Stream
             while ($bytes < $bytesToSend) {
                 if ($this->isAcceptingData()) {
                     $bytesNow = @fwrite(
-                        $this->stream, substr($contents, $bytes, $chunkSize)
+                        $this->stream,
+                        substr($contents, $bytes, $chunkSize)
                     );
                     if (0 != $bytesNow) {
                         $bytes += $bytesNow;
                     } else {
                         throw $this->createException(
-                            'Failed while sending string.', 3
+                            'Failed while sending string.',
+                            3
                         );
                     }
                 }
@@ -320,7 +326,8 @@ class Stream
                 }
             }
             throw $this->createException(
-                "Failed while receiving {$what}", 4
+                "Failed while receiving {$what}",
+                4
             );
         }
         return $result;
@@ -341,14 +348,19 @@ class Stream
      * @return resource The received content.
      */
     public function receiveStream(
-        $length, FilterCollection $filters = null, $what = 'stream data'
+        $length,
+        FilterCollection $filters = null,
+        $what = 'stream data'
     ) {
         $result = fopen('php://temp', 'r+b');
         $appliedFilters = array();
         if (null !== $filters) {
             foreach ($filters as $filtername => $params) {
                 $appliedFilters[] = stream_filter_append(
-                    $result, $filtername, STREAM_FILTER_WRITE, $params
+                    $result,
+                    $filtername,
+                    STREAM_FILTER_WRITE,
+                    $params
                 );
             }
         }
@@ -366,7 +378,8 @@ class Stream
                 }
             }
             throw $this->createException(
-                "Failed while receiving {$what}", 5
+                "Failed while receiving {$what}",
+                5
             );
         }
         
@@ -447,5 +460,4 @@ class Stream
     {
         return new StreamException($message, $code);
     }
-
 }

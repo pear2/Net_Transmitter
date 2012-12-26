@@ -1,5 +1,6 @@
 <?php
 namespace PEAR2\Net\Transmitter;
+
 use PEAR2\Net\Transmitter\TcpClient as C;
 use PEAR2\Net\Transmitter\TcpServerConnection as SC;
 
@@ -110,12 +111,15 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
     {
         try {
             new C(
-                REMOTE_HOSTNAME, REMOTE_PORT, false, null, '',
+                REMOTE_HOSTNAME,
+                REMOTE_PORT,
+                false,
+                null,
+                '',
                 fopen('php://input', 'r')
             );
             $this->fail('Client creation had to fail.');
-        } catch(SocketException $e)
-        {
+        } catch (SocketException $e) {
             $this->assertEquals(6, $e->getCode(), 'Improper exception code.');
         }
     }
@@ -125,21 +129,23 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
         try {
             new C(SILENT_HOSTNAME, REMOTE_PORT);
             $this->fail('Client creation had to fail.');
-        } catch(SocketException $e)
-        {
+        } catch (SocketException $e) {
             $this->assertEquals(8, $e->getCode(), 'Improper exception code.');
             $this->assertEquals(
-                10061, $e->getSocketErrorNumber(), 'Improper exception code.'
+                10061,
+                $e->getSocketErrorNumber(),
+                'Improper exception code.'
             );
         }
         try {
             new C(REMOTE_HOSTNAME, SILENT_PORT);
             $this->fail('Client creation had to fail.');
-        } catch(SocketException $e)
-        {
+        } catch (SocketException $e) {
             $this->assertEquals(8, $e->getCode(), 'Improper exception code.');
             $this->assertEquals(
-                10061, $e->getSocketErrorNumber(), 'Improper exception code.'
+                10061,
+                $e->getSocketErrorNumber(),
+                'Improper exception code.'
             );
         }
     }
@@ -149,11 +155,12 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
         try {
             new C('@', REMOTE_PORT);
             $this->fail('Client creation had to fail.');
-        } catch(SocketException $e)
-        {
+        } catch (SocketException $e) {
             $this->assertEquals(7, $e->getCode(), 'Improper exception code.');
             $this->assertEquals(
-                0, $e->getSocketErrorNumber(), 'Improper exception code.'
+                0,
+                $e->getSocketErrorNumber(),
+                'Improper exception code.'
             );
         }
     }
@@ -163,8 +170,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
         try {
             new SC('not a server', 1/*h*/ * 60/*m*/ * 60/*s*/);
             $this->fail('Server creation had to fail.');
-        } catch(SocketException $e)
-        {
+        } catch (SocketException $e) {
             $this->assertEquals(9, $e->getCode(), 'Improper exception code.');
         }
     }
@@ -179,8 +185,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
                 2
             );
             $this->fail('Server creation had to fail.');
-        } catch(SocketException $e)
-        {
+        } catch (SocketException $e) {
             $this->assertEquals(10, $e->getCode(), 'Improper exception code.');
         }
     }

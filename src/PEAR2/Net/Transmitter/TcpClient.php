@@ -79,8 +79,13 @@ class TcpClient extends NetworkStream
      * connection.
      * @param resource $context A context for the socket.
      */
-    public function __construct($host, $port, $persist = false,
-        $timeout = null, $key = '', $context = null
+    public function __construct(
+        $host,
+        $port,
+        $persist = false,
+        $timeout = null,
+        $key = '',
+        $context = null
     ) {
         if (strpos($host, ':') !== false) {
             $host = "[{$host}]";
@@ -107,8 +112,12 @@ class TcpClient extends NetworkStream
         try {
             parent::__construct(
                 @stream_socket_client(
-                    $this->uri, $this->error_no, $this->error_str,
-                    $timeout, $flags, $context
+                    $this->uri,
+                    $this->error_no,
+                    $this->error_str,
+                    $timeout,
+                    $flags,
+                    $context
                 )
             );
         } catch (\Exception $e) {
@@ -138,7 +147,11 @@ class TcpClient extends NetworkStream
     protected function createException($message, $code = 0)
     {
         return new SocketException(
-            $message, $code, null, $this->error_no, $this->error_str
+            $message,
+            $code,
+            null,
+            $this->error_no,
+            $this->error_str
         );
     }
     
@@ -210,7 +223,7 @@ class TcpClient extends NetworkStream
                         );
                     }
                 }
-            } catch(LockException $e) {
+            } catch (LockException $e) {
                 if ($direction & self::DIRECTION_SEND
                     && !($old & self::DIRECTION_SEND)
                 ) {
@@ -246,7 +259,8 @@ class TcpClient extends NetworkStream
             && $this->persist
         ) {
             throw $this->createException(
-                'Unable to obtain sending lock', 10
+                'Unable to obtain sending lock',
+                10
             );
         }
         $result = parent::send($contents, $offset, $length);
@@ -271,7 +285,8 @@ class TcpClient extends NetworkStream
             && $this->persist
         ) {
             throw $this->createException(
-                'Unable to obtain receiving lock', 9
+                'Unable to obtain receiving lock',
+                9
             );
         }
         $result = parent::receive($length, $what);
@@ -294,13 +309,16 @@ class TcpClient extends NetworkStream
      * @return resource The received content.
      */
     public function receiveStream(
-        $length, FilterCollection $filters = null, $what = 'stream data'
+        $length,
+        FilterCollection $filters = null,
+        $what = 'stream data'
     ) {
         if (false === ($previousState = $this->lock(self::DIRECTION_RECEIVE))
             && $this->persist
         ) {
             throw $this->createException(
-                'Unable to obtain receiving lock', 9
+                'Unable to obtain receiving lock',
+                9
             );
         }
         $result = parent::receiveStream($length, $filters, $what);
