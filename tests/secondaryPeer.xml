@@ -27,6 +27,8 @@
         -->
         <const name="LOCAL_HOSTNAME" value="::1" />
         <const name="LOCAL_PORT" value="6666" />
+
+        <ini name="default_socket_timeout" value="2" />
     </php>
     <testsuites>
         <testsuite name="All tests">

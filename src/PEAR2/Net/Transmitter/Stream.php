@@ -244,26 +244,25 @@ class Stream
                 fseek($contents, $offset, SEEK_SET);
             }
             while (!feof($contents)) {
-                if ($this->isAcceptingData()) {
-                    if ($lengthIsNotNull
-                        && 0 === $chunkSize = min($chunkSize, $length - $bytes)
-                    ) {
-                        break;
-                    }
-                    $bytesNow = @stream_copy_to_stream(
-                        $contents,
-                        $this->stream,
-                        $chunkSize
-                    );
-                    if (0 != $bytesNow) {
-                        $bytes += $bytesNow;
-                    } else {
-                        throw $this->createException(
-                            'Failed while sending stream.',
-                            2
-                        );
-                    }
+                if ($lengthIsNotNull
+                    && 0 === $chunkSize = min($chunkSize, $length - $bytes)
+                ) {
+                    break;
                 }
+                $bytesNow = @stream_copy_to_stream(
+                    $contents,
+                    $this->stream,
+                    $chunkSize
+                );
+                if (0 != $bytesNow) {
+                    $bytes += $bytesNow;
+                } else {
+                    throw $this->createException(
+                        'Failed while sending stream.',
+                        2
+                    );
+                }
+                $this->isAcceptingData(null);
             }
             if ($offsetIsNotNull) {
                 fseek($contents, $oldPos, SEEK_SET);
@@ -280,20 +279,19 @@ class Stream
             }
             $bytesToSend = (double) sprintf('%u', strlen($contents));
             while ($bytes < $bytesToSend) {
-                if ($this->isAcceptingData()) {
-                    $bytesNow = @fwrite(
-                        $this->stream,
-                        substr($contents, $bytes, $chunkSize)
+                $bytesNow = @fwrite(
+                    $this->stream,
+                    substr($contents, $bytes, $chunkSize)
+                );
+                if (0 != $bytesNow) {
+                    $bytes += $bytesNow;
+                } else {
+                    throw $this->createException(
+                        'Failed while sending string.',
+                        3
                     );
-                    if (0 != $bytesNow) {
-                        $bytes += $bytesNow;
-                    } else {
-                        throw $this->createException(
-                            'Failed while sending string.',
-                            3
-                        );
-                    }
                 }
+                $this->isAcceptingData(null);
             }
         }
         return $bytes;
@@ -315,14 +313,12 @@ class Stream
         $result = '';
         $chunkSize = $this->chunkSize[self::DIRECTION_RECEIVE];
         while ($length > 0) {
-            if ($this->isAvailable()) {
-                while ($this->isDataAwaiting()) {
-                    $fragment = fread($this->stream, min($length, $chunkSize));
-                    if ('' !== $fragment) {
-                        $length -= strlen($fragment);
-                        $result .= $fragment;
-                        continue 2;
-                    }
+            while ($this->isAvailable()) {
+                $fragment = fread($this->stream, min($length, $chunkSize));
+                if ('' !== $fragment) {
+                    $length -= strlen($fragment);
+                    $result .= $fragment;
+                    continue 2;
                 }
             }
             throw $this->createException(
@@ -367,14 +363,12 @@ class Stream
         
         $chunkSize = $this->chunkSize[self::DIRECTION_RECEIVE];
         while ($length > 0) {
-            if ($this->isAvailable()) {
-                while ($this->isDataAwaiting()) {
-                    $fragment = fread($this->stream, min($length, $chunkSize));
-                    if ('' !== $fragment) {
-                        $length -= strlen($fragment);
-                        fwrite($result, $fragment);
-                        continue 2;
-                    }
+            while ($this->isAvailable()) {
+                $fragment = fread($this->stream, min($length, $chunkSize));
+                if ('' !== $fragment) {
+                    $length -= strlen($fragment);
+                    fwrite($result, $fragment);
+                    continue 2;
                 }
             }
             throw $this->createException(
@@ -403,26 +397,55 @@ class Stream
     /**
      * Checks whether there is data to be read from the wrapped stream.
      * 
+     * @param int|null $timeout_s  If theere isn't data awaiting currently,
+     * wait for it this many seconds for data to arrive. If NULL is
+     * specified, wait indefinetly for that.
+     * @param int      $timeout_us Microseconds to add to the waiting time.
+     * 
      * @return bool TRUE if there is data to be read, FALSE otherwise.
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
-    public function isDataAwaiting()
+    public function isDataAwaiting($timeout_s = 0, $timeout_us = 0)
     {
-        return $this->isAvailable();
+        if ($this->isAvailable()) {
+            $w = $e = null;
+            $r = array($this->stream);
+            //$meta = stream_get_meta_data($this->stream);
+            return 1 === @/* due to PHP bug #54563 */stream_select(
+                $r,
+                $w,
+                $e,
+                $timeout_s,
+                $timeout_us
+            );
+        }
+        return false;
     }
 
     /**
      * Checks whether the wrapped stream can be written to without a block.
      * 
+     * @param int|null $timeout_s  If the stream isn't currently accepting data,
+     * wait for it this many seconds to start accepting data. If NULL is
+     * specified, wait indefinetly for that.
+     * @param int      $timeout_us Microseconds to add to the waiting time.
+     * 
      * @return bool TRUE if the wrapped stream would not block on a write, FALSE
      * otherwise.
      * @SuppressWarnings(PHPMD.ShortVariable)
      */
-    public function isAcceptingData()
+    public function isAcceptingData($timeout_s = 0, $timeout_us = 0)
     {
         $r = $e = null;
         $w = array($this->stream);
         return self::isStream($this->stream)
-            && 1 === @/* due to PHP bug #54563 */stream_select($r, $w, $e, 0);
+            && 1 === @/* due to PHP bug #54563 */stream_select(
+                $r,
+                $w,
+                $e,
+                $timeout_s,
+                $timeout_us
+            );
     }
 
     /**

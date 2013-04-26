@@ -63,10 +63,29 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             'Wrong amount echoed.'
         );
     }
+
+    public function testOneByteDelayedEcho()
+    {
+        $byte = $this->conn->receive(1);
+        sleep(ini_get('default_socket_timeout') + 1);
+        $this->assertEquals(
+            1,
+            $this->conn->send($byte),
+            'Wrong amount echoed.'
+        );
+    }
+
+    public function testOneByteDelayedEchoFail()
+    {
+        $byte = $this->conn->receive(1);
+        sleep(ini_get('default_socket_timeout') + 2);
+        $this->assertFalse($this->conn->isAvailable());
+    }
     
     public function test3MegaBytesEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
+
         $this->assertEquals(
             $size,
             $this->conn->send($this->conn->receive($size)),
@@ -74,6 +93,64 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         );
     }
     
+    public function test3MegaBytesDelayedEcho()
+    {
+        $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
+
+        $data = $this->conn->receive($size);
+        sleep(ini_get('default_socket_timeout') + 1);
+        $this->assertEquals(
+            $size,
+            $this->conn->send($data),
+            'Wrong amount echoed.'
+        );
+    }
+    
+    public function test3MegaBytesLongDelayedEcho()
+    {
+        $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
+
+        $data = $this->conn->receive($size);
+        sleep(ini_get('default_socket_timeout') + 5);
+        $this->assertEquals(
+            $size,
+            $this->conn->send($data),
+            'Wrong amount echoed.'
+        );
+    }
+
+    /*
+    public function testOneByteDelayedEchoSend()
+    {
+        $this->markTestIncomplete('The server never gives up accepting data.');
+        $this->conn->setBuffer(0);
+        //echo date('H:s;');
+        sleep(ini_get('default_socket_timeout') + 2);
+        //echo date('H:s;');
+        $byte = $this->conn->receive(1);
+        //echo date('H:s;');
+        $this->assertEquals(
+            1,
+            $this->conn->send($byte),
+            'Wrong amount echoed.'
+        );
+        //echo date('H:s;');
+    }
+    */
+    
+    public function test3MegaBytesLongDelayedEchoSend()
+    {
+        $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
+
+        sleep(ini_get('default_socket_timeout') + 5);
+        $data = $this->conn->receive($size);
+        $this->assertEquals(
+            $size,
+            $this->conn->send($data),
+            'Wrong amount echoed.'
+        );
+    }
+
     public function testOneByteEchoStreamSend()
     {
         $stream = fopen('php://temp', 'r+b');

@@ -23,6 +23,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testOneByteEcho()
     {
         $byte = '1';
+
         $this->client->send($byte);
         $this->assertEquals(
             $byte,
@@ -31,16 +32,109 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         );
     }
     
+    public function testOneByteDelayedEcho()
+    {
+        $byte = '1';
+        $timeout = ini_get('default_socket_timeout') + 3;
+
+        $this->client->send($byte);
+        if ($this->client->isDataAwaiting($timeout)) {
+            $this->assertEquals(
+                $byte,
+                $this->client->receive(1),
+                'Wrong byte echoed.'
+            );
+        }
+    }
+    
+    public function testOneByteDelayedEchoFail()
+    {
+        $byte = '1';
+        $timeout = ini_get('default_socket_timeout') + 1;
+
+        $this->client->send($byte);
+        $this->assertFalse($this->client->isDataAwaiting($timeout));
+    }
+    
     public function test3MegaBytesEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
         $contents = str_repeat('2', $size);
+
         $this->client->send($contents);
         $this->assertEquals(
             $contents,
             $this->client->receive($size),
             'Wrong contents echoed.'
         );
+    }
+    
+    public function test3MegaBytesDelayedEcho()
+    {
+        $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
+        $contents = str_repeat('2', $size);
+        $timeout = ini_get('default_socket_timeout') + 3;
+
+        $this->client->send($contents);
+        if ($this->client->isDataAwaiting($timeout)) {
+            $this->assertEquals(
+                $contents,
+                $this->client->receive($size),
+                'Wrong contents echoed.'
+            );
+        }
+    }
+    
+    public function test3MegaBytesLongDelayedEcho()
+    {
+        $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
+        $contents = str_repeat('2', $size);
+
+        $this->client->send($contents);
+        if ($this->client->isDataAwaiting(null)) {
+            $this->assertEquals(
+                $contents,
+                $this->client->receive($size),
+                'Wrong contents echoed.'
+            );
+        }
+    }
+    
+    /*
+    public function testOneByteDelayedEchoSend()
+    {
+        $this->markTestIncomplete('The server never gives up accepting data.');
+        $this->client->setBuffer(0);
+        $byte = '1';
+        $timeout = ini_get('default_socket_timeout') + 4;
+        sleep(1);
+        echo date('H:s;');
+        if ($this->client->isAcceptingData($timeout)) {
+            echo date('H:s;');
+            $this->client->send($byte);
+            //echo date('H:s;');
+            $this->assertEquals(
+                $byte,
+                $this->client->receive(1),
+                'Wrong byte echoed.'
+            );
+            //echo date('H:s;');
+        }
+    }
+    */
+    public function test3MegaBytesLongDelayedEchoSend()
+    {
+        $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
+        $contents = str_repeat('2', $size);
+
+        if ($this->client->isAcceptingData(null)) {
+            $this->client->send($contents);
+            $this->assertEquals(
+                $contents,
+                $this->client->receive($size),
+                'Wrong contents echoed.'
+            );
+        }
     }
     
     public function testOneByteEchoStreamSend()

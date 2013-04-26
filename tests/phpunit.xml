@@ -35,6 +35,8 @@
         A port which doesn't provide a serive on any hostname present here.
         -->
         <const name="SILENT_PORT" value="6668" />
+
+        <ini name="default_socket_timeout" value="2" />
     </php>
     <testsuites>
         <testsuite name="All tests">

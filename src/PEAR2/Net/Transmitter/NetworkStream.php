@@ -34,15 +34,14 @@ namespace PEAR2\Net\Transmitter;
  */
 class NetworkStream extends Stream
 {
-
     /**
-     * Checks whether there is data to be read from the socket.
+     * Checks whether the stream is available for operations.
      * 
-     * @return bool TRUE if there is data to be read, FALSE otherwise.
+     * @return bool TRUE if the stream is available, FALSE otherwise.
      */
-    public function isDataAwaiting()
+    public function isAvailable()
     {
-        if (parent::isDataAwaiting()) {
+        if (parent::isAvailable()) {
             $meta = stream_get_meta_data($this->stream);
             return!$meta['timed_out'] && !$meta['eof'];
         }
