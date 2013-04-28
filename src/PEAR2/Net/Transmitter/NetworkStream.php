@@ -53,7 +53,7 @@ class NetworkStream extends Stream
      * 
      * @param int    $size      The desired size of the buffer, in bytes.
      * @param string $direction The buffer of which direction to set. Valid
-     * values are the DIRECTION_* constants.
+     *     values are the DIRECTION_* constants.
      * 
      * @return bool TRUE on success, FALSE on failure.
      */
@@ -74,7 +74,7 @@ class NetworkStream extends Stream
      * Shutdowns (partially or not) a full-duplex connection.
      * 
      * @param string $direction The direction for which to disable further
-     * communications.
+     *     communications.
      * 
      * @return bool TRUE on success, FALSE on failure.
      */

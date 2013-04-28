@@ -48,7 +48,7 @@ class SocketException extends \RuntimeException implements Exception
      * @param string     $message   The Exception message to throw.
      * @param int        $code      The Exception code.
      * @param \Exception $previous  The previous exception used for the
-     * exception chaining.
+     *     exception chaining.
      * @param int        $error_no  The system level error number.
      * @param string     $error_str The system level error message.
      */

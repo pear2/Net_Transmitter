@@ -66,7 +66,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      * forward by one.
      * 
      * @param int    $position The position before which the filter will be
-     * inserted.
+     *     inserted.
      * @param string $name     The name of the filter.
      * @param array  $params   An array of parameters for the filter.
      * 
@@ -186,7 +186,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      * Gets the filter parameters at the current pointer position.
      * 
      * @return array An array of parameters for the filter at the current
-     * position.
+     *     position.
      */
     public function current()
     {

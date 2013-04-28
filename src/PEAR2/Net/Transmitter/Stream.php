@@ -64,7 +64,7 @@ class Stream
     
     /**
      * @var array An associative array with the chunk size of each direction.
-     * Key is the direction, value is the size in bytes as integer.
+     *     Key is the direction, value is the size in bytes as integer.
      */
     protected $chunkSize = array(
         self::DIRECTION_SEND => 0xFFFFF, self::DIRECTION_RECEIVE => 0xFFFFF
@@ -131,7 +131,7 @@ class Stream
      * 
      * @param int $seconds      Timeout in seconds.
      * @param int $microseconds Timeout in microseconds to be added to the
-     * seconds.
+     *     seconds.
      * 
      * @return bool TRUE on success, FALSE on failure.
      */
@@ -145,7 +145,7 @@ class Stream
      * 
      * @param int    $size      The desired size of the buffer, in bytes.
      * @param string $direction The buffer of which direction to set. Valid
-     * values are the DIRECTION_* constants.
+     *     values are the DIRECTION_* constants.
      * 
      * @return bool TRUE on success, FALSE on failure.
      */
@@ -172,7 +172,7 @@ class Stream
      * 
      * @param int    $size      The desired size of the chunk, in bytes.
      * @param string $direction The chunk of which direction to set. Valid
-     * values are the DIRECTION_* constants.
+     *     values are the DIRECTION_* constants.
      * 
      * @return bool TRUE on success, FALSE on failure.
      */
@@ -199,10 +199,10 @@ class Stream
      * Gets the size of the chunk.
      * 
      * @param string $direction The chunk of which direction to get. Valid
-     * values are the DIRECTION_* constants.
+     *     values are the DIRECTION_* constants.
      * 
      * @return int|array The chunk size in bytes, or an array of chunk sizes
-     * with the directions as keys. FALSE on invalid direction. 
+     *     with the directions as keys. FALSE on invalid direction. 
      */
     public function getChunk($direction = self::DIRECTION_ALL)
     {
@@ -225,10 +225,10 @@ class Stream
      * 
      * @param string|resource $contents The string or stream to send.
      * @param int             $offset   The offset from which to start sending.
-     * If a stream is provided, and this is set to NULL, sending will start from
-     * the current stream position.
+     *     If a stream is provided, and this is set to NULL, sending will start
+     *     from the current stream position.
      * @param int             $length   The maximum length to send. If omitted,
-     * the string/stream will be sent to its end.
+     *     the string/stream will be sent to its end.
      * 
      * @return int The number of bytes sent.
      */
@@ -304,7 +304,7 @@ class Stream
      * 
      * @param int    $length The number of bytes to receive.
      * @param string $what   Descriptive string about what is being received
-     * (used in exception messages).
+     *     (used in exception messages).
      * 
      * @return string The received content.
      */
@@ -336,10 +336,10 @@ class Stream
      * 
      * @param int              $length  The number of bytes to receive.
      * @param FilterCollection $filters A collection of filters to apply to the
-     * stream while receiving. Note that the filters will not be present on the
-     * stream after receiving is done.
+     *     stream while receiving. Note that the filters will not be present on
+     *     the stream after receiving is done.
      * @param string           $what    Descriptive string about what is being
-     * received (used in exception messages).
+     *     received (used in exception messages).
      * 
      * @return resource The received content.
      */
@@ -398,8 +398,8 @@ class Stream
      * Checks whether there is data to be read from the wrapped stream.
      * 
      * @param int|null $timeout_s  If theere isn't data awaiting currently,
-     * wait for it this many seconds for data to arrive. If NULL is
-     * specified, wait indefinetly for that.
+     *     wait for it this many seconds for data to arrive. If NULL is
+     *     specified, wait indefinetly for that.
      * @param int      $timeout_us Microseconds to add to the waiting time.
      * 
      * @return bool TRUE if there is data to be read, FALSE otherwise.
@@ -426,12 +426,12 @@ class Stream
      * Checks whether the wrapped stream can be written to without a block.
      * 
      * @param int|null $timeout_s  If the stream isn't currently accepting data,
-     * wait for it this many seconds to start accepting data. If NULL is
-     * specified, wait indefinetly for that.
+     *     wait for it this many seconds to start accepting data. If NULL is
+     *     specified, wait indefinetly for that.
      * @param int      $timeout_us Microseconds to add to the waiting time.
      * 
      * @return bool TRUE if the wrapped stream would not block on a write, FALSE
-     * otherwise.
+     *     otherwise.
      * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function isAcceptingData($timeout_s = 0, $timeout_us = 0)

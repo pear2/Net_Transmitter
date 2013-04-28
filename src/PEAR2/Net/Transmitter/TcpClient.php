@@ -52,13 +52,13 @@ class TcpClient extends NetworkStream
     
     /**
      * @var SHM Persistent connection handler. Remains NULL for non-persistent
-     * connections. 
+     *     connections. 
      */
     protected $shmHandler = null;
     
     /**
      * @var array An array with all connections from this PHP request (as keys)
-     * and their lock state (as a value). 
+     *     and their lock state (as a value). 
      */
     protected static $lockState = array();
     
@@ -73,10 +73,10 @@ class TcpClient extends NetworkStream
      * @param string   $host    Hostname (IP or domain) of the server.
      * @param int      $port    The port on the server.
      * @param bool     $persist Whether or not the connection should be a
-     * persistent one.
+     *     persistent one.
      * @param float    $timeout The timeout for the connection.
      * @param string   $key     A string that uniquely identifies the
-     * connection.
+     *     connection.
      * @param resource $context A context for the socket.
      */
     public function __construct(
@@ -165,17 +165,17 @@ class TcpClient extends NetworkStream
      * such calls.
      * 
      * @param int  $direction The direction(s) to have locked. Acceptable values
-     * are the DIRECTION_* constants. If a lock for a direction can't be
-     * obtained immediatly, the function will block until one is aquired. Note
-     * that if you specify {@link DIRECTION_ALL}, the sending lock will be
-     * obtained before the receiving one, and if obtaining the receiving lock
-     * afterwards fails, the sending lock will be released too.
+     *     are the DIRECTION_* constants. If a lock for a direction can't be
+     *     obtained immediatly, the function will block until one is aquired.
+     *     Note that if you specify {@link DIRECTION_ALL}, the sending lock will
+     *     be obtained before the receiving one, and if obtaining the receiving
+     *     lock afterwards fails, the sending lock will be released too.
      * @param bool $replace   Whether to replace all locks with the specified
-     * ones. Setting this to FALSE will make the function only obtain the locks
-     * which are not already obtained.
+     *     ones. Setting this to FALSE will make the function only obtain the
+     *     locks which are not already obtained.
      * 
      * @return int The previous state or FALSE if the connection is not
-     * persistent or arguments are invalid.
+     *     persistent or arguments are invalid.
      */
     public function lock($direction = self::DIRECTION_ALL, $replace = false)
     {
@@ -246,10 +246,10 @@ class TcpClient extends NetworkStream
      * 
      * @param string|resource $contents The string or stream to send.
      * @param int             $offset   The offset from which to start sending.
-     * If a stream is provided, and this is set to NULL, sending will start from
-     * the current stream position.
+     *     If a stream is provided, and this is set to NULL, sending will start
+     *     from the current stream position.
      * @param int             $length   The maximum length to send. If omitted,
-     * the string/stream will be sent to its end.
+     *     the string/stream will be sent to its end.
      * 
      * @return int The number of bytes sent.
      */
@@ -275,7 +275,7 @@ class TcpClient extends NetworkStream
      * 
      * @param int    $length The number of bytes to receive.
      * @param string $what   Descriptive string about what is being received
-     * (used in exception messages).
+     *     (used in exception messages).
      * 
      * @return string The received content.
      */
@@ -301,10 +301,10 @@ class TcpClient extends NetworkStream
      * 
      * @param int              $length  The number of bytes to receive.
      * @param FilterCollection $filters A collection of filters to apply to the
-     * stream while receiving. Note that the filters will not be present on the
-     * stream after receiving is done.
+     *     stream while receiving. Note that the filters will not be present on
+     *     the stream after receiving is done.
      * @param string           $what    Descriptive string about what is being
-     * received (used in exception messages).
+     *     received (used in exception messages).
      * 
      * @return resource The received content.
      */
