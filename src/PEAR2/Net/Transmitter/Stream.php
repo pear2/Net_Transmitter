@@ -407,19 +407,16 @@ class Stream
      */
     public function isDataAwaiting($timeout_s = 0, $timeout_us = 0)
     {
-        if ($this->isAvailable()) {
-            $w = $e = null;
-            $r = array($this->stream);
-            //$meta = stream_get_meta_data($this->stream);
-            return 1 === @/* due to PHP bug #54563 */stream_select(
+        $w = $e = null;
+        $r = array($this->stream);
+        return $this->isAvailable()
+            && 1 === @/* due to PHP bug #54563 */stream_select(
                 $r,
                 $w,
                 $e,
                 $timeout_s,
                 $timeout_us
             );
-        }
-        return false;
     }
 
     /**
