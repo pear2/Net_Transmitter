@@ -32,8 +32,82 @@ namespace PEAR2\Net\Transmitter;
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     http://pear2.php.net/PEAR2_Net_Transmitter
  */
-class NetworkStream extends Stream
+abstract class NetworkStream extends Stream
 {
+    /**
+     * Used in {@link setCrypto()} to disable encryption.
+     */
+    const CRYPTO_OFF = '';
+
+    /**
+     * Used in {@link setCrypto()} to set encryption to either SSLv2 or SSLv3,
+     * depending on what the server supports.
+     */
+    const CRYPTO_SSL23 = 'SSLv23_';
+
+    /**
+     * Used in {@link setCrypto()} to set encryption to SSLv2.
+     */
+    const CRYPTO_SSL2 = 'STREAM_CRYPTO_METHOD_SSLv2_';
+
+    /**
+     * Used in {@link setCrypto()} to set encryption to SSLv4.
+     */
+    const CRYPTO_SSL3 = 'STREAM_CRYPTO_METHOD_SSLv3_';
+
+    /**
+     * Used in {@link setCrypto()} to set encryption to TLS (exact version
+     * negotiated between 1.0 and 1.2).
+     */
+    const CRYPTO_TLS = 'STREAM_CRYPTO_METHOD_TLS_';
+    
+    /**
+     * @var string The type of stream. Can be either "CLIENT" or "SERVER". Used
+     *     to complement the encryption type. Must be set by child classes.
+     */
+    protected $streamType = '';
+
+    /**
+     * @var string The current cryptography setting.
+     */
+    protected $crypto = '';
+
+    /**
+     * Gets the current cryptography setting.
+     * 
+     * @return string One of this class' CRYPTO_* constants.
+     */
+    public function getCrypto()
+    {
+        return $this->crypto;
+    }
+
+    /**
+     * Sets the current connection's cryptography setting.
+     * 
+     * @param string $type The encryption type to set. Must be one of this
+     *     class' CRYPTO_* constants.
+     * 
+     * @return boolean TRUE on success, FALSE on failure.
+     */
+    public function setCrypto($type)
+    {
+        if (self::CRYPTO_OFF === $type) {
+            $result = stream_socket_enable_crypto($this->stream, false);
+        } else {
+            $result = stream_socket_enable_crypto(
+                $this->stream,
+                true,
+                constant('STREAM_CRYPTO_METHOD_' . $type . $this->streamType)
+            );
+        }
+
+        if ($result) {
+            $this->crypto = $type;
+        }
+        return $result;
+    }
+
     /**
      * Checks whether the stream is available for operations.
      * 

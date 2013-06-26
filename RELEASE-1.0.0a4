@@ -1,0 +1,4 @@
+* Stream::isAcceptingData() and Stream::isDataAwaiting() now accept an optional timeout, modeled after stream_select().
+* Changed sending to retry indefinetly unless the connection is broken, thanks to isDataAwaiting()'s new ability. Receiving can still timeout.
+* Chnaged the PHAR stub to not fail when reading the hash fails.
+* Doc and CS fixes.

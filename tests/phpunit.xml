@@ -20,12 +20,12 @@
         <!--
         The hostname and port of secondaryPeer.xml
         -->
-        <const name="REMOTE_HOSTNAME" value="::1" />
+        <const name="REMOTE_HOSTNAME" value="secondary.trans.example.com" />
         <const name="REMOTE_PORT" value="6666" />
         <!--
         The hostname and port secondaryPeer.xml must use.
         -->
-        <const name="LOCAL_HOSTNAME" value="::1" />
+        <const name="LOCAL_HOSTNAME" value="0.0.0.0" />
         <const name="LOCAL_PORT" value="6667" />
         <!--
         A hostname which doesn't provide a serive on any port present here.
@@ -40,7 +40,9 @@
     </php>
     <testsuites>
         <testsuite name="All tests">
+            <file>ClientEncryptedTest.php</file>
             <file>ClientTest.php</file>
+            <file>ServerEncryptedTest.php</file>
             <file>ServerTest.php</file>
             <file>UnconnectedTest.php</file>
         </testsuite>

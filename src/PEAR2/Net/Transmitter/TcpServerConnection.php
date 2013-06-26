@@ -56,6 +56,8 @@ class TcpServerConnection extends NetworkStream
      */
     public function __construct($server, $timeout = null)
     {
+        $this->streamType = '_SERVER';
+
         if (!self::isStream($server)) {
             throw $this->createException('Invalid server supplied.', 9);
         }

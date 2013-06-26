@@ -62,6 +62,14 @@ class TcpClient extends NetworkStream
      */
     protected static $lockState = array();
     
+    protected static $cryptoScheme = array(
+        parent::CRYPTO_OFF => 'tcp',
+        parent::CRYPTO_SSL2 => 'sslv2',
+        parent::CRYPTO_SSL3 => 'sslv3',
+        parent::CRYPTO_SSL23 => 'ssl',
+        parent::CRYPTO_TLS => 'tls'
+    );
+    
     /**
      * @var string The URI of this connection.
      */
@@ -77,6 +85,11 @@ class TcpClient extends NetworkStream
      * @param float    $timeout The timeout for the connection.
      * @param string   $key     A string that uniquely identifies the
      *     connection.
+     * @param string   $crypto  Encryption setting. Must be one of the
+     *     NetworkStream::CRYPTO_* constants. By default, encryption is
+     *     disabled. If the setting has an associated scheme for it, it will be
+     *     used, and if not, the setting will be adjusted right after the
+     *     connection is estabilished.
      * @param resource $context A context for the socket.
      */
     public function __construct(
@@ -85,8 +98,11 @@ class TcpClient extends NetworkStream
         $persist = false,
         $timeout = null,
         $key = '',
+        $crypto = parent::CRYPTO_OFF,
         $context = null
     ) {
+        $this->streamType = '_CLIENT';
+
         if (strpos($host, ':') !== false) {
             $host = "[{$host}]";
         }
@@ -108,7 +124,9 @@ class TcpClient extends NetworkStream
         ) {
             throw $this->createException('Invalid context supplied.', 6);
         }
-        $this->uri = "tcp://{$host}:{$port}/{$key}";
+        $hasCryptoScheme = array_key_exists($crypto, static::$cryptoScheme);
+        $scheme = $hasCryptoScheme ? static::$cryptoScheme[$crypto] : 'tcp';
+        $this->uri = "{$scheme}://{$host}:{$port}/{$key}";
         try {
             parent::__construct(
                 @stream_socket_client(
@@ -120,6 +138,11 @@ class TcpClient extends NetworkStream
                     $context
                 )
             );
+            if ($hasCryptoScheme) {
+                $this->crypto = $crypto;
+            } else {
+                $this->setCrypto($crypto);
+            }
         } catch (\Exception $e) {
             if (0 === $this->error_no) {
                 throw $this->createException('Failed to initialize socket.', 7);

@@ -16,6 +16,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     
     public function tearDown()
     {
+        $this->assertInstanceOf(__NAMESPACE__ . '\TcpClient', $this->client);
         $this->client->close();
         unset($this->client);
     }

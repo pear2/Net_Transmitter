@@ -116,6 +116,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
                 false,
                 null,
                 '',
+                NetworkStream::CRYPTO_OFF,
                 fopen('php://input', 'r')
             );
             $this->fail('Client creation had to fail.');

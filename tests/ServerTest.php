@@ -28,22 +28,22 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $hostname = strpos(LOCAL_HOSTNAME, ':') !== false
             ? '[' . LOCAL_HOSTNAME . ']' : LOCAL_HOSTNAME;
-        self::$server = stream_socket_server(
+        static::$server = stream_socket_server(
             "tcp://{$hostname}:" . LOCAL_PORT,
-            self::$errorno,
-            self::$errstr
+            static::$errorno,
+            static::$errstr
         );
     }
     
     public static function tearDownAfterClass()
     {
-        fclose(self::$server);
+        fclose(static::$server);
     }
     
     public function setUp()
     {
         $this->conn = new TcpServerConnection(
-            self::$server,
+            static::$server,
             1/*h*/ * 60/*m*/ * 60/*s*/
         );
         $this->assertEquals(REMOTE_HOSTNAME, $this->conn->getPeerIP());
