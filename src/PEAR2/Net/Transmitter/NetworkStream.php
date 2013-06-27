@@ -41,9 +41,9 @@ abstract class NetworkStream extends Stream
 
     /**
      * Used in {@link setCrypto()} to set encryption to either SSLv2 or SSLv3,
-     * depending on what the server supports.
+     * depending on what the other end supports.
      */
-    const CRYPTO_SSL23 = 'SSLv23';
+    const CRYPTO_SSL = 'SSLv23';
 
     /**
      * Used in {@link setCrypto()} to set encryption to SSLv2.
@@ -51,7 +51,7 @@ abstract class NetworkStream extends Stream
     const CRYPTO_SSL2 = 'SSLv2';
 
     /**
-     * Used in {@link setCrypto()} to set encryption to SSLv4.
+     * Used in {@link setCrypto()} to set encryption to SSLv3.
      */
     const CRYPTO_SSL3 = 'SSLv3';
 
@@ -62,8 +62,9 @@ abstract class NetworkStream extends Stream
     const CRYPTO_TLS = 'TLS';
     
     /**
-     * @var string The type of stream. Can be either "CLIENT" or "SERVER". Used
-     *     to complement the encryption type. Must be set by child classes.
+     * @var string The type of stream. Can be either "_CLIENT" or "_SERVER".
+     *     Used to complement the encryption type. Must be set by child classes
+     *     for {@link setCrypto()} to work properly.
      */
     protected $streamType = '';
 

@@ -66,7 +66,7 @@ class TcpClient extends NetworkStream
         parent::CRYPTO_OFF => 'tcp',
         parent::CRYPTO_SSL2 => 'sslv2',
         parent::CRYPTO_SSL3 => 'sslv3',
-        parent::CRYPTO_SSL23 => 'ssl',
+        parent::CRYPTO_SSL => 'ssl',
         parent::CRYPTO_TLS => 'tls'
     );
     
