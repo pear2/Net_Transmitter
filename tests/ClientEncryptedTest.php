@@ -1,4 +1,5 @@
 <?php
+
 namespace PEAR2\Net\Transmitter;
 
 require_once 'ClientTest.php';

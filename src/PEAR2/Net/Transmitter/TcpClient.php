@@ -140,7 +140,7 @@ class TcpClient extends NetworkStream
             );
             if ($hasCryptoScheme) {
                 $this->crypto = $crypto;
-            } else {
+            } elseif (parent::CRYPTO_OFF !== $crypto) {
                 $this->setCrypto($crypto);
             }
         } catch (\Exception $e) {

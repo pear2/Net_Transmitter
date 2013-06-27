@@ -43,23 +43,23 @@ abstract class NetworkStream extends Stream
      * Used in {@link setCrypto()} to set encryption to either SSLv2 or SSLv3,
      * depending on what the server supports.
      */
-    const CRYPTO_SSL23 = 'SSLv23_';
+    const CRYPTO_SSL23 = 'SSLv23';
 
     /**
      * Used in {@link setCrypto()} to set encryption to SSLv2.
      */
-    const CRYPTO_SSL2 = 'STREAM_CRYPTO_METHOD_SSLv2_';
+    const CRYPTO_SSL2 = 'SSLv2';
 
     /**
      * Used in {@link setCrypto()} to set encryption to SSLv4.
      */
-    const CRYPTO_SSL3 = 'STREAM_CRYPTO_METHOD_SSLv3_';
+    const CRYPTO_SSL3 = 'SSLv3';
 
     /**
      * Used in {@link setCrypto()} to set encryption to TLS (exact version
      * negotiated between 1.0 and 1.2).
      */
-    const CRYPTO_TLS = 'STREAM_CRYPTO_METHOD_TLS_';
+    const CRYPTO_TLS = 'TLS';
     
     /**
      * @var string The type of stream. Can be either "CLIENT" or "SERVER". Used
@@ -115,7 +115,9 @@ abstract class NetworkStream extends Stream
      */
     public function isAvailable()
     {
-        if (parent::isAvailable()) {
+        if (parent::isStream($this->stream)
+            && (!feof($this->stream) || self::CRYPTO_OFF !== $this->crypto)
+        ) {
             $meta = stream_get_meta_data($this->stream);
             return!$meta['timed_out'] && !$meta['eof'];
         }
