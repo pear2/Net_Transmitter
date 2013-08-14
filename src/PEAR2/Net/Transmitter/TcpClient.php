@@ -26,6 +26,12 @@ namespace PEAR2\Net\Transmitter;
 use PEAR2\Cache\SHM;
 
 /**
+ * Used for matching arbitrary exceptions in
+ * {@link TcpClient::createException()} and releasing locks properly.
+ */
+use Exception as E;
+
+/**
  * A socket transmitter.
  * 
  * This is a convinience wrapper for socket functionality. Used to ensure data
@@ -118,8 +124,7 @@ class TcpClient extends NetworkStream
 
         if (null === $context) {
             $context = stream_context_get_default();
-        } elseif (
-            (!is_resource($context))
+        } elseif ((!is_resource($context))
             || ('stream-context' !== get_resource_type($context))
         ) {
             throw $this->createException('Invalid context supplied.', 6);
@@ -140,7 +145,7 @@ class TcpClient extends NetworkStream
                 )
             );
             restore_error_handler();
-        } catch (\Exception $e) {
+        } catch (E $e) {
             restore_error_handler();
             if (0 === $this->error_no) {
                 throw $this->createException(
@@ -177,15 +182,16 @@ class TcpClient extends NetworkStream
      * 
      * Creates a new exception. Used by the rest of the functions in this class.
      * 
-     * @param string $message The exception message.
-     * @param int    $code    The exception code.
+     * @param string $message  The exception message.
+     * @param int    $code     The exception code.
+     * @param E      $previous Previous exception thrown.
      * 
      * @return SocketException The exception to then be thrown.
      */
     protected function createException(
         $message,
         $code = 0,
-        \Exception $previous = null
+        E $previous = null
     ) {
         return new SocketException(
             $message,
@@ -306,7 +312,7 @@ class TcpClient extends NetworkStream
         }
         try {
             $result = parent::send($contents, $offset, $length);
-        } catch (\Exception $e) {
+        } catch (E $e) {
             $this->lock($previousState, true);
             throw $e;
         }
@@ -337,7 +343,7 @@ class TcpClient extends NetworkStream
         }
         try {
             $result = parent::receive($length, $what);
-        } catch (\Exception $e) {
+        } catch (E $e) {
             $this->lock($previousState, true);
             throw $e;
         }
@@ -374,7 +380,7 @@ class TcpClient extends NetworkStream
         }
         try {
             $result = parent::receiveStream($length, $filters, $what);
-        } catch (\Exception $e) {
+        } catch (E $e) {
             $this->lock($previousState, true);
             throw $e;
         }
