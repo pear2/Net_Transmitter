@@ -16,31 +16,18 @@
         "wiki": "http://github.com/pear2/Net_Transmitter/wiki"
     },
     "require": {
-        "php": ">=5.3.0",
-        "pear2/cache_shm": "@dev"
+        "php": ">=5.3.0"
     },
     "suggest": {
+        "pear2/cache_shm": ">=0.1.2",
         "ext-apc": ">=3.0.13",
-        "ext-wincache": ">=1.1.0"
+        "ext-wincache": ">=1.1.0",
+        "ext-openssl": "*"
     },
     "autoload": {
         "psr-0": {
             "PEAR2\\Net\\Transmitter\\": "src/"
         }
     },
-    "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "pear2/cache_shm",
-                "version": "@dev",
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/pear2/Cache_SHM.git",
-                    "reference": "master"
-                }
-            }
-        }
-    ]
+    "minimum-stability": "dev"
 }

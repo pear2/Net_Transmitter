@@ -1,3 +1,4 @@
+* Support for encrypted connections. Note that due to known issues with PHP itself, encrypted connections may be unstable (as in "sometimes disconnect suddenly" or "sometimes hang when calling TcpClient::isDataAwaiting() without a timeout").
 * Stream::isAcceptingData() and Stream::isDataAwaiting() now accept an optional timeout, modeled after stream_select().
 * Changed sending to retry indefinetly unless the connection is broken, thanks to isDataAwaiting()'s new ability. Receiving can still timeout.
 * Chnaged the PHAR stub to not fail when reading the hash fails.

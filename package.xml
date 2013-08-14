@@ -13,10 +13,10 @@ This package abstracts this away, so that when you want to get exactly N amount 
   <email>boen.robot@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2012-08-03</date>
- <time>04:21:01</time>
+ <date>2013-08-15</date>
+ <time>18:20:49</time>
  <version>
-  <release>1.0.0a3</release>
+  <release>1.0.0a4</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -24,10 +24,17 @@ This package abstracts this away, so that when you want to get exactly N amount 
   <api>alpha</api>
  </stability>
  <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</license>
- <notes>Added locking support at TcpClient, particularly for persistent connections. Also some doc fixes.</notes>
+ <notes>* Support for encrypted connections. Note that due to known issues with PHP itself, encrypted connections may be unstable (as in &quot;sometimes disconnect suddenly&quot; or &quot;sometimes hang when calling TcpClient::isDataAwaiting() without a timeout&quot;).
+* Stream::isAcceptingData() and Stream::isDataAwaiting() now accept an optional timeout, modeled after stream_select().
+* Changed sending to retry indefinetly unless the connection is broken, thanks to isDataAwaiting()'s new ability. Receiving can still timeout.
+* Chnaged the PHAR stub to not fail when reading the hash fails.
+* Doc and CS fixes.</notes>
  <contents>
   <dir name="/">
    <dir name="docs" baseinstalldir="/">
+    <file role="doc" name="apigen.neon">
+     <tasks:replace from="../src" to="php_dir" type="pear-config"/>
+    </file>
     <file role="doc" name="doxygen.ini">
      <tasks:replace from="../src" to="php_dir" type="pear-config"/>
      <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
@@ -93,10 +100,12 @@ This package abstracts this away, so that when you want to get exactly N amount 
     <file role="test" name="bootstrap.php">
      <tasks:replace from="../src" to="php_dir" type="pear-config"/>
     </file>
+    <file role="test" name="ClientEncryptedTest.php_"/>
     <file role="test" name="ClientTest.php"/>
     <file role="test" name="phpunit.xml"/>
     <file role="test" name="secondaryPeer.bat"/>
     <file role="test" name="secondaryPeer.xml"/>
+    <file role="test" name="ServerEncryptedTest.php_"/>
     <file role="test" name="ServerTest.php"/>
     <file role="test" name="UnconnectedTest.php"/>
    </dir>
@@ -120,25 +129,34 @@ This package abstracts this away, so that when you want to get exactly N amount 
    <package>
     <name>PEAR2_Cache_SHM</name>
     <channel>pear2.php.net</channel>
-    <min>0.1.0</min>
+    <min>0.1.2</min>
    </package>
+   <extension>
+    <name>openssl</name>
+   </extension>
   </optional>
  </dependencies>
  <phprelease>
   <filelist>
+   <install name="docs/apigen.neon" as="apigen.neon"/>
    <install name="docs/doxygen.ini" as="doxygen.ini"/>
    <install name="docs/phpdoc.dist.xml" as="phpdoc.dist.xml"/>
    <install name="src/PEAR2/Net/Transmitter/Exception.php" as="PEAR2/Net/Transmitter/Exception.php"/>
+   <install name="src/PEAR2/Net/Transmitter/FilterCollection.php" as="PEAR2/Net/Transmitter/FilterCollection.php"/>
+   <install name="src/PEAR2/Net/Transmitter/LockException.php" as="PEAR2/Net/Transmitter/LockException.php"/>
    <install name="src/PEAR2/Net/Transmitter/NetworkStream.php" as="PEAR2/Net/Transmitter/NetworkStream.php"/>
    <install name="src/PEAR2/Net/Transmitter/SocketException.php" as="PEAR2/Net/Transmitter/SocketException.php"/>
    <install name="src/PEAR2/Net/Transmitter/Stream.php" as="PEAR2/Net/Transmitter/Stream.php"/>
+   <install name="src/PEAR2/Net/Transmitter/StreamException.php" as="PEAR2/Net/Transmitter/StreamException.php"/>
    <install name="src/PEAR2/Net/Transmitter/TcpClient.php" as="PEAR2/Net/Transmitter/TcpClient.php"/>
    <install name="src/PEAR2/Net/Transmitter/TcpServerConnection.php" as="PEAR2/Net/Transmitter/TcpServerConnection.php"/>
    <install name="tests/bootstrap.php" as="bootstrap.php"/>
+   <install name="tests/ClientEncryptedTest.php_" as="ClientEncryptedTest.php_"/>
    <install name="tests/ClientTest.php" as="ClientTest.php"/>
    <install name="tests/phpunit.xml" as="phpunit.xml"/>
    <install name="tests/secondaryPeer.bat" as="secondaryPeer.bat"/>
    <install name="tests/secondaryPeer.xml" as="secondaryPeer.xml"/>
+   <install name="tests/ServerEncryptedTest.php_" as="ServerEncryptedTest.php_"/>
    <install name="tests/ServerTest.php" as="ServerTest.php"/>
    <install name="tests/UnconnectedTest.php" as="UnconnectedTest.php"/>
   </filelist>
