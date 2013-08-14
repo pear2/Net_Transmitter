@@ -1,0 +1,13 @@
+language: php
+php:
+  - 5.3.0
+  - 5.3
+  - 5.4
+  - 5.5
+before_script:
+  - composer self-update
+  - composer install
+  - phpunit --configuration tests/secondaryPeer.xml &
+  - sleep 2
+script:
+  - phpunit --configuration tests/phpunit.xml
