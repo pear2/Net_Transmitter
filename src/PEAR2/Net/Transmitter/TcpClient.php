@@ -127,9 +127,10 @@ class TcpClient extends NetworkStream
         $hasCryptoScheme = array_key_exists($crypto, static::$cryptoScheme);
         $scheme = $hasCryptoScheme ? static::$cryptoScheme[$crypto] : 'tcp';
         $this->uri = "{$scheme}://{$host}:{$port}/{$key}";
+        set_error_handler(array(__CLASS__, '_handleError'));
         try {
             parent::__construct(
-                @stream_socket_client(
+                stream_socket_client(
                     $this->uri,
                     $this->error_no,
                     $this->error_str,
@@ -138,23 +139,37 @@ class TcpClient extends NetworkStream
                     $context
                 )
             );
-            if ($hasCryptoScheme) {
-                $this->crypto = $crypto;
-            } elseif (parent::CRYPTO_OFF !== $crypto) {
-                $this->setCrypto($crypto);
-            }
+            restore_error_handler();
         } catch (\Exception $e) {
+            restore_error_handler();
             if (0 === $this->error_no) {
-                throw $this->createException('Failed to initialize socket.', 7);
+                throw $this->createException(
+                    'Failed to initialize socket.',
+                    7,
+                    $e
+                );
             }
             throw $this->createException('Failed to connect with socket.', 8);
         }
+
+        if ($hasCryptoScheme) {
+            $this->crypto = $crypto;
+        } elseif (parent::CRYPTO_OFF !== $crypto) {
+            $this->setCrypto($crypto);
+        }
+        $this->setIsBlocking(parent::CRYPTO_OFF === $crypto);
+
         if ($persist) {
             $this->shmHandler = SHM::factory(
                 __CLASS__ . ' ' . $this->uri . ' '
             );
             self::$lockState[$this->uri] = self::DIRECTION_NONE;
         }
+    }
+    
+    private static function _handleError($level, $message)
+    {
+        throw new SocketException($message, 0);
     }
 
     /**
@@ -167,12 +182,15 @@ class TcpClient extends NetworkStream
      * 
      * @return SocketException The exception to then be thrown.
      */
-    protected function createException($message, $code = 0)
-    {
+    protected function createException(
+        $message,
+        $code = 0,
+        \Exception $previous = null
+    ) {
         return new SocketException(
             $message,
             $code,
-            null,
+            $previous,
             $this->error_no,
             $this->error_str
         );
@@ -286,7 +304,12 @@ class TcpClient extends NetworkStream
                 10
             );
         }
-        $result = parent::send($contents, $offset, $length);
+        try {
+            $result = parent::send($contents, $offset, $length);
+        } catch (\Exception $e) {
+            $this->lock($previousState, true);
+            throw $e;
+        }
         $this->lock($previousState, true);
         return $result;
     }
@@ -312,7 +335,12 @@ class TcpClient extends NetworkStream
                 9
             );
         }
-        $result = parent::receive($length, $what);
+        try {
+            $result = parent::receive($length, $what);
+        } catch (\Exception $e) {
+            $this->lock($previousState, true);
+            throw $e;
+        }
         $this->lock($previousState, true);
         return $result;
     }
@@ -344,7 +372,12 @@ class TcpClient extends NetworkStream
                 9
             );
         }
-        $result = parent::receiveStream($length, $filters, $what);
+        try {
+            $result = parent::receiveStream($length, $filters, $what);
+        } catch (\Exception $e) {
+            $this->lock($previousState, true);
+            throw $e;
+        }
         $this->lock($previousState, true);
         return $result;
     }

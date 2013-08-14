@@ -67,7 +67,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testOneByteDelayedEcho()
     {
         $byte = $this->conn->receive(1);
-        sleep(ini_get('default_socket_timeout') + 1);
+        sleep(ini_get('default_socket_timeout') + 2);
         $this->assertEquals(
             1,
             $this->conn->send($byte),
@@ -78,7 +78,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testOneByteDelayedEchoFail()
     {
         $byte = $this->conn->receive(1);
-        sleep(ini_get('default_socket_timeout') + 2);
+        sleep(ini_get('default_socket_timeout') + 3);
         $this->assertFalse($this->conn->isAvailable());
     }
     

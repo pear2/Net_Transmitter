@@ -99,7 +99,7 @@ abstract class NetworkStream extends Stream
             $result = stream_socket_enable_crypto(
                 $this->stream,
                 true,
-                constant('STREAM_CRYPTO_METHOD_' . $type . $this->streamType)
+                constant("STREAM_CRYPTO_METHOD_{$type}{$this->streamType}")
             );
         }
 
@@ -116,11 +116,15 @@ abstract class NetworkStream extends Stream
      */
     public function isAvailable()
     {
-        if (parent::isStream($this->stream)
-            && (!feof($this->stream) || self::CRYPTO_OFF !== $this->crypto)
-        ) {
-            $meta = stream_get_meta_data($this->stream);
-            return!$meta['timed_out'] && !$meta['eof'];
+        if (parent::isStream($this->stream)) {
+            if ($this->isBlocking) {
+                if (feof($this->stream)) {
+                    return false;
+                }
+                $meta = stream_get_meta_data($this->stream);
+                return !$meta['timed_out'] && !$meta['eof'];
+            }
+            return true;
         }
         return false;
     }

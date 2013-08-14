@@ -62,6 +62,8 @@ class Stream
      */
     protected $persist;
     
+    protected $isBlocking = true;
+    
     /**
      * @var array An associative array with the chunk size of each direction.
      *     Key is the direction, value is the size in bytes as integer.
@@ -87,6 +89,8 @@ class Stream
             '#\s?persistent\s?#sm',
             get_resource_type($stream)
         );
+        $meta = stream_get_meta_data($stream);
+        $this->isBlocking = isset($meta['blocked']) ? $meta['blocked'] : true;
     }
 
     /**
@@ -124,6 +128,21 @@ class Stream
     public function isPersistent()
     {
         return $this->persist;
+    }
+    
+    public function isBlocking()
+    {
+        return $this->isBlocking;
+    }
+    
+    public function setIsBlocking($block)
+    {
+        $block = (bool)$block;
+        if (stream_set_blocking($this->stream, (int)$block)) {
+            $this->isBlocking = $block;
+            return true;
+        }
+        return false;
     }
     
     /**
@@ -256,11 +275,13 @@ class Stream
                 );
                 if (0 != $bytesNow) {
                     $bytes += $bytesNow;
-                } else {
+                } elseif ($this->isBlocking || false === $bytesNow) {
                     throw $this->createException(
                         'Failed while sending stream.',
                         2
                     );
+                } else {
+                    usleep(300000);
                 }
                 $this->isAcceptingData(null);
             }
@@ -285,11 +306,13 @@ class Stream
                 );
                 if (0 != $bytesNow) {
                     $bytes += $bytesNow;
-                } else {
+                } elseif ($this->isBlocking || false === $bytesNow) {
                     throw $this->createException(
                         'Failed while sending string.',
                         3
                     );
+                } else {
+                    usleep(300000);
                 }
                 $this->isAcceptingData(null);
             }
@@ -315,9 +338,12 @@ class Stream
         while ($length > 0) {
             while ($this->isAvailable()) {
                 $fragment = fread($this->stream, min($length, $chunkSize));
-                if ('' !== $fragment) {
+                if ('' != $fragment) {
                     $length -= strlen($fragment);
                     $result .= $fragment;
+                    continue 2;
+                } elseif (!$this->isBlocking && !(false === $fragment)) {
+                    usleep(3000);
                     continue 2;
                 }
             }
@@ -365,9 +391,12 @@ class Stream
         while ($length > 0) {
             while ($this->isAvailable()) {
                 $fragment = fread($this->stream, min($length, $chunkSize));
-                if ('' !== $fragment) {
+                if ('' != $fragment) {
                     $length -= strlen($fragment);
                     fwrite($result, $fragment);
+                    continue 2;
+                } elseif (!$this->isBlocking && !(false === $fragment)) {
+                    usleep(3000);
                     continue 2;
                 }
             }
@@ -407,16 +436,21 @@ class Stream
      */
     public function isDataAwaiting($timeout_s = 0, $timeout_us = 0)
     {
-        $w = $e = null;
-        $r = array($this->stream);
-        return $this->isAvailable()
-            && 1 === @/* due to PHP bug #54563 */stream_select(
+        if (self::isStream($this->stream)) {
+            if (null === $timeout_s && !$this->isBlocking) {
+                return true;
+            }
+            $w = $e = null;
+            $r = array($this->stream);
+            return 1 === @/* due to PHP bug #54563 */stream_select(
                 $r,
                 $w,
                 $e,
                 $timeout_s,
                 $timeout_us
             );
+        }
+        return false;
     }
 
     /**
@@ -433,16 +467,21 @@ class Stream
      */
     public function isAcceptingData($timeout_s = 0, $timeout_us = 0)
     {
-        $r = $e = null;
-        $w = array($this->stream);
-        return self::isStream($this->stream)
-            && 1 === @/* due to PHP bug #54563 */stream_select(
+        if (self::isStream($this->stream)) {
+            if (null === $timeout_s && !$this->isBlocking) {
+                return true;
+            }
+            $r = $e = null;
+            $w = array($this->stream);
+            return 1 === @/* due to PHP bug #54563 */stream_select(
                 $r,
                 $w,
                 $e,
                 $timeout_s,
                 $timeout_us
             );
+        }
+        return false;
     }
 
     /**
