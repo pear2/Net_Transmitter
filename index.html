@@ -40,6 +40,7 @@
             .ohloh > * {width:400px;height:80%;float:left;}
             .gadget a {color:#0000FF;}
         </style>
+        <link rel="stylesheet" type="text/css" href="reasons.css" />
         <script type="text/javascript">
         /* <![CDATA[ */
             (function() {
@@ -71,7 +72,7 @@
                 <span class="small">by <a href="http://github.com/boenrobot">boenrobot</a></span>
             </h1>
             <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-                <div>
+                <div id="donations">
                     <input type="hidden" name="cmd" value="_s-xclick" />
                     <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----" />
                     <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" name="submit" alt="PayPal - The safer, easier way to pay online!" />
@@ -144,5 +145,6 @@ require_once 'PEAR2_Net_Transmitter-1.0.0a4.phar';
                 var pageTracker = _gat._getTracker("UA-26061655-3");
                 pageTracker._trackPageview();
             } catch(err) {}</script>
+        <script type="text/javascript" src="reasons.js"> </script>
     </body>
 </html>
