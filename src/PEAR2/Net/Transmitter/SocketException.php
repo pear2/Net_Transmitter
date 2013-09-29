@@ -20,6 +20,9 @@
  */
 namespace PEAR2\Net\Transmitter;
 
+use Exception as E;
+use RuntimeException;
+
 /**
  * Exception thrown when something goes wrong with the connection.
  * 
@@ -29,7 +32,7 @@ namespace PEAR2\Net\Transmitter;
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     http://pear2.php.net/PEAR2_Net_Transmitter
  */
-class SocketException extends \RuntimeException implements Exception
+class SocketException extends StreamException
 {
 
     /**
@@ -45,21 +48,24 @@ class SocketException extends \RuntimeException implements Exception
     /**
      * Creates a new socket exception.
      * 
-     * @param string     $message   The Exception message to throw.
-     * @param int        $code      The Exception code.
-     * @param \Exception $previous  The previous exception used for the
+     * @param string      $message   The Exception message to throw.
+     * @param int         $code      The Exception code.
+     * @param E|null      $previous  The previous exception used for the
      *     exception chaining.
-     * @param int        $error_no  The system level error number.
-     * @param string     $error_str The system level error message.
+     * @param string|null $fragment  The fragment up until the point of failure.
+     *     NULL if the failure occured before the operation started.
+     * @param int         $error_no  The system level error number.
+     * @param string      $error_str The system level error message.
      */
     public function __construct(
         $message = '',
         $code = 0,
-        $previous = null,
+        E $previous = null,
+        $fragment = null,
         $error_no = null,
         $error_str = null
     ) {
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, $code, $previous, $fragment);
         $this->error_no = $error_no;
         $this->error_str = $error_str;
     }

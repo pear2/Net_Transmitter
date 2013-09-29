@@ -171,7 +171,16 @@ class TcpClient extends NetworkStream
             self::$lockState[$this->uri] = self::DIRECTION_NONE;
         }
     }
-    
+
+    /**
+     * PHP error handler for connection errors.
+     * 
+     * @param string $level   Level of PHP error raised. Ignored.
+     * @param string $message Message raised by PHP.
+     * 
+     * @return void
+     * @throws SocketException That's how the error is handled.
+     */
     private static function _handleError($level, $message)
     {
         throw new SocketException($message, 0);
@@ -182,21 +191,26 @@ class TcpClient extends NetworkStream
      * 
      * Creates a new exception. Used by the rest of the functions in this class.
      * 
-     * @param string $message  The exception message.
-     * @param int    $code     The exception code.
-     * @param E      $previous Previous exception thrown.
+     * @param string      $message  The exception message.
+     * @param int         $code     The exception code.
+     * @param E|null      $previous Previous exception thrown, or NULL if there
+     *     is none.
+     * @param string|null $fragment The fragment up until the point of failure.
+     *     NULL if the failure occured before the operation started.
      * 
      * @return SocketException The exception to then be thrown.
      */
     protected function createException(
         $message,
         $code = 0,
-        E $previous = null
+        E $previous = null,
+        $fragment = null
     ) {
         return new SocketException(
             $message,
             $code,
             $previous,
+            $fragment,
             $this->error_no,
             $this->error_str
         );

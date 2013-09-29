@@ -3,27 +3,26 @@ namespace PEAR2\Net\Transmitter;
 
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
-    
     /**
      * @var resource
      */
     protected static $server;
-    
+
     /**
      * @var int
      */
     protected static $errorno;
-    
+
     /**
      * @var string
      */
     protected static $errstr;
-    
+
     /**
      * @var TcpServerConnection
      */
     protected $conn;
-    
+
     public static function setUpBeforeClass()
     {
         $hostname = strpos(LOCAL_HOSTNAME, ':') !== false
@@ -34,12 +33,12 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             static::$errstr
         );
     }
-    
+
     public static function tearDownAfterClass()
     {
         fclose(static::$server);
     }
-    
+
     public function setUp()
     {
         $this->conn = new TcpServerConnection(
@@ -49,12 +48,12 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(REMOTE_HOSTNAME, $this->conn->getPeerIP());
         $this->assertInternalType('int', $this->conn->getPeerPort());
     }
-    
+
     public function tearDown()
     {
         unset($this->conn);
     }
-    
+
     public function testOneByteEcho()
     {
         $this->assertEquals(
@@ -81,7 +80,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         sleep(ini_get('default_socket_timeout') + 3);
         $this->assertFalse($this->conn->isAvailable());
     }
-    
+
     public function test3MegaBytesEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -92,7 +91,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             'Wrong amount echoed.'
         );
     }
-    
+
     public function test3MegaBytesDelayedEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -105,7 +104,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             'Wrong amount echoed.'
         );
     }
-    
+
     public function test3MegaBytesLongDelayedEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -137,7 +136,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         //echo date('H:s;');
     }
     */
-    
+
     public function test3MegaBytesLongDelayedEchoSend()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -162,7 +161,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             'Wrong amount echoed.'
         );
     }
-    
+
     public function test3MegaBytesEchoStreamSend()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -175,7 +174,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             'Wrong amount echoed.'
         );
     }
-    
+
     public function testOneByteEchoStreamReceive()
     {
         $this->assertEquals(
@@ -186,7 +185,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             'Wrong amount echoed.'
         );
     }
-    
+
     public function test3MegaBytesEchoStreamReceive()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -198,7 +197,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             'Wrong amount echoed.'
         );
     }
-    
+
     public function testOffsetSend()
     {
         $this->assertEquals('bcd', $this->conn->receive(3));
@@ -206,7 +205,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('d', $this->conn->receive(1));
         $this->assertEquals('cd', $this->conn->receive(2));
     }
-    
+
     public function testLengthSend()
     {
         $this->assertEquals('a', $this->conn->receive(1));
@@ -214,32 +213,32 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('c', $this->conn->receive(1));
         $this->assertEquals('bc', $this->conn->receive(2));
     }
-    
+
     public function testClientReceivingFilterCollection()
     {
         $this->assertEquals(1, $this->conn->send('t'), 'Wrong amount sent.');
     }
-    
+
     public function testPersistentClientConnectionRESET()
     {
         $this->assertTrue(true);
     }
-    
+
     public function testPersistentClientConnection()
     {
         $this->assertEquals(1, $this->conn->send('t'), 'Wrong amount sent.');
     }
-    
+
     public function testClientReceivingIncompleteData()
     {
         $this->assertEquals(1, $this->conn->send('t'), 'Wrong amount sent.');
     }
-    
+
     public function testClientReceivingIncompleteDataStream()
     {
         $this->assertEquals(1, $this->conn->send('t'), 'Wrong amount sent.');
     }
-    
+
     public function testServerReceivingIncompleteData()
     {
         try {
@@ -249,7 +248,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(4, $e->getCode(), 'Improper exception code.');
         }
     }
-    
+
     public function testServerReceivingIncompleteDataStream()
     {
         try {
@@ -259,19 +258,19 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(5, $e->getCode(), 'Improper exception code.');
         }
     }
-    
+
     public function testClientSendingIncompleteData()
     {
         $this->assertEquals('777', $this->conn->receive(3));
         $this->conn->close();
     }
-    
+
     public function testClientSendingIncompleteDataStream()
     {
         $this->assertEquals('888', $this->conn->receive(3));
         $this->conn->close();
     }
-    
+
     public function testClientTimingOut()
     {
         $this->conn->send('999');
@@ -280,7 +279,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         sleep(3);
         $this->conn->send('999');
     }
-    
+
     public function testClientTimingOutStream()
     {
         $this->conn->send('aaa');
@@ -289,8 +288,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         sleep(3);
         $this->conn->send('aaa');
     }
-    
-    
+
     public function testSetBuffer()
     {
         $this->assertFalse($this->conn->setBuffer(0, 'unknown direction'));
@@ -299,7 +297,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->conn->setBuffer(99, Stream::DIRECTION_RECEIVE)
         );
     }
-    
+
     public function testSetChunk()
     {
         $defaultChunks = $this->conn->getChunk();
@@ -366,7 +364,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->conn->getChunk()
         );
     }
-    
+
     public function testShutdown()
     {
         $this->assertEquals('bbb', $this->conn->receive(3));

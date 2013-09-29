@@ -6,7 +6,6 @@ use PEAR2\Net\Transmitter\TcpServerConnection as SC;
 
 class UnconnectedTest extends \PHPUnit_Framework_TestCase
 {
-    
     /**
      * @var int
      */
@@ -21,6 +20,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
     {
         ini_set('default_socket_timeout', self::$defaultSocketTimeout);
     }
+
     public function testDefaultStreamTransmitterException()
     {
         try {
@@ -30,7 +30,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(1, $e->getCode(), 'Improper exception code.');
         }
     }
-    
+
     public function testEmptyFilterCollection()
     {
         $filters = new FilterCollection();
@@ -41,7 +41,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($filters->valid());
         $this->assertEquals(0, count($filters));
     }
-    
+
     public function testFilterCollection()
     {
         $filters = new FilterCollection();
@@ -52,7 +52,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($filters));
         $filters->clear();
         $this->assertEquals(0, count($filters));
-        
+
         $filters->append('string.toupper');
         $this->assertEquals(1, count($filters));
         $this->assertEquals('string.toupper', $filters->key());
@@ -61,7 +61,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
         $filters->insertBefore(0, 'string.base64');
         $filters->insertBefore(1, 'string.tolower');
         $filters->insertBefore(count($filters) + 2, 'string.quoted-printable');
-        
+
         $this->assertEquals('string.base64', $filters->key());
         $this->assertEquals(array(), $filters->current());
         $this->assertEquals(0, $filters->getCurrentPosition());
@@ -81,15 +81,15 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('string.quoted-printable', $filters->key());
         $this->assertEquals(array(), $filters->current());
         $this->assertEquals(4, $filters->getCurrentPosition());
-        
+
         $this->assertTrue($filters->prev());
         $this->assertEquals('string.toupper', $filters->key());
         $this->assertEquals(array(), $filters->current());
         $this->assertEquals(3, $filters->getCurrentPosition());
-        
+
         $this->assertTrue($filters->rewind());
         $filters->removeAt(2);
-        
+
         $this->assertEquals('string.base64', $filters->key());
         $this->assertEquals(array(), $filters->current());
         $this->assertEquals(0, $filters->getCurrentPosition());
@@ -106,7 +106,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $filters->current());
         $this->assertEquals(3, $filters->getCurrentPosition());
     }
-    
+
     public function testInvalidContext()
     {
         try {
@@ -124,7 +124,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(6, $e->getCode(), 'Improper exception code.');
         }
     }
-    
+
     public function testSilence()
     {
         try {
@@ -150,7 +150,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             );
         }
     }
-    
+
     public function testInvalidClient()
     {
         try {
@@ -165,7 +165,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             );
         }
     }
-    
+
     public function testInvalidServer()
     {
         try {
@@ -175,7 +175,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(9, $e->getCode(), 'Improper exception code.');
         }
     }
-    
+
     public function testServerConnectionTimeout()
     {
         try {

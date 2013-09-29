@@ -3,24 +3,23 @@ namespace PEAR2\Net\Transmitter;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
-    
     /**
      * @var TcpClient
      */
     protected $client;
-    
+
     public function setUp()
     {
         $this->client = new TcpClient(REMOTE_HOSTNAME, REMOTE_PORT);
     }
-    
+
     public function tearDown()
     {
         $this->assertInstanceOf(__NAMESPACE__ . '\TcpClient', $this->client);
         $this->client->close();
         unset($this->client);
     }
-    
+
     public function testOneByteEcho()
     {
         $byte = '1';
@@ -32,7 +31,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'Wrong byte echoed.'
         );
     }
-    
+
     public function testOneByteDelayedEcho()
     {
         $byte = '1';
@@ -47,7 +46,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             );
         }
     }
-    
+
     public function testOneByteDelayedEchoFail()
     {
         $byte = '1';
@@ -56,7 +55,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->client->send($byte);
         $this->assertFalse($this->client->isDataAwaiting($timeout));
     }
-    
+
     public function test3MegaBytesEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -69,7 +68,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'Wrong contents echoed.'
         );
     }
-    
+
     public function test3MegaBytesDelayedEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -85,7 +84,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             );
         }
     }
-    
+
     public function test3MegaBytesLongDelayedEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -100,7 +99,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             );
         }
     }
-    
+
     /*
     public function testOneByteDelayedEchoSend()
     {
@@ -123,6 +122,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
     }
     */
+
     public function test3MegaBytesLongDelayedEchoSend()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -137,7 +137,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             );
         }
     }
-    
+
     public function testOneByteEchoStreamSend()
     {
         $stream = fopen('php://temp', 'r+b');
@@ -150,7 +150,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'Wrong byte echoed.'
         );
     }
-    
+
     public function test3MegaBytesEchoStreamSend()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -164,7 +164,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'Wrong contents echoed.'
         );
     }
-    
+
     public function testOneByteEchoStreamReceive()
     {
         $byte = '5';
@@ -175,7 +175,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'Wrong byte echoed.'
         );
     }
-    
+
     public function test3MegaBytesEchoStreamReceive()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -187,7 +187,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'Wrong contents echoed.'
         );
     }
-    
+
     public function testOffsetSend()
     {
         $contents = 'abcd';
@@ -201,7 +201,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $this->client->send($stream));
         $this->assertEquals(2, $this->client->send($stream, 2));
     }
-    
+
     public function testLengthSend()
     {
         $contents = 'abcd';
@@ -215,7 +215,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $this->client->send($stream, null, 1));
         $this->assertEquals(2, $this->client->send($stream, 1, 2));
     }
-    
+
     public function testClientReceivingFilterCollection()
     {
         $filters = new FilterCollection();
@@ -226,7 +226,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'Wrong contents echoed.'
         );
     }
-    
+
     public function testPersistentClientConnection()
     {
         $this->client = new TcpClient(
@@ -248,7 +248,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($client->isFresh());
         $client->close();
     }
-    
+
     public function testClientReceivingIncompleteData()
     {
         try {
@@ -258,7 +258,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(4, $e->getCode(), 'Improper exception code.');
         }
     }
-    
+
     public function testClientReceivingIncompleteDataStream()
     {
         try {
@@ -268,17 +268,17 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(5, $e->getCode(), 'Improper exception code.');
         }
     }
-    
+
     public function testServerReceivingIncompleteData()
     {
         $this->assertEquals(1, $this->client->send('t'), 'Wrong amount sent.');
     }
-    
+
     public function testServerReceivingIncompleteDataStream()
     {
         $this->assertEquals(1, $this->client->send('t'), 'Wrong amount sent.');
     }
-    
+
     public function testClientSendingIncompleteData()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -290,7 +290,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(3, $e->getCode(), 'Improper exception code.');
         }
     }
-    
+
     public function testClientSendingIncompleteDataStream()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -304,7 +304,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(2, $e->getCode(), 'Improper exception code.');
         }
     }
-    
+
     public function testClientTimingOut()
     {
         $this->assertEquals('999', $this->client->receive(3));
@@ -316,7 +316,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(4, $e->getCode(), 'Improper exception code.');
         }
     }
-    
+
     public function testClientTimingOutStream()
     {
         $this->assertEquals('aaa', $this->client->receive(3));
@@ -328,7 +328,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(5, $e->getCode(), 'Improper exception code.');
         }
     }
-    
+
     public function testSetBuffer()
     {
         $this->assertFalse($this->client->setBuffer(0, 'unknown direction'));
@@ -337,7 +337,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->client->setBuffer(99, Stream::DIRECTION_RECEIVE)
         );
     }
-    
+
     public function testSetChunk()
     {
         $defaultChunks = $this->client->getChunk();
@@ -404,7 +404,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->client->getChunk()
         );
     }
-    
+
     public function testShutdown()
     {
         $this->client->send('bbb');

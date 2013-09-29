@@ -20,6 +20,9 @@
  */
 namespace PEAR2\Net\Transmitter;
 
+use RuntimeException;
+use Exception as E;
+
 /**
  * Exception thrown when something goes wrong with the connection.
  * 
@@ -29,6 +32,60 @@ namespace PEAR2\Net\Transmitter;
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     http://pear2.php.net/PEAR2_Net_Transmitter
  */
-class StreamException extends \RuntimeException implements Exception
+class StreamException extends RuntimeException implements Exception
 {
+    /**
+     * @var string|null The fragment up until the point of failure.
+     *     NULL if the failure occured before the operation started.
+     */
+    protected $fragment = null;
+
+    /**
+     * Creates a new stream exception.
+     * 
+     * @param string      $message  The Exception message to throw.
+     * @param int         $code     The Exception code.
+     * @param E|null      $previous The previous exception used for the
+     *     exception chaining.
+     * @param string|null $fragment The fragment up until the point of failure.
+     *     NULL if the failure occured before the operation started.
+     */
+    public function __construct(
+        $message,
+        $code,
+        E $previous = null,
+        $fragment = null
+    ) {
+        parent::__construct($message, $code, $previous);
+        $this->fragment = $fragment;
+    }
+
+    /**
+     * Gets the stream fragment.
+     * 
+     * @return string|null The fragment up until the point of failure.
+     *     NULL if the failure occured before the operation started.
+     */
+    public function getFragment()
+    {
+        return $this->fragment;
+    }
+
+    // @codeCoverageIgnoreStart
+    // Unreliable in testing.
+
+    /**
+     * Returns a string representation of the exception.
+     * 
+     * @return string The exception as a string.
+     */
+    public function __toString()
+    {
+        $result = parent::__toString();
+        if (null !== $this->fragment) {
+            $result .= "\nFragment: " . $this->fragment;
+        }
+        return $result;
+    }
+    // @codeCoverageIgnoreEnd
 }

@@ -20,6 +20,8 @@
  */
 namespace PEAR2\Net\Transmitter;
 
+use Exception as E;
+
 /**
  * A stream transmitter.
  * 
@@ -119,7 +121,7 @@ class Stream
     {
         return ftell($this->stream) === 0;
     }
-    
+
     /**
      * Checks whether the wrapped stream is a persistent one.
      * 
@@ -129,12 +131,24 @@ class Stream
     {
         return $this->persist;
     }
-    
+
+    /**
+     * Checks whether the wrapped stream is a blocking one.
+     * 
+     * @return bool TRUE if the stream is a blocking one, FALSE otherwise. 
+     */
     public function isBlocking()
     {
         return $this->isBlocking;
     }
-    
+
+    /**
+     * Sets blocking mode.
+     * 
+     * @param bool $block Sets whether the stream is in blocking mode.
+     * 
+     * @return bool TRUE on success, FALSE on failure.
+     */
     public function setIsBlocking($block)
     {
         $block = (bool)$block;
@@ -349,7 +363,9 @@ class Stream
             }
             throw $this->createException(
                 "Failed while receiving {$what}",
-                4
+                4,
+                null,
+                $result
             );
         }
         return $result;
@@ -400,12 +416,19 @@ class Stream
                     continue 2;
                 }
             }
+
+            foreach ($appliedFilters as $filter) {
+                stream_filter_remove($filter);
+            }
+            rewind($result);
             throw $this->createException(
                 "Failed while receiving {$what}",
-                5
+                5,
+                null,
+                $result
             );
         }
-        
+
         foreach ($appliedFilters as $filter) {
             stream_filter_remove($filter);
         }
@@ -510,13 +533,21 @@ class Stream
      * Creates a new exception. Used by the rest of the functions in this class.
      * Override in derived classes for custom exception handling.
      * 
-     * @param string $message The exception message.
-     * @param int    $code    The exception code.
+     * @param string      $message  The exception message.
+     * @param int         $code     The exception code.
+     * @param E|null      $previous The previous exception used for the
+     *     exception chaining.
+     * @param string|null $fragment The fragment up until the point of failure.
+     *     NULL if the failure occured before the operation started.
      * 
      * @return StreamException The exception to then be thrown.
      */
-    protected function createException($message, $code = 0)
-    {
-        return new StreamException($message, $code);
+    protected function createException(
+        $message,
+        $code = 0,
+        E $previous = null,
+        $fragment = null
+    ) {
+        return new StreamException($message, $code, $previous, $fragment);
     }
 }

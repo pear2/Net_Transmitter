@@ -144,7 +144,7 @@ abstract class NetworkStream extends Stream
         if (self::DIRECTION_SEND === $direction
             && function_exists('stream_set_chunk_size') && !$result
         ) {
-            return false !== stream_set_chunk_size($this->stream, $size);
+            return false !== @stream_set_chunk_size($this->stream, $size);
         }
         return $result;
     }

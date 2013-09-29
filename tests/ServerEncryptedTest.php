@@ -8,6 +8,7 @@ class ServerEncryptedTest extends ServerTest
 {
     public static function setUpBeforeClass()
     {
+        ini_set('display_errors', 'On');
         $hostname = strpos(LOCAL_HOSTNAME, ':') !== false
             ? '[' . LOCAL_HOSTNAME . ']' : LOCAL_HOSTNAME;
         static::$server = stream_socket_server(
@@ -16,7 +17,15 @@ class ServerEncryptedTest extends ServerTest
             static::$errstr,
             STREAM_SERVER_BIND | STREAM_SERVER_LISTEN,
             stream_context_create(
-                array('ssl' => array('ciphers' => '-COMPLEMENTOFALL ADH'))
+                array(
+                    'ssl' => array(
+                        'ciphers' => 'ADH',
+                        //'local_cert' => 'D:\Users\boen_robot\Desktop\test.pem',
+                        //'passphrase' => '',
+                       // 'cafile' => 'D:\Users\boen_robot\Desktop\test.pem'
+                        
+                    )
+                )
             )
         );
         return;

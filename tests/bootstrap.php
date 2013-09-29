@@ -1,10 +1,15 @@
 <?php
-if (is_file('../vendor/autoload.php')) {
-    include_once '../vendor/autoload.php';
-} elseif (is_file('PEAR2/Autoload.php')) {
-    include_once 'PEAR2/Autoload.php';
-    PEAR2\Autoload::initialize('../src');
-    PEAR2\Autoload::initialize('../../Cache_SHM.git/src');
+$autoloader = stream_resolve_include_path('/../vendor/autoload.php');
+if (false !== $autoloader) {
+    include_once $autoloader;
 } else {
-    die('No recognized autoloader is available.');
+    $autoloader = stream_resolve_include_path('PEAR2/Autoload.php');
+    if (false !== $autoloader) {
+        include_once $autoloader;
+        \PEAR2\Autoload::initialize('../src');
+        \PEAR2\Autoload::initialize('../../Cache_SHM.git/src');
+    } else {
+        die('No recognized autoloader is available.');
+    }
 }
+unset($autoloader);
