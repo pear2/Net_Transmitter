@@ -43,9 +43,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $this->conn = new TcpServerConnection(
             static::$server,
-            //(1 * 60 * 60)/*h*/ +
+            //(1 * 60 * 60)/*h*/ //+
             (10 * 60)/*m*/ //+
-            //(20)/*s*/
+            //1/*s*/
         );
         $this->assertEquals(REMOTE_HOSTNAME, $this->conn->getPeerIP());
         $this->assertInternalType('int', $this->conn->getPeerPort());

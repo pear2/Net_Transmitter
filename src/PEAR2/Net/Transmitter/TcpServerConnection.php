@@ -20,6 +20,8 @@
  */
 namespace PEAR2\Net\Transmitter;
 
+use Exception as E;
+
 /**
  * A transmitter for connections to a socket server.
  * 
@@ -64,10 +66,12 @@ class TcpServerConnection extends NetworkStream
         $timeout
             = null == $timeout ? ini_get('default_socket_timeout') : $timeout;
 
+        set_error_handler(array($this, 'handleError'));
         try {
             parent::__construct(
-                @stream_socket_accept($server, $timeout, $peername)
+                stream_socket_accept($server, $timeout, $peername)
             );
+            restore_error_handler();
             $portString = strrchr($peername, ':');
             $this->peerPort = (int) substr($portString, 1);
             $ipString = substr(
@@ -81,10 +85,12 @@ class TcpServerConnection extends NetworkStream
                 $ipString = substr($ipString, 1, strlen($ipString) - 2);
             }
             $this->peerIP = $ipString;
-        } catch (Exception $e) {
+        } catch (E $e) {
+            restore_error_handler();
             throw $this->createException(
                 'Failed to initialize connection.',
-                10
+                10,
+                $e
             );
         }
     }
@@ -114,13 +120,26 @@ class TcpServerConnection extends NetworkStream
      * 
      * Creates a new exception. Used by the rest of the functions in this class.
      * 
-     * @param string $message The exception message.
-     * @param int    $code    The exception code.
+     * @param string      $message  The exception message.
+     * @param int         $code     The exception code.
+     * @param E|null      $previous Previous exception thrown, or NULL if there
+     *     is none.
+     * @param string|null $fragment The fragment up until the point of failure.
+     *     NULL if the failure occured before the operation started.
      * 
      * @return SocketException The exception to then be thrown.
      */
-    protected function createException($message, $code = 0)
-    {
-        return new SocketException($message, $code);
+    protected function createException(
+        $message,
+        $code = 0,
+        E $previous = null,
+        $fragment = null
+    ) {
+        return new SocketException(
+            $message,
+            $code,
+            $previous,
+            $fragment
+        );
     }
 }

@@ -132,7 +132,7 @@ class TcpClient extends NetworkStream
         $hasCryptoScheme = array_key_exists($crypto, static::$cryptoScheme);
         $scheme = $hasCryptoScheme ? static::$cryptoScheme[$crypto] : 'tcp';
         $this->uri = "{$scheme}://{$host}:{$port}/{$key}";
-        set_error_handler(array(__CLASS__, '_handleError'));
+        set_error_handler(array($this, 'handleError'));
         try {
             parent::__construct(
                 stream_socket_client(
@@ -154,7 +154,11 @@ class TcpClient extends NetworkStream
                     $e
                 );
             }
-            throw $this->createException('Failed to connect with socket.', 8);
+            throw $this->createException(
+                'Failed to connect with socket.',
+                8,
+                $e
+            );
         }
 
         if ($hasCryptoScheme) {
@@ -170,20 +174,6 @@ class TcpClient extends NetworkStream
             );
             self::$lockState[$this->uri] = self::DIRECTION_NONE;
         }
-    }
-
-    /**
-     * PHP error handler for connection errors.
-     * 
-     * @param string $level   Level of PHP error raised. Ignored.
-     * @param string $message Message raised by PHP.
-     * 
-     * @return void
-     * @throws SocketException That's how the error is handled.
-     */
-    private static function _handleError($level, $message)
-    {
-        throw new SocketException($message, 0);
     }
 
     /**

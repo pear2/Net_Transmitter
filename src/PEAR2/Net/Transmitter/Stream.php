@@ -96,6 +96,20 @@ class Stream
     }
 
     /**
+     * PHP error handler for connection errors.
+     * 
+     * @param string $level   Level of PHP error raised. Ignored.
+     * @param string $message Message raised by PHP.
+     * 
+     * @return void
+     * @throws SocketException That's how the error is handled.
+     */
+    protected function handleError($level, $message)
+    {
+        throw $this->createException($message, 0);
+    }
+
+    /**
      * Checks if a given variable is a stream resource.
      * 
      * @param mixed $var The variable to check.

@@ -8,10 +8,11 @@ php:
   - 5.5
 before_script:
   - composer self-update
-  - composer install
-  - composer require "pear2/cache_shm" ">=0.1.2"
+  - composer install --dev
   - cd tests
-  - phpunit --configuration secondaryPeer.xml &
+  - phpunit --configuration secondaryPeer.xml > secondaryPeer.out.txt &
   - sleep 2
 script:
   - phpunit --configuration phpunit.xml
+after_script:
+  - cat secondaryPeer.out.txt

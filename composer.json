@@ -18,6 +18,9 @@
     "require": {
         "php": ">=5.3.0"
     },
+    "require-dev": {
+        "pear2/cache_shm": "dev-develop"
+    },
     "suggest": {
         "pear2/cache_shm": ">=0.1.2",
         "ext-apc": ">=3.0.13",
@@ -28,6 +31,5 @@
         "psr-0": {
             "PEAR2\\Net\\Transmitter\\": "src/"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }

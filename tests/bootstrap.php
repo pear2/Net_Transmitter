@@ -29,6 +29,7 @@ if (false !== $autoloader) {
     if (false !== $autoloader) {
         include_once $autoloader;
         Autoload::initialize(realpath('../src'));
+        Autoload::initialize(realpath('../../Cache_SHM.git/src'));
     } else {
         fwrite(STDERR, 'No recognized autoloader is available.');
         exit(1);
