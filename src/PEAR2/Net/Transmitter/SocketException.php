@@ -21,7 +21,6 @@
 namespace PEAR2\Net\Transmitter;
 
 use Exception as E;
-use RuntimeException;
 
 /**
  * Exception thrown when something goes wrong with the connection.
@@ -48,14 +47,17 @@ class SocketException extends StreamException
     /**
      * Creates a new socket exception.
      * 
-     * @param string      $message   The Exception message to throw.
-     * @param int         $code      The Exception code.
-     * @param E|null      $previous  The previous exception used for the
+     * @param string $message   The Exception message to throw.
+     * @param int    $code      The Exception code.
+     * @param E|null $previous  The previous exception used for the
      *     exception chaining.
-     * @param string|null $fragment  The fragment up until the point of failure.
+     * @param mixed  $fragment  On failure with sending, this is the number
+     *     of bytes sent successfully before the failure.
+     *     On failure when receiving, this is a string holding the contents
+     *     received successfully before the failure.
      *     NULL if the failure occured before the operation started.
-     * @param int         $error_no  The system level error number.
-     * @param string      $error_str The system level error message.
+     * @param int    $error_no  The system level error number.
+     * @param string $error_str The system level error message.
      */
     public function __construct(
         $message = '',

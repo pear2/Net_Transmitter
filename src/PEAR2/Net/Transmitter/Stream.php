@@ -292,7 +292,9 @@ class Stream
                 } elseif ($this->isBlocking || false === $bytesNow) {
                     throw $this->createException(
                         'Failed while sending stream.',
-                        2
+                        2,
+                        null,
+                        $bytes
                     );
                 } else {
                     usleep(300000);
@@ -323,7 +325,9 @@ class Stream
                 } elseif ($this->isBlocking || false === $bytesNow) {
                     throw $this->createException(
                         'Failed while sending string.',
-                        3
+                        3,
+                        null,
+                        $bytes
                     );
                 } else {
                     usleep(300000);

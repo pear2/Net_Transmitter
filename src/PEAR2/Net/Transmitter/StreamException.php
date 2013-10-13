@@ -43,11 +43,14 @@ class StreamException extends RuntimeException implements Exception
     /**
      * Creates a new stream exception.
      * 
-     * @param string      $message  The Exception message to throw.
-     * @param int         $code     The Exception code.
-     * @param E|null      $previous The previous exception used for the
+     * @param string $message  The Exception message to throw.
+     * @param int    $code     The Exception code.
+     * @param E|null $previous The previous exception used for the
      *     exception chaining.
-     * @param string|null $fragment The fragment up until the point of failure.
+     * @param mixed  $fragment On failure with sending, this is the number
+     *     of bytes sent successfully before the failure.
+     *     On failure when receiving, this is a string holding the contents
+     *     received successfully before the failure.
      *     NULL if the failure occured before the operation started.
      */
     public function __construct(
