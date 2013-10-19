@@ -60,6 +60,15 @@ class Stream
     protected $stream;
 
     /**
+     * @var bool Whether to automaticaly close the stream on
+     *     object destruction if it's not a persistent one. Setting this to
+     *     FALSE may be useful if you're only using this class "part time",
+     *     while setting it to TRUE might be useful if you're doing some
+     *     "on offs".
+     */
+    protected $autoClose = false;
+
+    /**
      * @var bool A flag that tells whether or not the stream is persistent.
      */
     protected $persist;
@@ -77,16 +86,22 @@ class Stream
     /**
      * Wraps around the specified stream.
      * 
-     * @param resource $stream The stream to wrap around.
+     * @param resource $stream    The stream to wrap around.
+     * @param bool     $autoClose Whether to automaticaly close the stream on
+     *     object destruction if it's not a persistent one. Setting this to
+     *     FALSE may be useful if you're only using this class "part time",
+     *     while setting it to TRUE might be useful if you're doing some
+     *     "on offs".
      * 
-     * @see isFresh()
+     * @see static::isFresh()
      */
-    public function __construct($stream)
+    public function __construct($stream, $autoClose = false)
     {
         if (!self::isStream($stream)) {
             throw $this->createException('Invalid stream supplied.', 1);
         }
         $this->stream = $stream;
+        $this->autoClose = (bool) $autoClose;
         $this->persist = (bool) preg_match(
             '#\s?persistent\s?#sm',
             get_resource_type($stream)
@@ -296,10 +311,9 @@ class Stream
                 ) {
                     break;
                 }
-                $bytesNow = @stream_copy_to_stream(
-                    $contents,
+                $bytesNow = @fwrite(
                     $this->stream,
-                    $chunkSize
+                    fread($contents, $chunkSize)
                 );
                 if (0 != $bytesNow) {
                     $bytes += $bytesNow;
@@ -530,7 +544,7 @@ class Stream
      */
     public function __destruct()
     {
-        if (!$this->persist) {
+        if ((!$this->persist) && $this->autoClose) {
             $this->close();
         }
     }

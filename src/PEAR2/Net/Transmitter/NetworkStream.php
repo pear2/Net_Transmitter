@@ -74,6 +74,16 @@ abstract class NetworkStream extends Stream
     protected $crypto = '';
 
     /**
+     * Wraps around the specified stream.
+     * 
+     * @param resource $stream The stream to wrap around.
+     */
+    public function __construct($stream)
+    {
+        parent::__construct($stream, true);
+    }
+
+    /**
      * Gets the current cryptography setting.
      * 
      * @return string One of this class' CRYPTO_* constants.
