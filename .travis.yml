@@ -10,9 +10,9 @@ before_script:
   - composer self-update
   - composer install --dev
   - cd tests
-  - phpunit --configuration secondaryPeer.xml > secondaryPeer.out.txt &
+  - ../vendor/bin/phpunit --configuration secondaryPeer.xml > secondaryPeer.out.txt &
   - sleep 2
 script:
-  - phpunit --configuration phpunit.xml
+  - ../vendor/bin/phpunit --configuration phpunit.xml
 after_script:
   - cat secondaryPeer.out.txt
