@@ -2,7 +2,7 @@ language: php
 php:
   # The earliest PHP 5.3 version that can run the test suit
   # AND is supported by Travis-CI.
-  - 5.3.3
+  #- 5.3.3
   - 5.3
   - 5.4
   - 5.5
