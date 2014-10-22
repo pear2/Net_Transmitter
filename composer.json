@@ -20,7 +20,7 @@
     },
     "require-dev": {
         "pear2/cache_shm": "dev-develop",
-        "phpunit/phpunit": "3.7.*"
+        "phpunit/phpunit": "@stable"
     },
     "suggest": {
         "pear2/cache_shm": ">=0.1.2",

@@ -50,7 +50,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      * @param string $name   The name of the filter.
      * @param array  $params An array of parameters for the filter.
      * 
-     * @return self|FilterCollection The collection itself.
+     * @return $this The collection itself.
      */
     public function append($name, array $params = array())
     {
@@ -70,7 +70,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      * @param string $name     The name of the filter.
      * @param array  $params   An array of parameters for the filter.
      * 
-     * @return self|FilterCollection The collection itself.
+     * @return $this The collection itself.
      */
     public function insertBefore($position, $name, array $params = array())
     {
@@ -98,7 +98,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      * 
      * @param int $position The position from which to remove a filter.
      * 
-     * @return self|FilterCollection The collection itself.
+     * @return $this The collection itself.
      */
     public function removeAt($position)
     {
@@ -110,7 +110,7 @@ class FilterCollection implements \SeekableIterator, \Countable
     /**
      * Clears the collection
      * 
-     * @return self|FilterCollection The collection itself.
+     * @return $this The collection itself.
      */
     public function clear()
     {

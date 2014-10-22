@@ -1,0 +1,3 @@
+* Added fragments to exceptions, allowing retrieval of incomplete receives' contents, and byte count on incomplete sends.
+* Changed Stream to use an fread/fwrite duo instead of stream_copy_to_stream() for the sake of stability.
+* Doc fixes.

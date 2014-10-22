@@ -20,7 +20,14 @@
  */
 namespace PEAR2\Net\Transmitter;
 
+/**
+ * Base for this exception.
+ */
 use RuntimeException;
+
+/**
+ * Used to enable any exception in chaining.
+ */
 use Exception as E;
 
 /**
@@ -35,7 +42,11 @@ use Exception as E;
 class StreamException extends RuntimeException implements Exception
 {
     /**
-     * @var string|null The fragment up until the point of failure.
+     * @var int|string|resource|null The fragment up until the point of failure.
+     *     On failure with sending, this is the number of bytes sent
+     *     successfully before the failure.
+     *     On failure when receiving, this is a string/stream holding
+     *     the contents received successfully before the failure.
      *     NULL if the failure occured before the operation started.
      */
     protected $fragment = null;
@@ -43,14 +54,16 @@ class StreamException extends RuntimeException implements Exception
     /**
      * Creates a new stream exception.
      * 
-     * @param string $message  The Exception message to throw.
-     * @param int    $code     The Exception code.
-     * @param E|null $previous The previous exception used for the
-     *     exception chaining.
-     * @param mixed  $fragment On failure with sending, this is the number
-     *     of bytes sent successfully before the failure.
-     *     On failure when receiving, this is a string holding the contents
-     *     received successfully before the failure.
+     * @param string                   $message  The Exception message to throw.
+     * @param int                      $code     The Exception code.
+     * @param E|null                   $previous Previous exception thrown,
+     *     or NULL if there is none.
+     * @param int|string|resource|null $fragment The fragment up until the
+     *     point of failure.
+     *     On failure with sending, this is the number of bytes sent
+     *     successfully before the failure.
+     *     On failure when receiving, this is a string/stream holding
+     *     the contents received successfully before the failure.
      *     NULL if the failure occured before the operation started.
      */
     public function __construct(
@@ -66,7 +79,12 @@ class StreamException extends RuntimeException implements Exception
     /**
      * Gets the stream fragment.
      * 
-     * @return string|null The fragment up until the point of failure.
+     * @return int|string|resource|null The fragment up until the
+     *     point of failure.
+     *     On failure with sending, this is the number of bytes sent
+     *     successfully before the failure.
+     *     On failure when receiving, this is a string/stream holding
+     *     the contents received successfully before the failure.
      *     NULL if the failure occured before the operation started.
      */
     public function getFragment()
@@ -86,7 +104,12 @@ class StreamException extends RuntimeException implements Exception
     {
         $result = parent::__toString();
         if (null !== $this->fragment) {
-            $result .= "\nFragment: " . $this->fragment;
+            $result .= "\nFragment: ";
+            if (Stream::isStream($this->fragment)) {
+                $result .= stream_get_contents($this->fragment);
+            } else {
+                $result .= (string)$this->fragment;
+            }
         }
         return $result;
     }

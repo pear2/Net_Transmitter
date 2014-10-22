@@ -181,12 +181,16 @@ class TcpClient extends NetworkStream
      * 
      * Creates a new exception. Used by the rest of the functions in this class.
      * 
-     * @param string      $message  The exception message.
-     * @param int         $code     The exception code.
-     * @param E|null      $previous Previous exception thrown, or NULL if there
-     *     is none.
-     * @param string|null $fragment The fragment up until the point of failure.
-     *     NULL if the failure occured before the operation started.
+     * @param string                   $message  The exception message.
+     * @param int                      $code     The exception code.
+     * @param E|null                   $previous Previous exception thrown,
+     *     or NULL if there is none.
+     * @param int|string|resource|null $fragment The fragment up until the
+     *     point of failure.
+     *     On failure with sending, this is the number of bytes sent
+     *     successfully before the failure.
+     *     On failure when receiving, this is a string/stream holding
+     *     the contents received successfully before the failure.
      * 
      * @return SocketException The exception to then be thrown.
      */
@@ -225,7 +229,7 @@ class TcpClient extends NetworkStream
      *     ones. Setting this to FALSE will make the function only obtain the
      *     locks which are not already obtained.
      * 
-     * @return int The previous state or FALSE if the connection is not
+     * @return int|false The previous state or FALSE if the connection is not
      *     persistent or arguments are invalid.
      */
     public function lock($direction = self::DIRECTION_ALL, $replace = false)

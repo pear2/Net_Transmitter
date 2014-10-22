@@ -263,8 +263,9 @@ class Stream
      * @param string $direction The chunk of which direction to get. Valid
      *     values are the DIRECTION_* constants.
      * 
-     * @return int|array The chunk size in bytes, or an array of chunk sizes
-     *     with the directions as keys. FALSE on invalid direction. 
+     * @return int|array|false The chunk size in bytes,
+     *     or an array of chunk sizes with the directions as keys.
+     *     FALSE on invalid direction.
      */
     public function getChunk($direction = self::DIRECTION_ALL)
     {
@@ -565,12 +566,16 @@ class Stream
      * Creates a new exception. Used by the rest of the functions in this class.
      * Override in derived classes for custom exception handling.
      * 
-     * @param string      $message  The exception message.
-     * @param int         $code     The exception code.
-     * @param E|null      $previous The previous exception used for the
-     *     exception chaining.
-     * @param string|null $fragment The fragment up until the point of failure.
-     *     NULL if the failure occured before the operation started.
+     * @param string                   $message  The exception message.
+     * @param int                      $code     The exception code.
+     * @param E|null                   $previous Previous exception thrown,
+     *     or NULL if there is none.
+     * @param int|string|resource|null $fragment The fragment up until the
+     *     point of failure.
+     *     On failure with sending, this is the number of bytes sent
+     *     successfully before the failure.
+     *     On failure when receiving, this is a string/stream holding
+     *     the contents received successfully before the failure.
      * 
      * @return StreamException The exception to then be thrown.
      */

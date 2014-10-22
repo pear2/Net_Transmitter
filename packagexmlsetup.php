@@ -167,7 +167,7 @@ $packageGen = function (
             $filename = substr($path->getPathname(), 2);
 
         if (isset($package->files[$filename])) {
-            $as = (strpos($filename, 'examples') === 0)
+            $as = (strpos($filename, 'examples/') === 0)
                 ? $filename
                 : substr($filename, strpos($filename, '/') + 1);
             $package->getReleaseToInstall('php')->installAs($filename, $as);

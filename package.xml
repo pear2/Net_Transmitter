@@ -137,28 +137,6 @@ This package abstracts this away, so that when you want to get exactly N amount 
   </optional>
  </dependencies>
  <phprelease>
-  <filelist>
-   <install name="docs/apigen.neon" as="apigen.neon"/>
-   <install name="docs/doxygen.ini" as="doxygen.ini"/>
-   <install name="docs/phpdoc.dist.xml" as="phpdoc.dist.xml"/>
-   <install name="src/PEAR2/Net/Transmitter/Exception.php" as="PEAR2/Net/Transmitter/Exception.php"/>
-   <install name="src/PEAR2/Net/Transmitter/FilterCollection.php" as="PEAR2/Net/Transmitter/FilterCollection.php"/>
-   <install name="src/PEAR2/Net/Transmitter/LockException.php" as="PEAR2/Net/Transmitter/LockException.php"/>
-   <install name="src/PEAR2/Net/Transmitter/NetworkStream.php" as="PEAR2/Net/Transmitter/NetworkStream.php"/>
-   <install name="src/PEAR2/Net/Transmitter/SocketException.php" as="PEAR2/Net/Transmitter/SocketException.php"/>
-   <install name="src/PEAR2/Net/Transmitter/Stream.php" as="PEAR2/Net/Transmitter/Stream.php"/>
-   <install name="src/PEAR2/Net/Transmitter/StreamException.php" as="PEAR2/Net/Transmitter/StreamException.php"/>
-   <install name="src/PEAR2/Net/Transmitter/TcpClient.php" as="PEAR2/Net/Transmitter/TcpClient.php"/>
-   <install name="src/PEAR2/Net/Transmitter/TcpServerConnection.php" as="PEAR2/Net/Transmitter/TcpServerConnection.php"/>
-   <install name="tests/bootstrap.php" as="bootstrap.php"/>
-   <install name="tests/ClientEncryptedTest.php_" as="ClientEncryptedTest.php_"/>
-   <install name="tests/ClientTest.php" as="ClientTest.php"/>
-   <install name="tests/phpunit.xml" as="phpunit.xml"/>
-   <install name="tests/secondaryPeer.bat" as="secondaryPeer.bat"/>
-   <install name="tests/secondaryPeer.xml" as="secondaryPeer.xml"/>
-   <install name="tests/ServerEncryptedTest.php_" as="ServerEncryptedTest.php_"/>
-   <install name="tests/ServerTest.php" as="ServerTest.php"/>
-   <install name="tests/UnconnectedTest.php" as="UnconnectedTest.php"/>
-  </filelist>
+  <filelist></filelist>
  </phprelease>
 </package>
