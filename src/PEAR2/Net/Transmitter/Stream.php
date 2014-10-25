@@ -72,7 +72,10 @@ class Stream
      * @var bool A flag that tells whether or not the stream is persistent.
      */
     protected $persist;
-    
+
+    /**
+     * @var bool Whether the wrapped stream is in blocking mode or not.
+     */
     protected $isBlocking = true;
     
     /**
@@ -118,6 +121,7 @@ class Stream
      * 
      * @return void
      * @throws SocketException That's how the error is handled.
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function handleError($level, $message)
     {
@@ -472,38 +476,51 @@ class Stream
     /**
      * Checks whether the stream is available for operations.
      * 
+     * For network streams, this means whether the other end has closed the
+     * connection.
+     * 
      * @return bool TRUE if the stream is available, FALSE otherwise.
      */
     public function isAvailable()
     {
-        return self::isStream($this->stream) && !feof($this->stream);
+        if (self::isStream($this->stream)) {
+            if ($this->isBlocking) {
+                return !feof($this->stream);
+            } else {
+                $meta = stream_get_meta_data($this->stream);
+                return !$meta['eof'];
+            }
+        }
+        return false;
     }
 
     /**
      * Checks whether there is data to be read from the wrapped stream.
      * 
-     * @param int|null $timeout_s  If theere isn't data awaiting currently,
+     * @param int|null $sTimeout  If theere isn't data awaiting currently,
      *     wait for it this many seconds for data to arrive. If NULL is
      *     specified, wait indefinetly for that.
-     * @param int      $timeout_us Microseconds to add to the waiting time.
+     * @param int      $usTimeout Microseconds to add to the waiting time.
      * 
      * @return bool TRUE if there is data to be read, FALSE otherwise.
      * @SuppressWarnings(PHPMD.ShortVariable)
      */
-    public function isDataAwaiting($timeout_s = 0, $timeout_us = 0)
+    public function isDataAwaiting($sTimeout = 0, $usTimeout = 0)
     {
         if (self::isStream($this->stream)) {
-            if (null === $timeout_s && !$this->isBlocking) {
-                return true;
+            if (null === $sTimeout && !$this->isBlocking) {
+                $meta = stream_get_meta_data($this->stream);
+                return !$meta['eof'];
             }
+
             $w = $e = null;
             $r = array($this->stream);
             return 1 === @/* due to PHP bug #54563 */stream_select(
                 $r,
                 $w,
                 $e,
-                $timeout_s,
-                $timeout_us
+                $sTimeout,
+                $usTimeout
             );
         }
         return false;
@@ -512,29 +529,33 @@ class Stream
     /**
      * Checks whether the wrapped stream can be written to without a block.
      * 
-     * @param int|null $timeout_s  If the stream isn't currently accepting data,
+     * @param int|null $sTimeout  If the stream isn't currently accepting data,
      *     wait for it this many seconds to start accepting data. If NULL is
      *     specified, wait indefinetly for that.
-     * @param int      $timeout_us Microseconds to add to the waiting time.
+     * @param int      $usTimeout Microseconds to add to the waiting time.
      * 
      * @return bool TRUE if the wrapped stream would not block on a write, FALSE
      *     otherwise.
      * @SuppressWarnings(PHPMD.ShortVariable)
      */
-    public function isAcceptingData($timeout_s = 0, $timeout_us = 0)
+    public function isAcceptingData($sTimeout = 0, $usTimeout = 0)
     {
         if (self::isStream($this->stream)) {
-            if (null === $timeout_s && !$this->isBlocking) {
-                return true;
+            if (!$this->isBlocking) {
+                $meta = stream_get_meta_data($this->stream);
+                return !$meta['eof'];
+            } elseif (feof($this->stream)) {
+                return false;
             }
+
             $r = $e = null;
             $w = array($this->stream);
             return 1 === @/* due to PHP bug #54563 */stream_select(
                 $r,
                 $w,
                 $e,
-                $timeout_s,
-                $timeout_us
+                $sTimeout,
+                $usTimeout
             );
         }
         return false;

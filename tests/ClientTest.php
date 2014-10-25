@@ -16,7 +16,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->assertInstanceOf(__NAMESPACE__ . '\TcpClient', $this->client);
-        $this->client->close();
+        if ($this->client->isPersistent()) {
+            $this->client->close();
+        }
         unset($this->client);
     }
 
@@ -25,7 +27,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $byte = '1';
 
         $this->client->send($byte);
-        $this->assertEquals(
+        $this->assertSame(
             $byte,
             $this->client->receive(1),
             'Wrong byte echoed.'
@@ -39,7 +41,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $this->client->send($byte);
         if ($this->client->isDataAwaiting($timeout)) {
-            $this->assertEquals(
+            $this->assertSame(
                 $byte,
                 $this->client->receive(1),
                 'Wrong byte echoed.'
@@ -62,7 +64,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $contents = str_repeat('2', $size);
 
         $this->client->send($contents);
-        $this->assertEquals(
+        $this->assertSame(
             $contents,
             $this->client->receive($size),
             'Wrong contents echoed.'
@@ -77,7 +79,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $this->client->send($contents);
         if ($this->client->isDataAwaiting($timeout)) {
-            $this->assertEquals(
+            $this->assertSame(
                 $contents,
                 $this->client->receive($size),
                 'Wrong contents echoed.'
@@ -92,7 +94,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $this->client->send($contents);
         if ($this->client->isDataAwaiting(null)) {
-            $this->assertEquals(
+            $this->assertSame(
                 $contents,
                 $this->client->receive($size),
                 'Wrong contents echoed.'
@@ -113,7 +115,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             echo date('H:s;');
             $this->client->send($byte);
             //echo date('H:s;');
-            $this->assertEquals(
+            $this->assertSame(
                 $byte,
                 $this->client->receive(1),
                 'Wrong byte echoed.'
@@ -130,7 +132,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         if ($this->client->isAcceptingData(null)) {
             $this->client->send($contents);
-            $this->assertEquals(
+            $this->assertSame(
                 $contents,
                 $this->client->receive($size),
                 'Wrong contents echoed.'
@@ -144,7 +146,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         fwrite($stream, '3');
         rewind($stream);
         $this->client->send($stream);
-        $this->assertEquals(
+        $this->assertSame(
             stream_get_contents($stream),
             $this->client->receive(1),
             'Wrong byte echoed.'
@@ -158,7 +160,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         fwrite($stream, str_repeat('4', $size));
         rewind($stream);
         $this->client->send($stream);
-        $this->assertEquals(
+        $this->assertSame(
             stream_get_contents($stream),
             $this->client->receive($size),
             'Wrong contents echoed.'
@@ -169,7 +171,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $byte = '5';
         $this->client->send($byte);
-        $this->assertEquals(
+        $this->assertSame(
             $byte,
             stream_get_contents($this->client->receiveStream(1)),
             'Wrong byte echoed.'
@@ -181,7 +183,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
         $contents = str_repeat('6', $size);
         $this->client->send($contents);
-        $this->assertEquals(
+        $this->assertSame(
             $contents,
             stream_get_contents($this->client->receiveStream($size)),
             'Wrong contents echoed.'
@@ -191,36 +193,36 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testOffsetSend()
     {
         $contents = 'abcd';
-        $this->assertEquals(3, $this->client->send($contents, 1));
+        $this->assertSame(3, $this->client->send($contents, 1));
         
         $stream = fopen('php://temp', 'r+b');
         fwrite($stream, $contents);
         rewind($stream);
-        $this->assertEquals(3, $this->client->send($stream, 1));
+        $this->assertSame(3, $this->client->send($stream, 1));
         fseek($stream, 3, SEEK_SET);
-        $this->assertEquals(1, $this->client->send($stream));
-        $this->assertEquals(2, $this->client->send($stream, 2));
+        $this->assertSame(1, $this->client->send($stream));
+        $this->assertSame(2, $this->client->send($stream, 2));
     }
 
     public function testLengthSend()
     {
         $contents = 'abcd';
-        $this->assertEquals(1, $this->client->send($contents, null, 1));
+        $this->assertSame(1, $this->client->send($contents, null, 1));
         
         $stream = fopen('php://temp', 'r+b');
         fwrite($stream, $contents);
         rewind($stream);
-        $this->assertEquals(1, $this->client->send($stream, null, 1));
+        $this->assertSame(1, $this->client->send($stream, null, 1));
         fseek($stream, 2, SEEK_SET);
-        $this->assertEquals(1, $this->client->send($stream, null, 1));
-        $this->assertEquals(2, $this->client->send($stream, 1, 2));
+        $this->assertSame(1, $this->client->send($stream, null, 1));
+        $this->assertSame(2, $this->client->send($stream, 1, 2));
     }
 
     public function testClientReceivingFilterCollection()
     {
         $filters = new FilterCollection();
         $filters->append('string.toupper');
-        $this->assertEquals(
+        $this->assertSame(
             'T',
             stream_get_contents($this->client->receiveStream(1, $filters)),
             'Wrong contents echoed.'
@@ -243,7 +245,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($client->isFresh());
         $this->assertTrue($this->client->isPersistent());
         $this->assertTrue($client->isPersistent());
-        $this->assertEquals('t', $this->client->receive(1));
+        $this->assertSame('t', $this->client->receive(1));
         $this->assertFalse($this->client->isFresh());
         $this->assertFalse($client->isFresh());
         $client->close();
@@ -253,9 +255,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $this->client->receive(2);
-            $this->fail('Receiving had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(4, $e->getCode(), 'Improper exception code.');
+            $this->assertSame('t', $e->getFragment());
+            $this->assertSame(4, $e->getCode(), 'Improper exception code.');
         }
     }
 
@@ -265,18 +267,19 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->client->receiveStream(2);
             $this->fail('Receiving had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(5, $e->getCode(), 'Improper exception code.');
+            $this->assertSame('t', stream_get_contents($e->getFragment()));
+            $this->assertSame(5, $e->getCode(), 'Improper exception code.');
         }
     }
 
     public function testServerReceivingIncompleteData()
     {
-        $this->assertEquals(1, $this->client->send('t'), 'Wrong amount sent.');
+        $this->assertSame(1, $this->client->send('t'), 'Wrong amount sent.');
     }
 
     public function testServerReceivingIncompleteDataStream()
     {
-        $this->assertEquals(1, $this->client->send('t'), 'Wrong amount sent.');
+        $this->assertSame(1, $this->client->send('t'), 'Wrong amount sent.');
     }
 
     public function testClientSendingIncompleteData()
@@ -287,7 +290,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->client->send($contents);
             $this->fail('Sending had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(3, $e->getCode(), 'Improper exception code.');
+            $this->assertLessThan(
+                $size,
+                $e->getFragment(),
+                'Improper exception code.'
+            );
+            $this->assertSame(3, $e->getCode(), 'Improper exception code.');
         }
     }
 
@@ -301,31 +309,36 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->client->send($stream);
             $this->fail('Sending had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(2, $e->getCode(), 'Improper exception code.');
+            $this->assertLessThan(
+                $size,
+                $e->getFragment(),
+                'Improper exception code.'
+            );
+            $this->assertSame(2, $e->getCode(), 'Improper exception code.');
         }
     }
 
     public function testClientTimingOut()
     {
-        $this->assertEquals('999', $this->client->receive(3));
+        $this->assertSame('999', $this->client->receive(3));
         $this->client->setTimeout(2);
         try {
             $this->client->receive(30);
             $this->fail('Second receiving had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(4, $e->getCode(), 'Improper exception code.');
+            $this->assertSame(4, $e->getCode(), 'Improper exception code.');
         }
     }
 
     public function testClientTimingOutStream()
     {
-        $this->assertEquals('aaa', $this->client->receive(3));
+        $this->assertSame('aaa', $this->client->receive(3));
         $this->client->setTimeout(2);
         try {
             $this->client->receiveStream(30);
             $this->fail('Second receiving had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(5, $e->getCode(), 'Improper exception code.');
+            $this->assertSame(5, $e->getCode(), 'Improper exception code.');
         }
     }
 
@@ -356,18 +369,20 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(
             $this->client->setChunk(1, Stream::DIRECTION_RECEIVE)
         );
-        $this->assertEquals(
+        $this->assertSame(
             1,
             $this->client->getChunk(Stream::DIRECTION_RECEIVE)
         );
-        $this->assertEquals(
+        $this->assertSame(
             $defaultChunks[Stream::DIRECTION_SEND],
             $this->client->getChunk(Stream::DIRECTION_SEND)
         );
-        $this->assertEquals(
+        $this->assertSame(
             array(
-                Stream::DIRECTION_RECEIVE => 1,
-                Stream::DIRECTION_SEND => $defaultChunks[Stream::DIRECTION_SEND]
+                Stream::DIRECTION_SEND
+                    => $defaultChunks[Stream::DIRECTION_SEND],
+                Stream::DIRECTION_RECEIVE
+                    => 1
             ),
             $this->client->getChunk()
         );
@@ -375,32 +390,38 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(
             $this->client->setChunk(1, Stream::DIRECTION_SEND)
         );
-        $this->assertEquals(
+        $this->assertSame(
             1,
             $this->client->getChunk(Stream::DIRECTION_SEND)
         );
-        $this->assertEquals(
+        $this->assertSame(
             1,
             $this->client->getChunk(Stream::DIRECTION_RECEIVE)
         );
-        $this->assertEquals(
-            array(Stream::DIRECTION_RECEIVE => 1, Stream::DIRECTION_SEND => 1),
+        $this->assertSame(
+            array(
+                Stream::DIRECTION_SEND => 1,
+                Stream::DIRECTION_RECEIVE => 1
+            ),
             $this->client->getChunk()
         );
         
         $this->assertTrue(
             $this->client->setChunk(2)
         );
-        $this->assertEquals(
+        $this->assertSame(
             2,
             $this->client->getChunk(Stream::DIRECTION_SEND)
         );
-        $this->assertEquals(
+        $this->assertSame(
             2,
             $this->client->getChunk(Stream::DIRECTION_RECEIVE)
         );
-        $this->assertEquals(
-            array(Stream::DIRECTION_RECEIVE => 2, Stream::DIRECTION_SEND => 2),
+        $this->assertSame(
+            array(
+                Stream::DIRECTION_SEND => 2,
+                Stream::DIRECTION_RECEIVE => 2
+            ),
             $this->client->getChunk()
         );
     }
@@ -408,14 +429,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testShutdown()
     {
         $this->client->send('bbb');
-        $this->assertEquals('bbb', $this->client->receive(3));
+        $this->assertSame('bbb', $this->client->receive(3));
         $this->assertFalse($this->client->shutdown('undefined direction'));
         $this->assertTrue($this->client->shutdown(Stream::DIRECTION_SEND));
         try {
             $this->client->send('b');
             $this->fail('Sending had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(3, $e->getCode(), 'Improper exception code.');
+            $this->assertSame(3, $e->getCode(), 'Improper exception code.');
         }
     }
 }

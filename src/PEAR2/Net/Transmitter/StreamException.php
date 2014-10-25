@@ -105,10 +105,10 @@ class StreamException extends RuntimeException implements Exception
         $result = parent::__toString();
         if (null !== $this->fragment) {
             $result .= "\nFragment: ";
-            if (Stream::isStream($this->fragment)) {
-                $result .= stream_get_contents($this->fragment);
-            } else {
+            if (is_scalar($this->fragment)) {
                 $result .= (string)$this->fragment;
+            } else {
+                $result .= stream_get_contents($this->fragment);
             }
         }
         return $result;

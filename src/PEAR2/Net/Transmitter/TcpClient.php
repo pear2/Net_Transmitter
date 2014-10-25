@@ -49,12 +49,12 @@ class TcpClient extends NetworkStream
     /**
      * @var int The error code of the last error on the socket.
      */
-    protected $error_no = 0;
+    protected $errorNo = 0;
 
     /**
      * @var string The error message of the last error on the socket.
      */
-    protected $error_str = null;
+    protected $errorStr = null;
     
     /**
      * @var SHM Persistent connection handler. Remains NULL for non-persistent
@@ -137,8 +137,8 @@ class TcpClient extends NetworkStream
             parent::__construct(
                 stream_socket_client(
                     $this->uri,
-                    $this->error_no,
-                    $this->error_str,
+                    $this->errorNo,
+                    $this->errorStr,
                     $timeout,
                     $flags,
                     $context
@@ -147,7 +147,7 @@ class TcpClient extends NetworkStream
             restore_error_handler();
         } catch (E $e) {
             restore_error_handler();
-            if (0 === $this->error_no) {
+            if (0 === $this->errorNo) {
                 throw $this->createException(
                     'Failed to initialize socket.',
                     7,
@@ -205,8 +205,8 @@ class TcpClient extends NetworkStream
             $code,
             $previous,
             $fragment,
-            $this->error_no,
-            $this->error_str
+            $this->errorNo,
+            $this->errorStr
         );
     }
     

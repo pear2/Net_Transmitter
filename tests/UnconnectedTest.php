@@ -21,13 +21,19 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
         ini_set('default_socket_timeout', self::$defaultSocketTimeout);
     }
 
+    /**
+     * N/A
+     * 
+     * @return void
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
     public function testDefaultStreamTransmitterException()
     {
         try {
             $trans = new Stream('invalid arg');
             $this->fail('Transmitter initialization had to fail.');
         } catch (StreamException $e) {
-            $this->assertEquals(1, $e->getCode(), 'Improper exception code.');
+            $this->assertSame(1, $e->getCode(), 'Improper exception code.');
         }
     }
 
@@ -39,72 +45,72 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($filters->key());
         $this->assertFalse($filters->current());
         $this->assertFalse($filters->valid());
-        $this->assertEquals(0, count($filters));
+        $this->assertSame(0, count($filters));
     }
 
     public function testFilterCollection()
     {
         $filters = new FilterCollection();
-        $this->assertEquals(0, count($filters));
+        $this->assertSame(0, count($filters));
         $filters->append('string.toupper');
-        $this->assertEquals(1, count($filters));
+        $this->assertSame(1, count($filters));
         $filters->append('string.rot13');
-        $this->assertEquals(2, count($filters));
+        $this->assertSame(2, count($filters));
         $filters->clear();
-        $this->assertEquals(0, count($filters));
+        $this->assertSame(0, count($filters));
 
         $filters->append('string.toupper');
-        $this->assertEquals(1, count($filters));
-        $this->assertEquals('string.toupper', $filters->key());
-        $this->assertEquals(array(), $filters->current());
+        $this->assertSame(1, count($filters));
+        $this->assertSame('string.toupper', $filters->key());
+        $this->assertSame(array(), $filters->current());
         $filters->insertBefore(-1, 'string.rot13');
         $filters->insertBefore(0, 'string.base64');
         $filters->insertBefore(1, 'string.tolower');
         $filters->insertBefore(count($filters) + 2, 'string.quoted-printable');
 
-        $this->assertEquals('string.base64', $filters->key());
-        $this->assertEquals(array(), $filters->current());
-        $this->assertEquals(0, $filters->getCurrentPosition());
+        $this->assertSame('string.base64', $filters->key());
+        $this->assertSame(array(), $filters->current());
+        $this->assertSame(0, $filters->getCurrentPosition());
         $this->assertTrue($filters->next());
-        $this->assertEquals('string.tolower', $filters->key());
-        $this->assertEquals(array(), $filters->current());
-        $this->assertEquals(1, $filters->getCurrentPosition());
+        $this->assertSame('string.tolower', $filters->key());
+        $this->assertSame(array(), $filters->current());
+        $this->assertSame(1, $filters->getCurrentPosition());
         $this->assertTrue($filters->next());
-        $this->assertEquals('string.rot13', $filters->key());
-        $this->assertEquals(array(), $filters->current());
-        $this->assertEquals(2, $filters->getCurrentPosition());
+        $this->assertSame('string.rot13', $filters->key());
+        $this->assertSame(array(), $filters->current());
+        $this->assertSame(2, $filters->getCurrentPosition());
         $this->assertTrue($filters->next());
-        $this->assertEquals('string.toupper', $filters->key());
-        $this->assertEquals(array(), $filters->current());
-        $this->assertEquals(3, $filters->getCurrentPosition());
+        $this->assertSame('string.toupper', $filters->key());
+        $this->assertSame(array(), $filters->current());
+        $this->assertSame(3, $filters->getCurrentPosition());
         $this->assertTrue($filters->next());
-        $this->assertEquals('string.quoted-printable', $filters->key());
-        $this->assertEquals(array(), $filters->current());
-        $this->assertEquals(4, $filters->getCurrentPosition());
+        $this->assertSame('string.quoted-printable', $filters->key());
+        $this->assertSame(array(), $filters->current());
+        $this->assertSame(4, $filters->getCurrentPosition());
 
         $this->assertTrue($filters->prev());
-        $this->assertEquals('string.toupper', $filters->key());
-        $this->assertEquals(array(), $filters->current());
-        $this->assertEquals(3, $filters->getCurrentPosition());
+        $this->assertSame('string.toupper', $filters->key());
+        $this->assertSame(array(), $filters->current());
+        $this->assertSame(3, $filters->getCurrentPosition());
 
         $this->assertTrue($filters->rewind());
         $filters->removeAt(2);
 
-        $this->assertEquals('string.base64', $filters->key());
-        $this->assertEquals(array(), $filters->current());
-        $this->assertEquals(0, $filters->getCurrentPosition());
+        $this->assertSame('string.base64', $filters->key());
+        $this->assertSame(array(), $filters->current());
+        $this->assertSame(0, $filters->getCurrentPosition());
         $this->assertTrue($filters->next());
-        $this->assertEquals('string.tolower', $filters->key());
-        $this->assertEquals(array(), $filters->current());
-        $this->assertEquals(1, $filters->getCurrentPosition());
+        $this->assertSame('string.tolower', $filters->key());
+        $this->assertSame(array(), $filters->current());
+        $this->assertSame(1, $filters->getCurrentPosition());
         $this->assertTrue($filters->next());
-        $this->assertEquals('string.toupper', $filters->key());
-        $this->assertEquals(array(), $filters->current());
-        $this->assertEquals(2, $filters->getCurrentPosition());
+        $this->assertSame('string.toupper', $filters->key());
+        $this->assertSame(array(), $filters->current());
+        $this->assertSame(2, $filters->getCurrentPosition());
         $this->assertTrue($filters->next());
-        $this->assertEquals('string.quoted-printable', $filters->key());
-        $this->assertEquals(array(), $filters->current());
-        $this->assertEquals(3, $filters->getCurrentPosition());
+        $this->assertSame('string.quoted-printable', $filters->key());
+        $this->assertSame(array(), $filters->current());
+        $this->assertSame(3, $filters->getCurrentPosition());
     }
 
     public function testInvalidContext()
@@ -121,19 +127,20 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             );
             $this->fail('Client creation had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(6, $e->getCode(), 'Improper exception code.');
+            $this->assertSame(6, $e->getCode(), 'Improper exception code.');
         }
     }
 
     public function testSilence()
     {
+        $expectedCode = strpos(PHP_OS, 'WIN') === 0 ? 10061 : 111;
         try {
             new C(SILENT_HOSTNAME, REMOTE_PORT);
             $this->fail('Client creation had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(8, $e->getCode(), 'Improper exception code.');
-            $this->assertEquals(
-                10061,
+            $this->assertSame(8, $e->getCode(), 'Improper exception code.');
+            $this->assertSame(
+                $expectedCode,
                 $e->getSocketErrorNumber(),
                 'Improper exception code.'
             );
@@ -142,9 +149,9 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             new C(REMOTE_HOSTNAME, SILENT_PORT);
             $this->fail('Client creation had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(8, $e->getCode(), 'Improper exception code.');
-            $this->assertEquals(
-                10061,
+            $this->assertSame(8, $e->getCode(), 'Improper exception code.');
+            $this->assertSame(
+                $expectedCode,
                 $e->getSocketErrorNumber(),
                 'Improper exception code.'
             );
@@ -157,8 +164,8 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             new C('@', REMOTE_PORT);
             $this->fail('Client creation had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(7, $e->getCode(), 'Improper exception code.');
-            $this->assertEquals(
+            $this->assertSame(7, $e->getCode(), 'Improper exception code.');
+            $this->assertSame(
                 0,
                 $e->getSocketErrorNumber(),
                 'Improper exception code.'
@@ -172,22 +179,24 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
             new SC('not a server', 1/*h*/ * 60/*m*/ * 60/*s*/);
             $this->fail('Server creation had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(9, $e->getCode(), 'Improper exception code.');
+            $this->assertSame(9, $e->getCode(), 'Improper exception code.');
         }
     }
 
     public function testServerConnectionTimeout()
     {
+        $hostname = strpos(LOCAL_HOSTNAME, ':') !== false
+            ? '[' . LOCAL_HOSTNAME . ']' : LOCAL_HOSTNAME;
         try {
             new SC(
                 stream_socket_server(
-                    'tcp://' . LOCAL_HOSTNAME . ':' . LOCAL_PORT
+                    "tcp://{$hostname}:" . LOCAL_PORT
                 ),
                 2
             );
             $this->fail('Server creation had to fail.');
         } catch (SocketException $e) {
-            $this->assertEquals(10, $e->getCode(), 'Improper exception code.');
+            $this->assertSame(10, $e->getCode(), 'Improper exception code.');
         }
     }
 }
