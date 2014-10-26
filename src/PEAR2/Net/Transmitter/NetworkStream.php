@@ -127,14 +127,11 @@ abstract class NetworkStream extends Stream
     public function isAvailable()
     {
         if (parent::isStream($this->stream)) {
-            if ($this->isBlocking) {
-                if (feof($this->stream)) {
-                    return false;
-                }
-                $meta = stream_get_meta_data($this->stream);
-                return !$meta['timed_out'] && !$meta['eof'];
+            if ($this->isBlocking && feof($this->stream)) {
+                return false;
             }
-            return true;
+            $meta = stream_get_meta_data($this->stream);
+            return !$meta['eof'];
         }
         return false;
     }

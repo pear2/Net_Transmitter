@@ -16,7 +16,14 @@ class ClientEncryptedTest extends ClientTest
             '',
             NetworkStream::CRYPTO_TLS,
             stream_context_create(
-                array('ssl' => array('ciphers' => '-COMPLEMENTOFALL ADH'))
+                array(
+                    'ssl' => array(
+                        'verify_peer'
+                            => true,
+                        'cafile'
+                            => __DIR__ . DIRECTORY_SEPARATOR . CERTIFICATE_FILE
+                    )
+                )
             )
         );
     }

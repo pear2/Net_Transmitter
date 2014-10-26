@@ -483,15 +483,7 @@ class Stream
      */
     public function isAvailable()
     {
-        if (self::isStream($this->stream)) {
-            if ($this->isBlocking) {
-                return !feof($this->stream);
-            } else {
-                $meta = stream_get_meta_data($this->stream);
-                return !$meta['eof'];
-            }
-        }
-        return false;
+        return self::isStream($this->stream) && !feof($this->stream);
     }
 
     /**

@@ -36,3 +36,44 @@ if (false !== $autoloader) {
     }
 }
 unset($autoloader);
+
+if (!is_file(__DIR__ . DIRECTORY_SEPARATOR . CERTIFICATE_FILE)) {
+    //Prepare a self signed certificate
+    $configargs = array();
+    if (strpos(PHP_OS, 'WIN') === 0) {
+        $phpbin = defined('PHP_BINARY')
+            ? PHP_BINARY
+            : getenv('PHP_PEAR_PHP_BIN');
+        $configargs['config'] = dirname($phpbin) . '/extras/ssl/openssl.cnf';
+    }
+
+    $privkey = openssl_pkey_new($configargs);
+    $cert = openssl_csr_sign(
+        openssl_csr_new(
+            array(
+                'countryName' => 'US',
+                'stateOrProvinceName' => 'IRRELEVANT',
+                'localityName' => 'IRRELEVANT',
+                'organizationName' => 'PEAR2',
+                'organizationalUnitName' => 'PEAR2',
+                'commonName' => 'IRRELEVANT',
+                'emailAddress' => 'IRRELEVANT@example.com'
+            ),
+            $privkey,
+            $configargs
+        ),
+        null,
+        $privkey,
+        2,
+        $configargs
+    );
+
+    $pem = array();
+    openssl_x509_export($cert, $pem[0]);
+    openssl_pkey_export($privkey, $pem[1], null, $configargs);
+
+    file_put_contents(
+        __DIR__ . DIRECTORY_SEPARATOR . CERTIFICATE_FILE,
+        implode('', $pem)
+    );
+}

@@ -4,11 +4,14 @@ namespace PEAR2\Net\Transmitter;
 
 require_once 'ServerTest.php';
 
+/**
+ * @requires extension openssl
+ */
 class ServerEncryptedTest extends ServerTest
 {
     public static function setUpBeforeClass()
     {
-        ini_set('display_errors', 'On');
+        //Start the server
         $hostname = strpos(LOCAL_HOSTNAME, ':') !== false
             ? '[' . LOCAL_HOSTNAME . ']' : LOCAL_HOSTNAME;
         static::$server = stream_socket_server(
@@ -19,11 +22,10 @@ class ServerEncryptedTest extends ServerTest
             stream_context_create(
                 array(
                     'ssl' => array(
-                        'ciphers' => 'ADH',
-                        //'local_cert' => 'D:\Users\boen_robot\Desktop\test.pem',
-                        //'passphrase' => '',
-                       // 'cafile' => 'D:\Users\boen_robot\Desktop\test.pem'
-                        
+                        'local_cert'
+                            => __DIR__ . DIRECTORY_SEPARATOR . CERTIFICATE_FILE,
+                        'cafile'
+                            => __DIR__ . DIRECTORY_SEPARATOR . CERTIFICATE_FILE
                     )
                 )
             )
