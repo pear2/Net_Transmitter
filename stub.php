@@ -70,7 +70,7 @@ HEREDOC;
     } else {
         echo <<<HEREDOC
 WARNING: The OpenSSL extension is not loaded.
-You can't make encrypted connections without it.
+         You can't make encrypted connections without it.
 
 HEREDOC;
     }
@@ -81,31 +81,33 @@ HEREDOC;
 The stream_socket_client() function is enabled.
 If you can't connect to a host, this means one of the following:
 
-1. You've mistyped the IP and/or port. Check the IP and port you've specified
-are the ones you intended.
+1. You've mistyped the IP and/or port.
+   Check the IP and port you've specified are the ones you intended.
 
-2. The host is not reachable from your web server. Try to reach the host
-(!!!)from the web server(!!!) by other means (e.g. ping) using the same IP, and
-if you're unable to reach it, check the network settings on your web server,
-the remote host (if it's under your control) as well as any intermidiate nodes
-under your control that may affect the connection (e.g. routers, etc.).
+2. The host is not reachable from your web server.
+   Try to reach the host (!!!)from the web server(!!!) by other means
+   (e.g. ping) using the same IP, and if you're unable to reach it,
+   check the network settings on your web server, the remote host
+   (if it's under your control) as well as any intermidiate nodes under your
+   control that may affect the connection (e.g. routers, etc.).
 
-3. Your web server is configured to forbid that outgoing connection. If you're
-the web server administrator, check your firewall's settings. If you're on a
-hosting plan... Typically, shared hosts block all outgoing connections, but
-it's also possible that only connections to that port are blocked. If the
-remote host is under your control, try to connect to it on a popular port (21,
-80, 443, etc.), and if successful, keep using that port instead. If the
-connection fails even then, or if the remote host is not under your control,
-ask your host to configure their firewall so as to allow you to make outgoing
-connections to the ip:port you need to connect to.
+3. Your web server is configured to forbid that outgoing connection.
+   If you're the web server administrator, check your firewall's settings.
+   If you're on a hosting plan... Typically, shared hosts block all
+   outgoing connections, but it's also possible that only connections
+   to that port are blocked. If the remote host is under your control,
+   try to connect to it on a popular port (21, 80, 443, etc.),
+   and if successful, keep using that port instead. If the connection fails
+   even then, or if the remote host is not under your control, ask your host to
+   configure their firewall so as to allow you to make outgoing connections
+   to the ip:port you need to connect to.
 
 HEREDOC;
     } else {
         echo <<<HEREDOC
-WARNING: stream_socket_client() is disabled. Without it, you won't be able to
-connect to any host. Enable it in php.ini, or ask your host to enable it for
-you.
+WARNING: stream_socket_client() is disabled.
+         Without it, you won't be able to connect to any host.
+         Enable it in php.ini, or ask your host to enable it for you.
 
 HEREDOC;
     }

@@ -2,8 +2,7 @@
 <package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
  <name>PEAR2_Net_Transmitter</name>
  <channel>pear2.php.net</channel>
- <summary>Wrapper for network stream functionality.
-</summary>
+ <summary>Wrapper for network stream functionality.</summary>
  <description>PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.
 
 This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).</description>
@@ -13,10 +12,10 @@ This package abstracts this away, so that when you want to get exactly N amount 
   <email>boen.robot@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2013-08-15</date>
- <time>18:20:49</time>
+ <date>2014-11-02</date>
+ <time>07:03:22</time>
  <version>
-  <release>1.0.0a4</release>
+  <release>1.0.0a5</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -24,23 +23,22 @@ This package abstracts this away, so that when you want to get exactly N amount 
   <api>alpha</api>
  </stability>
  <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</license>
- <notes>* Support for encrypted connections. Note that due to known issues with PHP itself, encrypted connections may be unstable (as in &quot;sometimes disconnect suddenly&quot; or &quot;sometimes hang when calling TcpClient::isDataAwaiting() without a timeout&quot;).
-* Stream::isAcceptingData() and Stream::isDataAwaiting() now accept an optional timeout, modeled after stream_select().
-* Changed sending to retry indefinetly unless the connection is broken, thanks to isDataAwaiting()'s new ability. Receiving can still timeout.
-* Chnaged the PHAR stub to not fail when reading the hash fails.
-* Doc and CS fixes.</notes>
+ <notes>* Added fragments to exceptions, allowing retrieval of incomplete receives' contents, and byte count on incomplete sends.
+* Changed Stream to use an fread/fwrite duo instead of stream_copy_to_stream() for the sake of stability.
+* Tweaked Stream::isAcceptingData() and NetworkStream::isAvailable(), in order to work around a reproducible hang on Linux.
+* Doc fixes.</notes>
  <contents>
   <dir name="/">
    <dir name="docs" baseinstalldir="/">
     <file role="doc" name="apigen.neon">
-     <tasks:replace from="../src" to="php_dir" type="pear-config"/>
+     <tasks:replace type="pear-config" to="php_dir" from="../src"/>
     </file>
     <file role="doc" name="doxygen.ini">
-     <tasks:replace from="../src" to="php_dir" type="pear-config"/>
-     <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+     <tasks:replace type="pear-config" to="php_dir" from="../src"/>
+     <tasks:replace type="package-info" to="version" from="GIT: $Id$"/>
     </file>
     <file role="doc" name="phpdoc.dist.xml">
-     <tasks:replace from="../src" to="php_dir" type="pear-config"/>
+     <tasks:replace type="pear-config" to="php_dir" from="../src"/>
     </file>
    </dir>
    <dir name="src" baseinstalldir="/">
@@ -48,49 +46,49 @@ This package abstracts this away, so that when you want to get exactly N amount 
      <dir name="Net">
       <dir name="Transmitter">
        <file role="php" name="Exception.php">
-        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
-        <tasks:replace from="~~description~~" to="description" type="package-info"/>
-        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+        <tasks:replace type="package-info" to="version" from="GIT: $Id$"/>
+        <tasks:replace type="package-info" to="summary" from="~~summary~~"/>
+        <tasks:replace type="package-info" to="description" from="~~description~~"/>
        </file>
        <file role="php" name="FilterCollection.php">
-        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
-        <tasks:replace from="~~description~~" to="description" type="package-info"/>
-        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+        <tasks:replace type="package-info" to="version" from="GIT: $Id$"/>
+        <tasks:replace type="package-info" to="summary" from="~~summary~~"/>
+        <tasks:replace type="package-info" to="description" from="~~description~~"/>
        </file>
        <file role="php" name="LockException.php">
-        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
-        <tasks:replace from="~~description~~" to="description" type="package-info"/>
-        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+        <tasks:replace type="package-info" to="version" from="GIT: $Id$"/>
+        <tasks:replace type="package-info" to="summary" from="~~summary~~"/>
+        <tasks:replace type="package-info" to="description" from="~~description~~"/>
        </file>
        <file role="php" name="NetworkStream.php">
-        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
-        <tasks:replace from="~~description~~" to="description" type="package-info"/>
-        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+        <tasks:replace type="package-info" to="version" from="GIT: $Id$"/>
+        <tasks:replace type="package-info" to="summary" from="~~summary~~"/>
+        <tasks:replace type="package-info" to="description" from="~~description~~"/>
        </file>
        <file role="php" name="SocketException.php">
-        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
-        <tasks:replace from="~~description~~" to="description" type="package-info"/>
-        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+        <tasks:replace type="package-info" to="version" from="GIT: $Id$"/>
+        <tasks:replace type="package-info" to="summary" from="~~summary~~"/>
+        <tasks:replace type="package-info" to="description" from="~~description~~"/>
        </file>
        <file role="php" name="Stream.php">
-        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
-        <tasks:replace from="~~description~~" to="description" type="package-info"/>
-        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+        <tasks:replace type="package-info" to="version" from="GIT: $Id$"/>
+        <tasks:replace type="package-info" to="summary" from="~~summary~~"/>
+        <tasks:replace type="package-info" to="description" from="~~description~~"/>
        </file>
        <file role="php" name="StreamException.php">
-        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
-        <tasks:replace from="~~description~~" to="description" type="package-info"/>
-        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+        <tasks:replace type="package-info" to="version" from="GIT: $Id$"/>
+        <tasks:replace type="package-info" to="summary" from="~~summary~~"/>
+        <tasks:replace type="package-info" to="description" from="~~description~~"/>
        </file>
        <file role="php" name="TcpClient.php">
-        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
-        <tasks:replace from="~~description~~" to="description" type="package-info"/>
-        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+        <tasks:replace type="package-info" to="version" from="GIT: $Id$"/>
+        <tasks:replace type="package-info" to="summary" from="~~summary~~"/>
+        <tasks:replace type="package-info" to="description" from="~~description~~"/>
        </file>
        <file role="php" name="TcpServerConnection.php">
-        <tasks:replace from="~~summary~~" to="summary" type="package-info"/>
-        <tasks:replace from="~~description~~" to="description" type="package-info"/>
-        <tasks:replace from="GIT: $Id$" to="version" type="package-info"/>
+        <tasks:replace type="package-info" to="version" from="GIT: $Id$"/>
+        <tasks:replace type="package-info" to="summary" from="~~summary~~"/>
+        <tasks:replace type="package-info" to="description" from="~~description~~"/>
        </file>
       </dir>
      </dir>
@@ -98,14 +96,22 @@ This package abstracts this away, so that when you want to get exactly N amount 
    </dir>
    <dir name="tests" baseinstalldir="/">
     <file role="test" name="bootstrap.php">
-     <tasks:replace from="../src" to="php_dir" type="pear-config"/>
+     <tasks:replace type="pear-config" to="php_dir" from="../src"/>
+     <tasks:replace type="package-info" to="version" from="GIT: $Id$"/>
     </file>
-    <file role="test" name="ClientEncryptedTest.php_"/>
+    <file role="test" name="ClientEncryptedTest.php"/>
     <file role="test" name="ClientTest.php"/>
-    <file role="test" name="phpunit.xml"/>
-    <file role="test" name="secondaryPeer.bat"/>
-    <file role="test" name="secondaryPeer.xml"/>
-    <file role="test" name="ServerEncryptedTest.php_"/>
+    <file role="test" name="phpunit.xml">
+     <tasks:replace type="pear-config" to="php_dir" from="../src"/>
+    </file>
+    <file role="test" name="secondaryPeer.bat">
+     <tasks:windowseol/>
+    </file>
+    <file role="test" name="secondaryPeer.xml">
+     <tasks:replace type="pear-config" to="php_dir" from="../src"/>
+    </file>
+    <file role="test" name="selfSigned.cer"/>
+    <file role="test" name="ServerEncryptedTest.php"/>
     <file role="test" name="ServerTest.php"/>
     <file role="test" name="UnconnectedTest.php"/>
    </dir>
@@ -129,7 +135,7 @@ This package abstracts this away, so that when you want to get exactly N amount 
    <package>
     <name>PEAR2_Cache_SHM</name>
     <channel>pear2.php.net</channel>
-    <min>0.1.2</min>
+    <min>0.1.3</min>
    </package>
    <extension>
     <name>openssl</name>
@@ -137,6 +143,29 @@ This package abstracts this away, so that when you want to get exactly N amount 
   </optional>
  </dependencies>
  <phprelease>
-  <filelist></filelist>
+  <filelist>
+   <install name="docs/apigen.neon" as="apigen.neon"/>
+   <install name="docs/doxygen.ini" as="doxygen.ini"/>
+   <install name="docs/phpdoc.dist.xml" as="phpdoc.dist.xml"/>
+   <install name="src/PEAR2/Net/Transmitter/Exception.php" as="PEAR2/Net/Transmitter/Exception.php"/>
+   <install name="src/PEAR2/Net/Transmitter/FilterCollection.php" as="PEAR2/Net/Transmitter/FilterCollection.php"/>
+   <install name="src/PEAR2/Net/Transmitter/LockException.php" as="PEAR2/Net/Transmitter/LockException.php"/>
+   <install name="src/PEAR2/Net/Transmitter/NetworkStream.php" as="PEAR2/Net/Transmitter/NetworkStream.php"/>
+   <install name="src/PEAR2/Net/Transmitter/SocketException.php" as="PEAR2/Net/Transmitter/SocketException.php"/>
+   <install name="src/PEAR2/Net/Transmitter/Stream.php" as="PEAR2/Net/Transmitter/Stream.php"/>
+   <install name="src/PEAR2/Net/Transmitter/StreamException.php" as="PEAR2/Net/Transmitter/StreamException.php"/>
+   <install name="src/PEAR2/Net/Transmitter/TcpClient.php" as="PEAR2/Net/Transmitter/TcpClient.php"/>
+   <install name="src/PEAR2/Net/Transmitter/TcpServerConnection.php" as="PEAR2/Net/Transmitter/TcpServerConnection.php"/>
+   <install name="tests/bootstrap.php" as="bootstrap.php"/>
+   <install name="tests/ClientEncryptedTest.php" as="ClientEncryptedTest.php"/>
+   <install name="tests/ClientTest.php" as="ClientTest.php"/>
+   <install name="tests/phpunit.xml" as="phpunit.xml"/>
+   <install name="tests/secondaryPeer.bat" as="secondaryPeer.bat"/>
+   <install name="tests/secondaryPeer.xml" as="secondaryPeer.xml"/>
+   <install name="tests/selfSigned.cer" as="selfSigned.cer"/>
+   <install name="tests/ServerEncryptedTest.php" as="ServerEncryptedTest.php"/>
+   <install name="tests/ServerTest.php" as="ServerTest.php"/>
+   <install name="tests/UnconnectedTest.php" as="UnconnectedTest.php"/>
+  </filelist>
  </phprelease>
 </package>
