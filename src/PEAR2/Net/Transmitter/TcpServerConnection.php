@@ -25,7 +25,7 @@ use Exception as E;
 /**
  * A transmitter for connections to a socket server.
  * 
- * This is a convinience wrapper for functionality of socket server connections.
+ * This is a convenience wrapper for functionality of socket server connections.
  * Used to ensure data integrity. Server handling is not part of the class in
  * order to allow its usage as part of various server implementations (e.g. fork
  * and/or sequential).
@@ -52,9 +52,10 @@ class TcpServerConnection extends NetworkStream
     /**
      * Creates a new connection with the specified options.
      * 
-     * @param resource $server  A socket server, created with
-     * {@link stream_socket_server()}.
-     * @param float    $timeout The timeout for the connection.
+     * @param resource   $server  A socket server, created with
+     *     {@link stream_socket_server()}.
+     * @param float|null $timeout The timeout for the connection. Leaving this
+     *     to NULL uses the default socket timeout.
      */
     public function __construct($server, $timeout = null)
     {
@@ -69,15 +70,15 @@ class TcpServerConnection extends NetworkStream
         set_error_handler(array($this, 'handleError'));
         try {
             parent::__construct(
-                stream_socket_accept($server, $timeout, $peername)
+                stream_socket_accept($server, $timeout, $peerName)
             );
             restore_error_handler();
-            $portString = strrchr($peername, ':');
+            $portString = strrchr($peerName, ':');
             $this->peerPort = (int) substr($portString, 1);
             $ipString = substr(
-                $peername,
+                $peerName,
                 0,
-                strlen($peername) - strlen($portString)
+                strlen($peerName) - strlen($portString)
             );
             if (strpos($ipString, '[') === 0
                 && strpos(strrev($ipString), ']') === 0
@@ -125,7 +126,7 @@ class TcpServerConnection extends NetworkStream
      * @param E|null      $previous Previous exception thrown, or NULL if there
      *     is none.
      * @param string|null $fragment The fragment up until the point of failure.
-     *     NULL if the failure occured before the operation started.
+     *     NULL if the failure occurred before the operation started.
      * 
      * @return SocketException The exception to then be thrown.
      */

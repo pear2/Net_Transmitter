@@ -227,11 +227,17 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(1, $this->conn->send('t'), 'Wrong amount sent.');
     }
 
+    /**
+     * @requires PHP 5.3.9
+     */
     public function testPersistentClientConnectionRESET()
     {
         $this->assertTrue(true);
     }
 
+    /**
+     * @requires PHP 5.3.9
+     */
     public function testPersistentClientConnection()
     {
         $this->assertSame(1, $this->conn->send('t'), 'Wrong amount sent.');

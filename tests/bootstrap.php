@@ -72,8 +72,14 @@ if (!is_file(__DIR__ . DIRECTORY_SEPARATOR . CERTIFICATE_FILE)) {
     openssl_x509_export($cert, $pem[0]);
     openssl_pkey_export($privkey, $pem[1], null, $configargs);
 
+    openssl_pkcs12_export_to_file(
+        $cert,
+        __DIR__ . DIRECTORY_SEPARATOR . CERTIFICATE_FILE . '.pfx',
+        $privkey,
+        null
+    );
     file_put_contents(
-        __DIR__ . DIRECTORY_SEPARATOR . CERTIFICATE_FILE,
+        __DIR__ . DIRECTORY_SEPARATOR . CERTIFICATE_FILE . '.cer',
         implode('', $pem)
     );
 }

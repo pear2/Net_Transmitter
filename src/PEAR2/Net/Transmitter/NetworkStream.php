@@ -23,7 +23,7 @@ namespace PEAR2\Net\Transmitter;
 /**
  * A network transmitter.
  * 
- * This is a convinience wrapper for network streams. Used to ensure data
+ * This is a convenience wrapper for network streams. Used to ensure data
  * integrity.
  * 
  * @category Net
@@ -139,8 +139,8 @@ abstract class NetworkStream extends Stream
     /**
      * Sets the size of a stream's buffer.
      * 
-     * @param int    $size      The desired size of the buffer, in bytes.
-     * @param string $direction The buffer of which direction to set. Valid
+     * @param int $size      The desired size of the buffer, in bytes.
+     * @param int $direction The buffer of which direction to set. Valid
      *     values are the DIRECTION_* constants.
      * 
      * @return bool TRUE on success, FALSE on failure.
@@ -161,7 +161,7 @@ abstract class NetworkStream extends Stream
      * 
      * Shutdowns (partially or not) a full-duplex connection.
      * 
-     * @param string $direction The direction for which to disable further
+     * @param int $direction The direction for which to disable further
      *     communications.
      * 
      * @return bool TRUE on success, FALSE on failure.

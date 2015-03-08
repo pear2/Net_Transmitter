@@ -4,8 +4,7 @@
     colors="false"
     stopOnFailure="true"
     verbose="true"
-    strict="true"
-    
+
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true"
@@ -39,7 +38,7 @@
         Name for certificate file.
         Will be created in the test folder, and removed after testing.
         -->
-        <const name="CERTIFICATE_FILE" value="selfSigned.cer" />
+        <const name="CERTIFICATE_FILE" value="selfSigned" />
 
         <ini name="default_socket_timeout" value="4" />
     </php>

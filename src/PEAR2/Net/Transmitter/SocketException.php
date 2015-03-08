@@ -60,7 +60,7 @@ class SocketException extends StreamException
      *     successfully before the failure.
      *     On failure when receiving, this is a string/stream holding
      *     the contents received successfully before the failure.
-     *     NULL if the failure occured before the operation started.
+     *     NULL if the failure occurred before the operation started.
      * @param int                      $errorNo  The system level error number.
      * @param string                   $errorStr The system level
      *     error message.

@@ -229,6 +229,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @requires PHP 5.3.9
+     */
     public function testPersistentClientConnection()
     {
         $this->client = new TcpClient(

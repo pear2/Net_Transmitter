@@ -175,7 +175,7 @@ class FilterCollection implements \SeekableIterator, \Countable
     /**
      * Gets the filter name at the current pointer position.
      * 
-     * @return string The name of the filter at the current position.
+     * @return string|false The name of the filter at the current position.
      */
     public function key()
     {
@@ -185,8 +185,8 @@ class FilterCollection implements \SeekableIterator, \Countable
     /**
      * Gets the filter parameters at the current pointer position.
      * 
-     * @return array An array of parameters for the filter at the current
-     *     position.
+     * @return array|false An array of parameters for the filter at the current
+     *     position, or FALSE if the position is not valid.
      */
     public function current()
     {

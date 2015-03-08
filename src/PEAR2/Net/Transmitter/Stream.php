@@ -25,7 +25,7 @@ use Exception as E;
 /**
  * A stream transmitter.
  * 
- * This is a convinience wrapper for stream functionality. Used to ensure data
+ * This is a convenience wrapper for stream functionality. Used to ensure data
  * integrity. Designed for TCP sockets, but it has intentionally been made to
  * accept any stream.
  * 
@@ -60,7 +60,7 @@ class Stream
     protected $stream;
 
     /**
-     * @var bool Whether to automaticaly close the stream on
+     * @var bool Whether to automatically close the stream on
      *     object destruction if it's not a persistent one. Setting this to
      *     FALSE may be useful if you're only using this class "part time",
      *     while setting it to TRUE might be useful if you're doing some
@@ -90,7 +90,7 @@ class Stream
      * Wraps around the specified stream.
      * 
      * @param resource $stream    The stream to wrap around.
-     * @param bool     $autoClose Whether to automaticaly close the stream on
+     * @param bool     $autoClose Whether to automatically close the stream on
      *     object destruction if it's not a persistent one. Setting this to
      *     FALSE may be useful if you're only using this class "part time",
      *     while setting it to TRUE might be useful if you're doing some
@@ -209,8 +209,8 @@ class Stream
     /**
      * Sets the size of a stream's buffer.
      * 
-     * @param int    $size      The desired size of the buffer, in bytes.
-     * @param string $direction The buffer of which direction to set. Valid
+     * @param int $size      The desired size of the buffer, in bytes.
+     * @param int $direction The buffer of which direction to set. Valid
      *     values are the DIRECTION_* constants.
      * 
      * @return bool TRUE on success, FALSE on failure.
@@ -236,8 +236,8 @@ class Stream
      * consumption, data is sent/received in chunks. This function
      * allows you to set the size of each chunk. The default is 0xFFFFF.
      * 
-     * @param int    $size      The desired size of the chunk, in bytes.
-     * @param string $direction The chunk of which direction to set. Valid
+     * @param int $size      The desired size of the chunk, in bytes.
+     * @param int $direction The chunk of which direction to set. Valid
      *     values are the DIRECTION_* constants.
      * 
      * @return bool TRUE on success, FALSE on failure.
@@ -264,10 +264,10 @@ class Stream
     /**
      * Gets the size of the chunk.
      * 
-     * @param string $direction The chunk of which direction to get. Valid
+     * @param int $direction The chunk of which direction to get. Valid
      *     values are the DIRECTION_* constants.
      * 
-     * @return int|array|false The chunk size in bytes,
+     * @return int|array<int,int>|false The chunk size in bytes,
      *     or an array of chunk sizes with the directions as keys.
      *     FALSE on invalid direction.
      */
@@ -329,8 +329,6 @@ class Stream
                         null,
                         $bytes
                     );
-                } else {
-                    usleep(300000);
                 }
                 $this->isAcceptingData(null);
             }
@@ -362,8 +360,6 @@ class Stream
                         null,
                         $bytes
                     );
-                } else {
-                    usleep(300000);
                 }
                 $this->isAcceptingData(null);
             }
@@ -430,10 +426,10 @@ class Stream
         $result = fopen('php://temp', 'r+b');
         $appliedFilters = array();
         if (null !== $filters) {
-            foreach ($filters as $filtername => $params) {
+            foreach ($filters as $filterName => $params) {
                 $appliedFilters[] = stream_filter_append(
                     $result,
-                    $filtername,
+                    $filterName,
                     STREAM_FILTER_WRITE,
                     $params
                 );
@@ -489,9 +485,9 @@ class Stream
     /**
      * Checks whether there is data to be read from the wrapped stream.
      * 
-     * @param int|null $sTimeout  If theere isn't data awaiting currently,
+     * @param int|null $sTimeout  If there isn't data awaiting currently,
      *     wait for it this many seconds for data to arrive. If NULL is
-     *     specified, wait indefinetly for that.
+     *     specified, wait indefinitely for that.
      * @param int      $usTimeout Microseconds to add to the waiting time.
      * 
      * @return bool TRUE if there is data to be read, FALSE otherwise.
@@ -523,11 +519,11 @@ class Stream
      * 
      * @param int|null $sTimeout  If the stream isn't currently accepting data,
      *     wait for it this many seconds to start accepting data. If NULL is
-     *     specified, wait indefinetly for that.
+     *     specified, wait indefinitely for that.
      * @param int      $usTimeout Microseconds to add to the waiting time.
-     * 
-     * @return bool TRUE if the wrapped stream would not block on a write, FALSE
-     *     otherwise.
+     *
+     * @return bool TRUE if the wrapped stream would not block on a write,
+     *     FALSE otherwise.
      * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function isAcceptingData($sTimeout = 0, $usTimeout = 0)

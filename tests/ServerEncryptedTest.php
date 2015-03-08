@@ -22,10 +22,16 @@ class ServerEncryptedTest extends ServerTest
             stream_context_create(
                 array(
                     'ssl' => array(
+                        'verify_peer'
+                            => false,
+                        'verify_peer_name'
+                            => false,
                         'local_cert'
-                            => __DIR__ . DIRECTORY_SEPARATOR . CERTIFICATE_FILE,
+                            => __DIR__ . DIRECTORY_SEPARATOR .
+                                CERTIFICATE_FILE . '.cer',
                         'cafile'
-                            => __DIR__ . DIRECTORY_SEPARATOR . CERTIFICATE_FILE
+                            => __DIR__ . DIRECTORY_SEPARATOR .
+                                CERTIFICATE_FILE . '.cer'
                     )
                 )
             )

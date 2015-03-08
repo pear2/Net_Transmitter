@@ -47,7 +47,7 @@ class StreamException extends RuntimeException implements Exception
      *     successfully before the failure.
      *     On failure when receiving, this is a string/stream holding
      *     the contents received successfully before the failure.
-     *     NULL if the failure occured before the operation started.
+     *     NULL if the failure occurred before the operation started.
      */
     protected $fragment = null;
 
@@ -64,7 +64,7 @@ class StreamException extends RuntimeException implements Exception
      *     successfully before the failure.
      *     On failure when receiving, this is a string/stream holding
      *     the contents received successfully before the failure.
-     *     NULL if the failure occured before the operation started.
+     *     NULL if the failure occurred before the operation started.
      */
     public function __construct(
         $message,
@@ -85,7 +85,7 @@ class StreamException extends RuntimeException implements Exception
      *     successfully before the failure.
      *     On failure when receiving, this is a string/stream holding
      *     the contents received successfully before the failure.
-     *     NULL if the failure occured before the operation started.
+     *     NULL if the failure occurred before the operation started.
      */
     public function getFragment()
     {

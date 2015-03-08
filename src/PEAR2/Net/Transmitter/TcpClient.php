@@ -34,7 +34,7 @@ use Exception as E;
 /**
  * A socket transmitter.
  * 
- * This is a convinience wrapper for socket functionality. Used to ensure data
+ * This is a convenience wrapper for socket functionality. Used to ensure data
  * integrity.
  * 
  * @category Net
@@ -67,7 +67,10 @@ class TcpClient extends NetworkStream
      *     and their lock state (as a value). 
      */
     protected static $lockState = array();
-    
+
+    /**
+     * @var array<string,string> Mappings from a protocol name to an URI scheme.
+     */
     protected static $cryptoScheme = array(
         parent::CRYPTO_OFF => 'tcp',
         parent::CRYPTO_SSL2 => 'sslv2',
@@ -95,7 +98,7 @@ class TcpClient extends NetworkStream
      *     NetworkStream::CRYPTO_* constants. By default, encryption is
      *     disabled. If the setting has an associated scheme for it, it will be
      *     used, and if not, the setting will be adjusted right after the
-     *     connection is estabilished.
+     *     connection is established.
      * @param resource $context A context for the socket.
      */
     public function __construct(
@@ -216,15 +219,16 @@ class TcpClient extends NetworkStream
      * Locks transmission in one or more directions. Useful when dealing with
      * persistent connections. Note that every send/receive call implicitly
      * calls this function and then restores it to the previous state. You only
-     * need to call this function if you need to do an uninterrputed sequence of
+     * need to call this function if you need to do an uninterrupted sequence of
      * such calls.
      * 
      * @param int  $direction The direction(s) to have locked. Acceptable values
      *     are the DIRECTION_* constants. If a lock for a direction can't be
-     *     obtained immediatly, the function will block until one is aquired.
-     *     Note that if you specify {@link DIRECTION_ALL}, the sending lock will
-     *     be obtained before the receiving one, and if obtaining the receiving
-     *     lock afterwards fails, the sending lock will be released too.
+     *     obtained immediately, the function will block until one is acquired.
+     *     Note that if you specify {@link static::DIRECTION_ALL},
+     *     the sending lock will be obtained before the receiving one,
+     *     and if obtaining the receiving lock afterwards fails,
+     *     the sending lock will be released too.
      * @param bool $replace   Whether to replace all locks with the specified
      *     ones. Setting this to FALSE will make the function only obtain the
      *     locks which are not already obtained.
@@ -290,23 +294,24 @@ class TcpClient extends NetworkStream
         }
         return false;
     }
-    
+
 
     /**
      * Sends a string or stream to the server.
-     * 
+     *
      * Sends a string or stream to the server. If a seekable stream is
      * provided, it will be seeked back to the same position it was passed as,
      * regardless of the $offset parameter.
-     * 
+     *
      * @param string|resource $contents The string or stream to send.
      * @param int             $offset   The offset from which to start sending.
      *     If a stream is provided, and this is set to NULL, sending will start
      *     from the current stream position.
      * @param int             $length   The maximum length to send. If omitted,
      *     the string/stream will be sent to its end.
-     * 
+     *
      * @return int The number of bytes sent.
+     * @throws E
      */
     public function send($contents, $offset = null, $length = null)
     {

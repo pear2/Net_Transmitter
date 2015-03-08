@@ -20,8 +20,13 @@ class ClientEncryptedTest extends ClientTest
                     'ssl' => array(
                         'verify_peer'
                             => true,
+                        'verify_peer_name'
+                            => false,
+                        'allow_self_signed'
+                            => true,
                         'cafile'
-                            => __DIR__ . DIRECTORY_SEPARATOR . CERTIFICATE_FILE
+                            => __DIR__ . DIRECTORY_SEPARATOR .
+                                CERTIFICATE_FILE . '.cer'
                     )
                 )
             )
