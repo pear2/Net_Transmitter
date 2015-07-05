@@ -169,7 +169,9 @@ class TcpClient extends NetworkStream
         } elseif (parent::CRYPTO_OFF !== $crypto) {
             $this->setCrypto($crypto);
         }
-        $this->setIsBlocking(parent::CRYPTO_OFF === $crypto);
+        if (parent::CRYPTO_OFF !== $crypto) {
+            $this->setIsBlocking(false);
+        }
 
         if ($persist) {
             $this->shmHandler = SHM::factory(

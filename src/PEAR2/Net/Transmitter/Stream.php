@@ -316,6 +316,7 @@ class Stream
                 ) {
                     break;
                 }
+                $this->isAcceptingData(null);
                 $bytesNow = @fwrite(
                     $this->stream,
                     fread($contents, $chunkSize)
@@ -330,7 +331,6 @@ class Stream
                         $bytes
                     );
                 }
-                $this->isAcceptingData(null);
             }
             if ($offsetIsNotNull) {
                 fseek($contents, $oldPos, SEEK_SET);
@@ -347,6 +347,7 @@ class Stream
             }
             $bytesToSend = (double) sprintf('%u', strlen($contents));
             while ($bytes < $bytesToSend) {
+                $this->isAcceptingData(null);
                 $bytesNow = @fwrite(
                     $this->stream,
                     substr($contents, $bytes, $chunkSize)
@@ -361,7 +362,6 @@ class Stream
                         $bytes
                     );
                 }
-                $this->isAcceptingData(null);
             }
         }
         return $bytes;
