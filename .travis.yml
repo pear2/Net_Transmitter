@@ -2,18 +2,20 @@ language: php
 php:
   # The earliest PHP 5.3 version that can run the test suit
   # AND is supported by Travis-CI.
-  #- 5.3.3
+  - 5.3.3
   - 5.3
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
 before_script:
   - composer self-update
   - composer install --dev
+script:
+  - composer require pear2/cache_shm:dev-develop | cat -
   - cd tests
   - ../vendor/bin/phpunit --configuration secondaryPeer.xml > secondaryPeer.out.txt &
   - sleep 2
-script:
   - ../vendor/bin/phpunit --configuration phpunit.xml
   ## Code coverage seems to be causing a failure currently.
   #- ../vendor/bin/phpunit --coverage-clover=coverage.clover --configuration phpunit.xml

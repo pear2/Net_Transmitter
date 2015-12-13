@@ -1,6 +1,10 @@
 <?php
 namespace PEAR2\Net\Transmitter;
 
+/**
+ * @group Server
+ * @group Unencrypted
+ */
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -89,6 +93,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->conn->isAvailable());
     }
 
+    /**
+     * @group BigData
+     */
     public function test3MegaBytesEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -100,6 +107,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group BigData
+     */
     public function test3MegaBytesDelayedEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -113,6 +123,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group BigData
+     */
     public function test3MegaBytesLongDelayedEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -145,6 +158,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     }
     */
 
+    /**
+     * @group BigData
+     */
     public function test3MegaBytesLongDelayedEchoSend()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -158,6 +174,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group StreamSend
+     */
     public function testOneByteEchoStreamSend()
     {
         $stream = fopen('php://temp', 'r+b');
@@ -170,6 +189,10 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group StreamSend
+     * @group BigData
+     */
     public function test3MegaBytesEchoStreamSend()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -183,6 +206,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group StreamReceive
+     */
     public function testOneByteEchoStreamReceive()
     {
         $this->assertSame(
@@ -194,6 +220,10 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group StreamReceive
+     * @group BigData
+     */
     public function test3MegaBytesEchoStreamReceive()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -209,6 +239,13 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testOffsetSend()
     {
         $this->assertSame('bcd', $this->conn->receive(3));
+    }
+
+    /**
+     * @group StreamSend
+     */
+    public function testOffsetStreamSend()
+    {
         $this->assertSame('bcd', $this->conn->receive(3));
         $this->assertSame('d', $this->conn->receive(1));
         $this->assertSame('cd', $this->conn->receive(2));
@@ -217,6 +254,13 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testLengthSend()
     {
         $this->assertSame('a', $this->conn->receive(1));
+    }
+
+    /**
+     * @group StreamSend
+     */
+    public function testLengthStreamSend()
+    {
         $this->assertSame('a', $this->conn->receive(1));
         $this->assertSame('c', $this->conn->receive(1));
         $this->assertSame('bc', $this->conn->receive(2));
@@ -229,6 +273,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @requires PHP 5.3.9
+     * 
+     * @group Persistent
      */
     public function testPersistentClientConnectionRESET()
     {
@@ -237,6 +283,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @requires PHP 5.3.9
+     * 
+     * @group Persistent
      */
     public function testPersistentClientConnection()
     {
@@ -248,6 +296,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(1, $this->conn->send('t'), 'Wrong amount sent.');
     }
 
+    /**
+     * @group StreamReceive
+     */
     public function testClientReceivingIncompleteDataStream()
     {
         $this->assertSame(1, $this->conn->send('t'), 'Wrong amount sent.');
@@ -264,6 +315,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @group StreamReceive
+     */
     public function testServerReceivingIncompleteDataStream()
     {
         try {
@@ -281,6 +335,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->conn->close();
     }
 
+    /**
+     * @group StreamSend
+     */
     public function testClientSendingIncompleteDataStream()
     {
         $this->assertSame('888', $this->conn->receive(3));
@@ -296,6 +353,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->conn->send('999');
     }
 
+    /**
+     * @group StreamReceive
+     */
     public function testClientTimingOutStream()
     {
         $this->conn->send('aaa');

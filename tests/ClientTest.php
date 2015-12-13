@@ -1,6 +1,10 @@
 <?php
 namespace PEAR2\Net\Transmitter;
 
+/**
+ * @group Client
+ * @group Unencrypted
+ */
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -8,9 +12,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     protected $client;
 
-    public function setUp()
+    public function setUp($persist = false)
     {
-        $this->client = new TcpClient(REMOTE_HOSTNAME, REMOTE_PORT);
+        return $this->client = new TcpClient(REMOTE_HOSTNAME, REMOTE_PORT, $persist);
     }
 
     public function tearDown()
@@ -58,6 +62,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->client->isDataAwaiting($timeout));
     }
 
+    /**
+     * @group BigData
+     */
     public function test3MegaBytesEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -71,6 +78,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group BigData
+     */
     public function test3MegaBytesDelayedEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -87,6 +97,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @group BigData
+     */
     public function test3MegaBytesLongDelayedEcho()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -125,6 +138,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     }
     */
 
+    /**
+     * @group BigData
+     */
     public function test3MegaBytesLongDelayedEchoSend()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -140,6 +156,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @group StreamSend
+     */
     public function testOneByteEchoStreamSend()
     {
         $stream = fopen('php://temp', 'r+b');
@@ -153,6 +172,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group StreamSend
+     * @group BigData
+     */
     public function test3MegaBytesEchoStreamSend()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -167,6 +190,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group StreamReceive
+     */
     public function testOneByteEchoStreamReceive()
     {
         $byte = '5';
@@ -178,6 +204,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group StreamReceive
+     * @group BigData
+     */
     public function test3MegaBytesEchoStreamReceive()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -194,7 +224,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $contents = 'abcd';
         $this->assertSame(3, $this->client->send($contents, 1));
-        
+    }
+
+    /**
+     * @group StreamSend
+     */
+    public function testOffsetStreamSend()
+    {
+        $contents = 'abcd';
         $stream = fopen('php://temp', 'r+b');
         fwrite($stream, $contents);
         rewind($stream);
@@ -208,7 +245,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $contents = 'abcd';
         $this->assertSame(1, $this->client->send($contents, null, 1));
-        
+    }
+
+    /**
+     * @group StreamSend
+     */
+    public function testLengthStreamSend()
+    {
+        $contents = 'abcd';
         $stream = fopen('php://temp', 'r+b');
         fwrite($stream, $contents);
         rewind($stream);
@@ -231,19 +275,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @requires PHP 5.3.9
+     * 
+     * @group Persistent
      */
     public function testPersistentClientConnection()
     {
-        $this->client = new TcpClient(
-            REMOTE_HOSTNAME,
-            REMOTE_PORT,
-            true
-        );
-        $client = new TcpClient(
-            REMOTE_HOSTNAME,
-            REMOTE_PORT,
-            true
-        );
+        $client = $this->setUp(true);
+        $this->setUp(true);
         $this->assertTrue($this->client->isFresh());
         $this->assertTrue($client->isFresh());
         $this->assertTrue($this->client->isPersistent());
@@ -264,6 +302,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @group StreamReceive
+     */
     public function testClientReceivingIncompleteDataStream()
     {
         try {
@@ -280,6 +321,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(1, $this->client->send('t'), 'Wrong amount sent.');
     }
 
+    /**
+     * @group StreamReceive
+     */
     public function testServerReceivingIncompleteDataStream()
     {
         $this->assertSame(1, $this->client->send('t'), 'Wrong amount sent.');
@@ -302,6 +346,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @group StreamSend
+     */
     public function testClientSendingIncompleteDataStream()
     {
         $size = 3/*m*/ * 1024/*k*/ * 1024/*b*/;
@@ -333,6 +380,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @group StreamReceive
+     */
     public function testClientTimingOutStream()
     {
         $this->assertSame('aaa', $this->client->receive(3));

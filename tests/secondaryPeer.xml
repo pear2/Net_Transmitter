@@ -36,12 +36,37 @@
     </php>
     <testsuites>
         <testsuite name="All tests">
-            <!--<file>ServerEncryptedTest.php</file>-->
+            <file>ServerEncryptedTest.php</file>
             <file>ServerTest.php</file>
-            <!--<file>ClientEncryptedTest.php</file>-->
+            <file>ClientEncryptedTest.php</file>
             <file>ClientTest.php</file>
         </testsuite>
     </testsuites>
+    <groups>
+        <include>
+            <!-- Connection -->
+            <group>Unencrypted</group>
+            <group>NonPersistent</group>
+            <group>Persistent</group>
+            
+            <!-- Module -->
+            <group>Client</group>
+            <group>Server</group>
+            
+            <!-- Feature -->
+            <group>StreamReceive</group>
+            <group>StreamSend</group>
+            <group>BigData</group>
+        </include>
+        <exclude>
+            <!-- Connection -->
+            <group>Encrypted</group>
+
+            <!-- Module -->
+
+            <!-- Feature -->
+        </exclude>
+    </groups>
     <filter>
         <whitelist>
             <directory suffix=".php">../src/PEAR2/Net/Transmitter/</directory>

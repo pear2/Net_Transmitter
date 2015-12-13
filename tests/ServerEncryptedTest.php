@@ -5,6 +5,9 @@ namespace PEAR2\Net\Transmitter;
 require_once 'ServerTest.php';
 
 /**
+ * @group Server
+ * @group Encrypted
+ * 
  * @requires extension openssl
  */
 class ServerEncryptedTest extends ServerTest

@@ -302,6 +302,7 @@ class Stream
     public function send($contents, $offset = null, $length = null)
     {
         $bytes = 0;
+        $fails = 0;
         $chunkSize = $this->chunkSize[self::DIRECTION_SEND];
         $lengthIsNotNull = null !== $length;
         $offsetIsNotNull = null !== $offset;
@@ -316,19 +317,24 @@ class Stream
                 ) {
                     break;
                 }
-                $bytesNow = @fwrite(
-                    $this->stream,
-                    fread($contents, $chunkSize)
-                );
-                if (0 != $bytesNow) {
-                    $bytes += $bytesNow;
-                } elseif ($this->isBlocking || false === $bytesNow) {
-                    throw $this->createException(
-                        'Failed while sending stream.',
-                        2,
-                        null,
-                        $bytes
+                $contentsToSend = fread($contents, $chunkSize);
+                if ('' != $contentsToSend) {
+                    $bytesNow = @fwrite(
+                        $this->stream,
+                        $contentsToSend
                     );
+                    if (0 != $bytesNow) {
+                        $bytes += $bytesNow;
+                    } elseif ($this->isBlocking || false === $bytesNow) {
+                        //if (1 < ++$fails) {
+                            throw $this->createException(
+                                'Failed while sending stream.',
+                                2,
+                                null,
+                                $bytes
+                            );
+                        //}
+                    }
                 }
                 $this->isAcceptingData(null);
             }

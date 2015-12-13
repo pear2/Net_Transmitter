@@ -4,6 +4,9 @@ namespace PEAR2\Net\Transmitter;
 use PEAR2\Net\Transmitter\TcpClient as C;
 use PEAR2\Net\Transmitter\TcpServerConnection as SC;
 
+/**
+ * @group Unconnected
+ */
 class UnconnectedTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -4,14 +4,20 @@ namespace PEAR2\Net\Transmitter;
 
 require_once 'ClientTest.php';
 
+/**
+ * @group Client
+ * @group Encrypted
+ * 
+ * @requires extension openssl
+ */
 class ClientEncryptedTest extends ClientTest
 {
-    public function setUp()
+    public function setUp($persist = false)
     {
-        $this->client = new TcpClient(
+        return $this->client = new TcpClient(
             REMOTE_HOSTNAME,
             REMOTE_PORT,
-            false,
+            $persist,
             null,
             '',
             NetworkStream::CRYPTO_TLS,
