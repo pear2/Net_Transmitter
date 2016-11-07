@@ -2,7 +2,8 @@
 <package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
  <name>PEAR2_Net_Transmitter</name>
  <channel>pear2.php.net</channel>
- <summary>Wrapper for network stream functionality.</summary>
+ <summary>Wrapper for network stream functionality.
+</summary>
  <description>PHP has built in support for various types of network streams, such as HTTP and TCP sockets. One problem that arises with them is the fact that a single fread/fwrite call might not read/write all the data you intended, regardless of whether you're in blocking mode or not. While the PHP manual offers a workaround in the form of a loop with a few variables, using it every single time you want to read/write can be tedious.
 
 This package abstracts this away, so that when you want to get exactly N amount of bytes, you can be sure the upper levels of your app will be dealing with N bytes. Oh, and the functionality is nicely wrapped in an object (but that's just the icing on the cake).</description>
@@ -12,21 +13,20 @@ This package abstracts this away, so that when you want to get exactly N amount 
   <email>boen.robot@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2014-11-02</date>
- <time>07:03:22</time>
+ <date>2016-11-07</date>
+ <time>03:01:58</time>
  <version>
-  <release>1.0.0a5</release>
+  <release>1.0.0b1</release>
   <api>1.0.0</api>
  </version>
  <stability>
-  <release>alpha</release>
-  <api>alpha</api>
+  <release>beta</release>
+  <api>stable</api>
  </stability>
  <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</license>
- <notes>* Added fragments to exceptions, allowing retrieval of incomplete receives' contents, and byte count on incomplete sends.
-* Changed Stream to use an fread/fwrite duo instead of stream_copy_to_stream() for the sake of stability.
-* Tweaked Stream::isAcceptingData() and NetworkStream::isAvailable(), in order to work around a reproducible hang on Linux.
-* Doc fixes.</notes>
+ <notes>* Fixed a streaming issue with newer PHP 5.6 versions and later.
+* Stream::setIsBlocking() is only implicitly called if needed (i.e. for encrypted connections), ensuring compatibility with web hosts that for bizzare reasons have disabled stream_set_blocking().
+* Doc and test fixes that now ensure large code coverage.</notes>
  <contents>
   <dir name="/">
    <dir name="docs" baseinstalldir="/">
@@ -40,6 +40,7 @@ This package abstracts this away, so that when you want to get exactly N amount 
     <file role="doc" name="phpdoc.dist.xml">
      <tasks:replace type="pear-config" to="php_dir" from="../src"/>
     </file>
+    <file role="doc" name="sami.php"/>
    </dir>
    <dir name="src" baseinstalldir="/">
     <dir name="PEAR2">
@@ -111,6 +112,7 @@ This package abstracts this away, so that when you want to get exactly N amount 
      <tasks:replace type="pear-config" to="php_dir" from="../src"/>
     </file>
     <file role="test" name="selfSigned.cer"/>
+    <file role="test" name="selfSigned.pfx"/>
     <file role="test" name="ServerEncryptedTest.php"/>
     <file role="test" name="ServerTest.php"/>
     <file role="test" name="UnconnectedTest.php"/>
@@ -130,12 +132,12 @@ This package abstracts this away, so that when you want to get exactly N amount 
    <package>
     <name>PEAR2_Autoload</name>
     <channel>pear2.php.net</channel>
-    <min>0.2.4</min>
+    <min>0.3.0</min>
    </package>
    <package>
     <name>PEAR2_Cache_SHM</name>
     <channel>pear2.php.net</channel>
-    <min>0.1.3</min>
+    <min>0.2.0</min>
    </package>
    <extension>
     <name>openssl</name>
@@ -147,6 +149,7 @@ This package abstracts this away, so that when you want to get exactly N amount 
    <install name="docs/apigen.neon" as="apigen.neon"/>
    <install name="docs/doxygen.ini" as="doxygen.ini"/>
    <install name="docs/phpdoc.dist.xml" as="phpdoc.dist.xml"/>
+   <install name="docs/sami.php" as="sami.php"/>
    <install name="src/PEAR2/Net/Transmitter/Exception.php" as="PEAR2/Net/Transmitter/Exception.php"/>
    <install name="src/PEAR2/Net/Transmitter/FilterCollection.php" as="PEAR2/Net/Transmitter/FilterCollection.php"/>
    <install name="src/PEAR2/Net/Transmitter/LockException.php" as="PEAR2/Net/Transmitter/LockException.php"/>
@@ -163,6 +166,7 @@ This package abstracts this away, so that when you want to get exactly N amount 
    <install name="tests/secondaryPeer.bat" as="secondaryPeer.bat"/>
    <install name="tests/secondaryPeer.xml" as="secondaryPeer.xml"/>
    <install name="tests/selfSigned.cer" as="selfSigned.cer"/>
+   <install name="tests/selfSigned.pfx" as="selfSigned.pfx"/>
    <install name="tests/ServerEncryptedTest.php" as="ServerEncryptedTest.php"/>
    <install name="tests/ServerTest.php" as="ServerTest.php"/>
    <install name="tests/UnconnectedTest.php" as="UnconnectedTest.php"/>

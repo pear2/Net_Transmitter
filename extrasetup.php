@@ -14,31 +14,27 @@
  * @link      http://pear2.php.net/PEAR2_Net_Transmitter
  */
 
-$extrafiles = array();
-$phpDir = Pyrus\Config::current()->php_dir;
-$packages = array('PEAR2/Autoload', 'PEAR2/Cache/SHM');
+$packages = array(
+    'pear2.php.net' => array(
+        'PEAR2_Autoload',
+        'PEAR2_Cache_SHM'
+    )
+);
 
-$oldCwd = getcwd();
-chdir($phpDir);
-foreach ($packages as $pkg) {
-    if (is_dir($pkg)) {
-        foreach (
-            new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator(
-                    $pkg,
-                    RecursiveDirectoryIterator::UNIX_PATHS
-                    | RecursiveDirectoryIterator::SKIP_DOTS
-                ),
-                RecursiveIteratorIterator::LEAVES_ONLY
-            ) as $path
-        ) {
-            $extrafiles['src/' . $path->getPathname()] = $path->getRealPath();
+$extrafiles = array();
+$config = Pyrus\Config::current();
+$registry = $config->registry;
+$phpDir = $config->php_dir;
+
+foreach ($packages as $channel => $channelPackages) {
+    foreach ($channelPackages as $package) {
+        foreach ($registry->toPackage($package, $channel)->installcontents
+            as $file => $info) {
+            if (strpos($file, 'php/') === 0 || strpos($file, 'src/') === 0) {
+                $filename = substr($file, 4);
+                $extrafiles['src/' . $filename]
+                    = realpath($phpDir . DIRECTORY_SEPARATOR . $filename);
+            }
         }
     }
-    
-    if (is_file($pkg . '.php')) {
-        $extrafiles['src/' . $pkg . '.php']
-            = $phpDir . DIRECTORY_SEPARATOR . $pkg . '.php';
-    }
 }
-chdir($oldCwd);
