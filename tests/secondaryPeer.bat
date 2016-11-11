@@ -1,1 +1,1 @@
-phpunit --configuration secondaryPeer.xml
+phpunit --configuration secondaryPeer.xml %*
