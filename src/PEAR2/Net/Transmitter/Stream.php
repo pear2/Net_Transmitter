@@ -505,8 +505,6 @@ class Stream
             if (null === $sTimeout && !$this->isBlocking) {
                 $meta = stream_get_meta_data($this->stream);
                 return !$meta['eof'];
-            } elseif (feof($this->stream)) {
-                return false;
             }
 
             $w = $e = null;

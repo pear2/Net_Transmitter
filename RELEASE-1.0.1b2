@@ -1,1 +1,0 @@
-* There's now (effectively) an implicit Stream::isAvailable() check in Stream::isDataAwaiting(), before the underlying stream_select() call. This should minimize the chances that a connection would hang on Linux when isDataAwaiting(null) is used.
