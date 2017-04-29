@@ -1,0 +1,2 @@
+* Fixed "failed to parse address" error that occurs in patched PHP versions for Debian 7 and Ubuntu 16.04.
+    - **NOTE:** Persistent connections still fail in those environments, and there's no possible workaround, short of getting a non-patched PHP version or upgrading to Debian 8 or Ubuntu 16.10.

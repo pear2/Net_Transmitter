@@ -93,7 +93,7 @@ class TcpClient extends NetworkStream
      *     persistent one.
      * @param float    $timeout The timeout for the connection.
      * @param string   $key     A string that uniquely identifies the
-     *     connection.
+     *     connection. Ignored for non-persistent connections.
      * @param string   $crypto  Encryption setting. Must be one of the
      *     NetworkStream::CRYPTO_* constants. By default, encryption is
      *     disabled. If the setting has an associated scheme for it, it will be
@@ -115,15 +115,9 @@ class TcpClient extends NetworkStream
         if (strpos($host, ':') !== false) {
             $host = "[{$host}]";
         }
-        $flags = STREAM_CLIENT_CONNECT;
-        if ($persist) {
-            $flags |= STREAM_CLIENT_PERSISTENT;
-        }
 
         $timeout
             = null == $timeout ? ini_get('default_socket_timeout') : $timeout;
-
-        $key = rawurlencode($key);
 
         if (null === $context) {
             $context = stream_context_get_default();
@@ -134,7 +128,14 @@ class TcpClient extends NetworkStream
         }
         $hasCryptoScheme = array_key_exists($crypto, static::$cryptoScheme);
         $scheme = $hasCryptoScheme ? static::$cryptoScheme[$crypto] : 'tcp';
-        $this->uri = "{$scheme}://{$host}:{$port}/{$key}";
+        $flags = STREAM_CLIENT_CONNECT;
+        if ($persist) {
+            $flags |= STREAM_CLIENT_PERSISTENT;
+            $key = rawurlencode($key);
+            $this->uri = "{$scheme}://{$host}:{$port}/{$key}";
+        } else {
+            $this->uri = "{$scheme}://{$host}:{$port}";
+        }
         set_error_handler(array($this, 'handleError'));
         try {
             parent::__construct(
