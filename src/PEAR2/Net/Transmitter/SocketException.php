@@ -2,11 +2,11 @@
 
 /**
  * ~~summary~~
- * 
+ *
  * ~~description~~
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  Net
  * @package   PEAR2_Net_Transmitter
  * @author    Vasil Rangelov <boen.robot@gmail.com>
@@ -27,7 +27,7 @@ use Exception as E;
 
 /**
  * Exception thrown when something goes wrong with the connection.
- * 
+ *
  * @category Net
  * @package  PEAR2_Net_Transmitter
  * @author   Vasil Rangelov <boen.robot@gmail.com>
@@ -38,18 +38,22 @@ class SocketException extends StreamException
 {
 
     /**
-     * @var int The system level error code.
+     * The system level error code.
+     *
+     * @var int
      */
     protected $errorNo;
 
     /**
-     * @var string The system level error message.
+     * The system level error message.
+     *
+     * @var string
      */
     protected $errorStr;
 
     /**
      * Creates a new socket exception.
-     * 
+     *
      * @param string                   $message  The Exception message to throw.
      * @param int                      $code     The Exception code.
      * @param E|null                   $previous Previous exception thrown,
@@ -80,7 +84,7 @@ class SocketException extends StreamException
 
     /**
      * Gets the system level error code on the socket.
-     * 
+     *
      * @return int The system level error number.
      */
     public function getSocketErrorNumber()
@@ -93,7 +97,7 @@ class SocketException extends StreamException
 
     /**
      * Gets the system level error message on the socket.
-     * 
+     *
      * @return string The system level error message.
      */
     public function getSocketErrorMessage()
@@ -103,7 +107,7 @@ class SocketException extends StreamException
 
     /**
      * Returns a string representation of the exception.
-     * 
+     *
      * @return string The exception as a string.
      */
     public function __toString()

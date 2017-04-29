@@ -2,11 +2,11 @@
 
 /**
  * ~~summary~~
- * 
+ *
  * ~~description~~
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  Net
  * @package   PEAR2_Net_Transmitter
  * @author    Vasil Rangelov <boen.robot@gmail.com>
@@ -24,12 +24,12 @@ use Exception as E;
 
 /**
  * A transmitter for connections to a socket server.
- * 
+ *
  * This is a convenience wrapper for functionality of socket server connections.
  * Used to ensure data integrity. Server handling is not part of the class in
  * order to allow its usage as part of various server implementations (e.g. fork
  * and/or sequential).
- * 
+ *
  * @category Net
  * @package  PEAR2_Net_Transmitter
  * @author   Vasil Rangelov <boen.robot@gmail.com>
@@ -40,18 +40,22 @@ class TcpServerConnection extends NetworkStream
 {
 
     /**
-     * @var string The IP address of the connected client.
+     * The IP address of the connected client.
+     *
+     * @var string
      */
     protected $peerIP;
 
     /**
-     * @var int The port of the connected client.
+     * The port of the connected client.
+     *
+     * @var int
      */
     protected $peerPort;
 
     /**
      * Creates a new connection with the specified options.
-     * 
+     *
      * @param resource   $server  A socket server, created with
      *     {@link stream_socket_server()}.
      * @param float|null $timeout The timeout for the connection. Leaving this
@@ -95,20 +99,20 @@ class TcpServerConnection extends NetworkStream
             );
         }
     }
-    
+
     /**
      * Gets the IP address of the connected client.
-     * 
+     *
      * @return string The IP address of the connected client.
      */
     public function getPeerIP()
     {
         return $this->peerIP;
     }
-    
+
     /**
      * Gets the port of the connected client.
-     * 
+     *
      * @return int The port of the connected client.
      */
     public function getPeerPort()
@@ -118,16 +122,16 @@ class TcpServerConnection extends NetworkStream
 
     /**
      * Creates a new exception.
-     * 
+     *
      * Creates a new exception. Used by the rest of the functions in this class.
-     * 
+     *
      * @param string      $message  The exception message.
      * @param int         $code     The exception code.
      * @param E|null      $previous Previous exception thrown, or NULL if there
      *     is none.
      * @param string|null $fragment The fragment up until the point of failure.
      *     NULL if the failure occurred before the operation started.
-     * 
+     *
      * @return SocketException The exception to then be thrown.
      */
     protected function createException(

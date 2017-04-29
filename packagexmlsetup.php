@@ -1,7 +1,7 @@
 <?php
 
 /**
- * packagexmlsetup.php for PEAR2_Net_Transmitter.
+ * File packagexmlsetup.php for PEAR2_Net_Transmitter.
  * 
  * PHP version 5.3
  * 

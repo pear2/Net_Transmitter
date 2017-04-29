@@ -2,11 +2,11 @@
 
 /**
  * ~~summary~~
- * 
+ *
  * ~~description~~
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  Net
  * @package   PEAR2_Net_Transmitter
  * @author    Vasil Rangelov <boen.robot@gmail.com>
@@ -22,9 +22,9 @@ namespace PEAR2\Net\Transmitter;
 
 /**
  * A filter collection.
- * 
+ *
  * Represents a collection of stream filters.
- * 
+ *
  * @category Net
  * @package  PEAR2_Net_Transmitter
  * @author   Vasil Rangelov <boen.robot@gmail.com>
@@ -35,21 +35,25 @@ namespace PEAR2\Net\Transmitter;
 class FilterCollection implements \SeekableIterator, \Countable
 {
     /**
-     * @var array The filter collection itself.
+     * The filter collection itself.
+     *
+     * @var array
      */
     protected $filters = array();
-    
+
     /**
-     * @var int A pointer, as required by SeekableIterator.
+     * A pointer, as required by SeekableIterator.
+     *
+     * @var int
      */
     protected $position = 0;
-    
+
     /**
      * Appends a filter to the collection
-     * 
+     *
      * @param string $name   The name of the filter.
      * @param array  $params An array of parameters for the filter.
-     * 
+     *
      * @return $this The collection itself.
      */
     public function append($name, array $params = array())
@@ -57,19 +61,19 @@ class FilterCollection implements \SeekableIterator, \Countable
         $this->filters[] = array((string) $name, $params);
         return $this;
     }
-    
+
     /**
      * Inserts the filter before a position.
-     * 
+     *
      * Inserts the specified filter before a filter at a specified position. The
      * new filter takes the specified position, while previous filters are moved
      * forward by one.
-     * 
+     *
      * @param int    $position The position before which the filter will be
      *     inserted.
      * @param string $name     The name of the filter.
      * @param array  $params   An array of parameters for the filter.
-     * 
+     *
      * @return $this The collection itself.
      */
     public function insertBefore($position, $name, array $params = array())
@@ -92,12 +96,12 @@ class FilterCollection implements \SeekableIterator, \Countable
         );
         return $this;
     }
-    
+
     /**
      * Removes a filter at a specified position.
-     * 
+     *
      * @param int $position The position from which to remove a filter.
-     * 
+     *
      * @return $this The collection itself.
      */
     public function removeAt($position)
@@ -106,10 +110,10 @@ class FilterCollection implements \SeekableIterator, \Countable
         $this->filters = array_values($this->filters);
         return $this;
     }
-    
+
     /**
      * Clears the collection
-     * 
+     *
      * @return $this The collection itself.
      */
     public function clear()
@@ -120,7 +124,7 @@ class FilterCollection implements \SeekableIterator, \Countable
 
     /**
      * Gets the number of filters in the collection.
-     * 
+     *
      * @return int The number of filters in the collection.
      */
     public function count()
@@ -130,7 +134,7 @@ class FilterCollection implements \SeekableIterator, \Countable
 
     /**
      * Resets the pointer to 0.
-     * 
+     *
      * @return bool TRUE if the collection is not empty, FALSE otherwise.
      */
     public function rewind()
@@ -140,9 +144,9 @@ class FilterCollection implements \SeekableIterator, \Countable
 
     /**
      * Moves the pointer to a specified position.
-     * 
+     *
      * @param int $position The position to move to.
-     * 
+     *
      * @return bool TRUE if the specified position is valid, FALSE otherwise.
      */
     public function seek($position)
@@ -150,10 +154,10 @@ class FilterCollection implements \SeekableIterator, \Countable
         $this->position = $position;
         return $this->valid();
     }
-    
+
     /**
      * Gets the current position.
-     * 
+     *
      * @return int The current position.
      */
     public function getCurrentPosition()
@@ -163,7 +167,7 @@ class FilterCollection implements \SeekableIterator, \Countable
 
     /**
      * Moves the pointer forward by 1.
-     * 
+     *
      * @return bool TRUE if the new position is valid, FALSE otherwise.
      */
     public function next()
@@ -174,7 +178,7 @@ class FilterCollection implements \SeekableIterator, \Countable
 
     /**
      * Gets the filter name at the current pointer position.
-     * 
+     *
      * @return string|false The name of the filter at the current position.
      */
     public function key()
@@ -184,7 +188,7 @@ class FilterCollection implements \SeekableIterator, \Countable
 
     /**
      * Gets the filter parameters at the current pointer position.
-     * 
+     *
      * @return array|false An array of parameters for the filter at the current
      *     position, or FALSE if the position is not valid.
      */
@@ -195,7 +199,7 @@ class FilterCollection implements \SeekableIterator, \Countable
 
     /**
      * Moves the pointer backwards by 1.
-     * 
+     *
      * @return bool TRUE if the new position is valid, FALSE otherwise.
      */
     public function prev()
@@ -206,7 +210,7 @@ class FilterCollection implements \SeekableIterator, \Countable
 
     /**
      * Moves the pointer to the last valid position.
-     * 
+     *
      * @return bool TRUE if the collection is not empty, FALSE otherwise.
      */
     public function end()
@@ -217,7 +221,7 @@ class FilterCollection implements \SeekableIterator, \Countable
 
     /**
      * Checks if the pointer is still pointing to an existing offset.
-     * 
+     *
      * @return bool TRUE if the pointer is valid, FALSE otherwise.
      */
     public function valid()

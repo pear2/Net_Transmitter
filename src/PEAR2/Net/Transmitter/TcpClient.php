@@ -2,11 +2,11 @@
 
 /**
  * ~~summary~~
- * 
+ *
  * ~~description~~
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  Net
  * @package   PEAR2_Net_Transmitter
  * @author    Vasil Rangelov <boen.robot@gmail.com>
@@ -33,10 +33,10 @@ use Exception as E;
 
 /**
  * A socket transmitter.
- * 
+ *
  * This is a convenience wrapper for socket functionality. Used to ensure data
  * integrity.
- * 
+ *
  * @category Net
  * @package  PEAR2_Net_Transmitter
  * @author   Vasil Rangelov <boen.robot@gmail.com>
@@ -47,29 +47,40 @@ class TcpClient extends NetworkStream
 {
 
     /**
-     * @var int The error code of the last error on the socket.
+     * The error code of the last error on the socket.
+     *
+     * @var int
      */
     protected $errorNo = 0;
 
     /**
-     * @var string The error message of the last error on the socket.
+     * The error message of the last error on the socket.
+     *
+     * @var string
      */
     protected $errorStr = null;
-    
+
     /**
-     * @var SHM Persistent connection handler. Remains NULL for non-persistent
-     *     connections. 
+     * Persistent connection handler.
+     *
+     * Remains NULL for non-persistent connections.
+     *
+     * @var SHM
      */
     protected $shmHandler = null;
-    
+
     /**
-     * @var array An array with all connections from this PHP request (as keys)
-     *     and their lock state (as a value). 
+     * An array with all connections from this PHP request (as keys)
+     * and their lock state (as a value).
+     *
+     * @var array
      */
     protected static $lockState = array();
 
     /**
-     * @var array<string,string> Mappings from a protocol name to an URI scheme.
+     * Mappings from a protocol name to an URI scheme.
+     *
+     * @var array<string,string>
      */
     protected static $cryptoScheme = array(
         parent::CRYPTO_OFF => 'tcp',
@@ -78,15 +89,17 @@ class TcpClient extends NetworkStream
         parent::CRYPTO_SSL => 'ssl',
         parent::CRYPTO_TLS => 'tls'
     );
-    
+
     /**
-     * @var string The URI of this connection.
+     * The URI of this connection.
+     *
+     * @var string
      */
     protected $uri;
 
     /**
      * Creates a new connection with the specified options.
-     * 
+     *
      * @param string   $host    Hostname (IP or domain) of the server.
      * @param int      $port    The port on the server.
      * @param bool     $persist Whether or not the connection should be a
@@ -184,9 +197,9 @@ class TcpClient extends NetworkStream
 
     /**
      * Creates a new exception.
-     * 
+     *
      * Creates a new exception. Used by the rest of the functions in this class.
-     * 
+     *
      * @param string                   $message  The exception message.
      * @param int                      $code     The exception code.
      * @param E|null                   $previous Previous exception thrown,
@@ -197,7 +210,7 @@ class TcpClient extends NetworkStream
      *     successfully before the failure.
      *     On failure when receiving, this is a string/stream holding
      *     the contents received successfully before the failure.
-     * 
+     *
      * @return SocketException The exception to then be thrown.
      */
     protected function createException(
@@ -215,16 +228,16 @@ class TcpClient extends NetworkStream
             $this->errorStr
         );
     }
-    
+
     /**
      * Locks transmission.
-     * 
+     *
      * Locks transmission in one or more directions. Useful when dealing with
      * persistent connections. Note that every send/receive call implicitly
      * calls this function and then restores it to the previous state. You only
      * need to call this function if you need to do an uninterrupted sequence of
      * such calls.
-     * 
+     *
      * @param int  $direction The direction(s) to have locked. Acceptable values
      *     are the DIRECTION_* constants. If a lock for a direction can't be
      *     obtained immediately, the function will block until one is acquired.
@@ -235,7 +248,7 @@ class TcpClient extends NetworkStream
      * @param bool $replace   Whether to replace all locks with the specified
      *     ones. Setting this to FALSE will make the function only obtain the
      *     locks which are not already obtained.
-     * 
+     *
      * @return int|false The previous state or FALSE if the connection is not
      *     persistent or arguments are invalid.
      */
@@ -261,7 +274,7 @@ class TcpClient extends NetworkStream
                     throw new LockException('Unable to release sending lock.');
                 }
             }
-            
+
             try {
                 if ($direction & self::DIRECTION_RECEIVE) {
                     if (($old & self::DIRECTION_RECEIVE)
@@ -338,13 +351,13 @@ class TcpClient extends NetworkStream
 
     /**
      * Receives data from the server.
-     * 
+     *
      * Receives data from the server as a string.
-     * 
+     *
      * @param int    $length The number of bytes to receive.
      * @param string $what   Descriptive string about what is being received
      *     (used in exception messages).
-     * 
+     *
      * @return string The received content.
      */
     public function receive($length, $what = 'data')
@@ -369,16 +382,16 @@ class TcpClient extends NetworkStream
 
     /**
      * Receives data from the server.
-     * 
+     *
      * Receives data from the server as a stream.
-     * 
+     *
      * @param int              $length  The number of bytes to receive.
      * @param FilterCollection $filters A collection of filters to apply to the
      *     stream while receiving. Note that the filters will not be present on
      *     the stream after receiving is done.
      * @param string           $what    Descriptive string about what is being
      *     received (used in exception messages).
-     * 
+     *
      * @return resource The received content.
      */
     public function receiveStream(

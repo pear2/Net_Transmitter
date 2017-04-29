@@ -1,7 +1,7 @@
 <?php
 
 /**
- * extrasetup.php for PEAR2_Net_Transmitter.
+ * File extrasetup.php for PEAR2_Net_Transmitter.
  * 
  * PHP version 5.3
  * 

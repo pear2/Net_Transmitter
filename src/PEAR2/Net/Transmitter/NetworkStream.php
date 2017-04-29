@@ -2,11 +2,11 @@
 
 /**
  * ~~summary~~
- * 
+ *
  * ~~description~~
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  Net
  * @package   PEAR2_Net_Transmitter
  * @author    Vasil Rangelov <boen.robot@gmail.com>
@@ -22,10 +22,10 @@ namespace PEAR2\Net\Transmitter;
 
 /**
  * A network transmitter.
- * 
+ *
  * This is a convenience wrapper for network streams. Used to ensure data
  * integrity.
- * 
+ *
  * @category Net
  * @package  PEAR2_Net_Transmitter
  * @author   Vasil Rangelov <boen.robot@gmail.com>
@@ -60,22 +60,27 @@ abstract class NetworkStream extends Stream
      * negotiated between 1.0 and 1.2).
      */
     const CRYPTO_TLS = 'TLS';
-    
+
     /**
-     * @var string The type of stream. Can be either "_CLIENT" or "_SERVER".
-     *     Used to complement the encryption type. Must be set by child classes
-     *     for {@link setCrypto()} to work properly.
+     * The type of stream. Can be either "_CLIENT" or "_SERVER".
+     *
+     * Used to complement the encryption type. Must be set by child classes
+     * for {@link setCrypto()} to work properly.
+     *
+     * @var string
      */
     protected $streamType = '';
 
     /**
-     * @var string The current cryptography setting.
+     * The current cryptography setting.
+     *
+     * @var string
      */
     protected $crypto = '';
 
     /**
      * Wraps around the specified stream.
-     * 
+     *
      * @param resource $stream The stream to wrap around.
      */
     public function __construct($stream)
@@ -85,7 +90,7 @@ abstract class NetworkStream extends Stream
 
     /**
      * Gets the current cryptography setting.
-     * 
+     *
      * @return string One of this class' CRYPTO_* constants.
      */
     public function getCrypto()
@@ -95,10 +100,10 @@ abstract class NetworkStream extends Stream
 
     /**
      * Sets the current connection's cryptography setting.
-     * 
+     *
      * @param string $type The encryption type to set. Must be one of this
      *     class' CRYPTO_* constants.
-     * 
+     *
      * @return boolean TRUE on success, FALSE on failure.
      */
     public function setCrypto($type)
@@ -121,7 +126,7 @@ abstract class NetworkStream extends Stream
 
     /**
      * Checks whether the stream is available for operations.
-     * 
+     *
      * @return bool TRUE if the stream is available, FALSE otherwise.
      */
     public function isAvailable()
@@ -135,14 +140,14 @@ abstract class NetworkStream extends Stream
         }
         return false;
     }
-    
+
     /**
      * Sets the size of a stream's buffer.
-     * 
+     *
      * @param int $size      The desired size of the buffer, in bytes.
      * @param int $direction The buffer of which direction to set. Valid
      *     values are the DIRECTION_* constants.
-     * 
+     *
      * @return bool TRUE on success, FALSE on failure.
      */
     public function setBuffer($size, $direction = self::DIRECTION_ALL)
@@ -155,15 +160,15 @@ abstract class NetworkStream extends Stream
         }
         return $result;
     }
-    
+
     /**
      * Shutdown a full-duplex connection
-     * 
+     *
      * Shutdowns (partially or not) a full-duplex connection.
-     * 
+     *
      * @param int $direction The direction for which to disable further
      *     communications.
-     * 
+     *
      * @return bool TRUE on success, FALSE on failure.
      */
     public function shutdown($direction = self::DIRECTION_ALL)

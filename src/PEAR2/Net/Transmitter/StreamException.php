@@ -2,11 +2,11 @@
 
 /**
  * ~~summary~~
- * 
+ *
  * ~~description~~
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  Net
  * @package   PEAR2_Net_Transmitter
  * @author    Vasil Rangelov <boen.robot@gmail.com>
@@ -32,7 +32,7 @@ use Exception as E;
 
 /**
  * Exception thrown when something goes wrong with the connection.
- * 
+ *
  * @category Net
  * @package  PEAR2_Net_Transmitter
  * @author   Vasil Rangelov <boen.robot@gmail.com>
@@ -42,18 +42,21 @@ use Exception as E;
 class StreamException extends RuntimeException implements Exception
 {
     /**
-     * @var int|string|resource|null The fragment up until the point of failure.
-     *     On failure with sending, this is the number of bytes sent
-     *     successfully before the failure.
-     *     On failure when receiving, this is a string/stream holding
-     *     the contents received successfully before the failure.
-     *     NULL if the failure occurred before the operation started.
+     * The fragment up until the point of failure.
+     *
+     * On failure with sending, this is the number of bytes sent successfully
+     * before the failure.
+     * On failure when receiving, this is a string/stream holding the contents
+     * received successfully before the failure.
+     * NULL if the failure occurred before the operation started.
+     *
+     * @var int|string|resource|null
      */
     protected $fragment = null;
 
     /**
      * Creates a new stream exception.
-     * 
+     *
      * @param string                   $message  The Exception message to throw.
      * @param int                      $code     The Exception code.
      * @param E|null                   $previous Previous exception thrown,
@@ -78,7 +81,7 @@ class StreamException extends RuntimeException implements Exception
 
     /**
      * Gets the stream fragment.
-     * 
+     *
      * @return int|string|resource|null The fragment up until the
      *     point of failure.
      *     On failure with sending, this is the number of bytes sent
@@ -97,7 +100,7 @@ class StreamException extends RuntimeException implements Exception
 
     /**
      * Returns a string representation of the exception.
-     * 
+     *
      * @return string The exception as a string.
      */
     public function __toString()
