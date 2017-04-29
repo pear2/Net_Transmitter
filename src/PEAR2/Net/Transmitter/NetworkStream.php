@@ -131,7 +131,7 @@ abstract class NetworkStream extends Stream
      */
     public function isAvailable()
     {
-        if (parent::isStream($this->stream)) {
+        if ($this->isStream($this->stream)) {
             if ($this->isBlocking && feof($this->stream)) {
                 return false;
             }
