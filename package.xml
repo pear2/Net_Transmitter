@@ -13,10 +13,10 @@ This package abstracts this away, so that when you want to get exactly N amount 
   <email>boen.robot@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2016-11-07</date>
- <time>03:01:58</time>
+ <date>2017-05-13</date>
+ <time>16:35:14</time>
  <version>
-  <release>1.0.0b1</release>
+  <release>1.0.0b2</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -24,9 +24,8 @@ This package abstracts this away, so that when you want to get exactly N amount 
   <api>stable</api>
  </stability>
  <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL License 2.1</license>
- <notes>* Fixed a streaming issue with newer PHP 5.6 versions and later.
-* Stream::setIsBlocking() is only implicitly called if needed (i.e. for encrypted connections), ensuring compatibility with web hosts that for bizzare reasons have disabled stream_set_blocking().
-* Doc and test fixes that now ensure large code coverage.</notes>
+ <notes>* Fixed &quot;failed to parse address&quot; error that occurs in patched PHP versions for Debian 7 and Ubuntu 16.04.
+    - **NOTE:** Persistent connections still fail in those environments, and there's no possible workaround, short of getting a non-patched PHP version or upgrading to Debian 8 or Ubuntu 16.10.</notes>
  <contents>
   <dir name="/">
    <dir name="docs" baseinstalldir="/">
@@ -40,7 +39,9 @@ This package abstracts this away, so that when you want to get exactly N amount 
     <file role="doc" name="phpdoc.dist.xml">
      <tasks:replace type="pear-config" to="php_dir" from="../src"/>
     </file>
-    <file role="doc" name="sami.php"/>
+    <file role="doc" name="sami.php">
+     <tasks:replace type="package-info" to="version" from="GIT: $Id$"/>
+    </file>
    </dir>
    <dir name="src" baseinstalldir="/">
     <dir name="PEAR2">
