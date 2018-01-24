@@ -4,7 +4,7 @@
     colors="false"
     stopOnFailure="true"
     verbose="true"
-    
+
     convertErrorsToExceptions="true"
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true"
@@ -48,11 +48,11 @@
             <group>Unencrypted</group>
             <group>NonPersistent</group>
             <group>Persistent</group>
-            
+
             <!-- Module -->
             <group>Client</group>
             <group>Server</group>
-            
+
             <!-- Feature -->
             <group>StreamReceive</group>
             <group>StreamSend</group>

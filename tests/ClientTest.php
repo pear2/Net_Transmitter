@@ -275,7 +275,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @requires PHP 5.3.9
-     * 
+     *
      * @group Persistent
      */
     public function testPersistentClientConnection()
@@ -408,17 +408,17 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $defaultChunks = $this->client->getChunk();
         $this->assertInternalType('array', $defaultChunks);
-        
+
         $this->assertFalse($this->client->getChunk('unknown direction'));
         $this->assertFalse($this->client->setChunk(1, 'unknown direction'));
-        
+
         $this->assertFalse($this->client->setChunk(0));
         $this->assertFalse($this->client->setChunk(0, Stream::DIRECTION_ALL));
         $this->assertFalse($this->client->setChunk(0, Stream::DIRECTION_SEND));
         $this->assertFalse(
             $this->client->setChunk(0, Stream::DIRECTION_RECEIVE)
         );
-        
+
         $this->assertTrue(
             $this->client->setChunk(1, Stream::DIRECTION_RECEIVE)
         );
@@ -439,7 +439,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ),
             $this->client->getChunk()
         );
-        
+
         $this->assertTrue(
             $this->client->setChunk(1, Stream::DIRECTION_SEND)
         );
@@ -458,7 +458,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ),
             $this->client->getChunk()
         );
-        
+
         $this->assertTrue(
             $this->client->setChunk(2)
         );

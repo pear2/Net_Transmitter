@@ -7,7 +7,7 @@ require_once 'ClientTest.php';
 /**
  * @group Client
  * @group Encrypted
- * 
+ *
  * @requires extension openssl
  */
 class ClientEncryptedTest extends ClientTest

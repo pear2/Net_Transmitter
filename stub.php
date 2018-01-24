@@ -2,9 +2,9 @@
 
 /**
  * Stub for PEAR2_Net_Transmitter.
- * 
+ *
  * PHP version 5.3
- * 
+ *
  * @category  Net
  * @package   PEAR2_Net_Transmitter
  * @author    Vasil Rangelov <boen.robot@gmail.com>
@@ -25,7 +25,7 @@ if (count(get_included_files()) > 1) {
         header('Content-Type: text/plain;charset=UTF-8');
     }
     echo "@PACKAGE_NAME@ @PACKAGE_VERSION@\n";
-    
+
     if (version_compare(phpversion(), '5.3.0', '<')) {
         echo "\nThis package requires PHP 5.3.0 or later.";
         exit(1);

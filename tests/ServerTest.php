@@ -82,7 +82,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * N/A
-     * 
+     *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
@@ -273,7 +273,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @requires PHP 5.3.9
-     * 
+     *
      * @group Persistent
      */
     public function testPersistentClientConnectionRESET()
@@ -283,7 +283,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @requires PHP 5.3.9
-     * 
+     *
      * @group Persistent
      */
     public function testPersistentClientConnection()
@@ -378,17 +378,17 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $defaultChunks = $this->conn->getChunk();
         $this->assertInternalType('array', $defaultChunks);
-        
+
         $this->assertFalse($this->conn->getChunk('unknown direction'));
         $this->assertFalse($this->conn->setChunk(1, 'unknown direction'));
-        
+
         $this->assertFalse($this->conn->setChunk(0));
         $this->assertFalse($this->conn->setChunk(0, Stream::DIRECTION_ALL));
         $this->assertFalse($this->conn->setChunk(0, Stream::DIRECTION_SEND));
         $this->assertFalse(
             $this->conn->setChunk(0, Stream::DIRECTION_RECEIVE)
         );
-        
+
         $this->assertTrue(
             $this->conn->setChunk(1, Stream::DIRECTION_RECEIVE)
         );
@@ -409,7 +409,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             ),
             $this->conn->getChunk()
         );
-        
+
         $this->assertTrue(
             $this->conn->setChunk(1, Stream::DIRECTION_SEND)
         );
@@ -428,7 +428,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             ),
             $this->conn->getChunk()
         );
-        
+
         $this->assertTrue(
             $this->conn->setChunk(2)
         );

@@ -7,7 +7,7 @@ require_once 'ServerTest.php';
 /**
  * @group Server
  * @group Encrypted
- * 
+ *
  * @requires extension openssl
  */
 class ServerEncryptedTest extends ServerTest
@@ -41,7 +41,7 @@ class ServerEncryptedTest extends ServerTest
         );
         return;
     }
-    
+
     public static function tearDownAfterClass()
     {
         fclose(static::$server);

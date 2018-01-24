@@ -2,9 +2,9 @@
 
 /**
  * File extrasetup.php for PEAR2_Net_Transmitter.
- * 
+ *
  * PHP version 5.3
- * 
+ *
  * @category  Net
  * @package   PEAR2_Net_Transmitter
  * @author    Vasil Rangelov <boen.robot@gmail.com>

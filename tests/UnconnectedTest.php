@@ -26,7 +26,7 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
 
     /**
      * N/A
-     * 
+     *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */

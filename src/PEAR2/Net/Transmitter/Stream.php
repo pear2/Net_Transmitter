@@ -180,6 +180,18 @@ class Stream
     }
 
     /**
+     * Get the underlying stream's context parameters.
+     *
+     * @return array
+     *
+     * @see stream_context_get_params
+     */
+    public function getContextParams()
+    {
+        return stream_context_get_params($this->stream);
+    }
+
+    /**
      * Checks whether the wrapped stream is a blocking one.
      *
      * @return bool TRUE if the stream is a blocking one, FALSE otherwise.
