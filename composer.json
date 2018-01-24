@@ -3,7 +3,7 @@
     "description": "A stream wrapper that ensures data integrity. Particularly useful for sockets.",
     "keywords": ["integrity", "sockets", "networking", "pear2", "package", "network", "socket"],
     "homepage": "http://pear2.github.com/Net_Transmitter/",
-    "license": "LGPL-2.1",
+    "license": "LGPL-2.1-only",
     "authors": [
         {
             "name": "Vasil Rangelov",
