@@ -413,7 +413,7 @@ class Stream
         $chunkSize = $this->chunkSize[self::DIRECTION_RECEIVE];
         while ($length > 0) {
             while ($this->isAvailable()) {
-                $fragment = fread($this->stream, min($length, $chunkSize));
+                $fragment = @fread($this->stream, min($length, $chunkSize));
                 if ('' != $fragment) {
                     $length -= strlen($fragment);
                     $result .= $fragment;
@@ -468,7 +468,7 @@ class Stream
         $chunkSize = $this->chunkSize[self::DIRECTION_RECEIVE];
         while ($length > 0) {
             while ($this->isAvailable()) {
-                $fragment = fread($this->stream, min($length, $chunkSize));
+                $fragment = @fread($this->stream, min($length, $chunkSize));
                 if ('' != $fragment) {
                     $length -= strlen($fragment);
                     fwrite($result, $fragment);
