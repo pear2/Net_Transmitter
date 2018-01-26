@@ -69,11 +69,18 @@ class TcpServerConnection extends NetworkStream
             throw $this->createException('Invalid server supplied.', 9);
         }
         $timeout
-            = null == $timeout ? ini_get('default_socket_timeout') : $timeout;
+            = null == $timeout
+                ? (float) ini_get('default_socket_timeout')
+                : $timeout;
 
         set_error_handler(array($this, 'handleError'));
         try {
             parent::__construct(
+                /**
+                 * Annotations
+                 *
+                 * @scrutinizer ignore-type
+                 */
                 stream_socket_accept($server, $timeout, $peerName)
             );
             restore_error_handler();

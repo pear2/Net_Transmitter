@@ -73,7 +73,7 @@ class TcpClient extends NetworkStream
      * An array with all connections from this PHP request (as keys)
      * and their lock state (as a value).
      *
-     * @var array
+     * @var array<string,int>
      */
     protected static $lockState = array();
 
@@ -130,7 +130,9 @@ class TcpClient extends NetworkStream
         }
 
         $timeout
-            = null == $timeout ? ini_get('default_socket_timeout') : $timeout;
+            = null == $timeout
+                ? (float) ini_get('default_socket_timeout')
+                : $timeout;
 
         if (null === $context) {
             $context = stream_context_get_default();
@@ -152,6 +154,11 @@ class TcpClient extends NetworkStream
         set_error_handler(array($this, 'handleError'));
         try {
             parent::__construct(
+                /**
+                 * Annotations
+                 *
+                 * @scrutinizer ignore-type
+                 */
                 stream_socket_client(
                     $this->uri,
                     $this->errorNo,

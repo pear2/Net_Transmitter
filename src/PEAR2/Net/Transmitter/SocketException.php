@@ -40,14 +40,14 @@ class SocketException extends StreamException
     /**
      * The system level error code.
      *
-     * @var int
+     * @var int|null
      */
     protected $errorNo;
 
     /**
      * The system level error message.
      *
-     * @var string
+     * @var string|null
      */
     protected $errorStr;
 
@@ -65,8 +65,8 @@ class SocketException extends StreamException
      *     On failure when receiving, this is a string/stream holding
      *     the contents received successfully before the failure.
      *     NULL if the failure occurred before the operation started.
-     * @param int                      $errorNo  The system level error number.
-     * @param string                   $errorStr The system level
+     * @param int|null                 $errorNo  The system level error number.
+     * @param string|null              $errorStr The system level
      *     error message.
      */
     public function __construct(
@@ -85,7 +85,7 @@ class SocketException extends StreamException
     /**
      * Gets the system level error code on the socket.
      *
-     * @return int The system level error number.
+     * @return int|null The system level error number.
      */
     public function getSocketErrorNumber()
     {
@@ -98,7 +98,7 @@ class SocketException extends StreamException
     /**
      * Gets the system level error message on the socket.
      *
-     * @return string The system level error message.
+     * @return string|null The system level error message.
      */
     public function getSocketErrorMessage()
     {
