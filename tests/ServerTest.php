@@ -1,11 +1,14 @@
 <?php
+
 namespace PEAR2\Net\Transmitter;
+
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Server
  * @group Unencrypted
  */
-class ServerTest extends \PHPUnit_Framework_TestCase
+class ServerTest extends TestCase
 {
     /**
      * @var resource
@@ -311,7 +314,11 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->fail('Receiving had to fail.');
         } catch (SocketException $e) {
             $this->assertSame('t', $e->getFragment());
-            $this->assertSame(4, $e->getCode(), 'Improper exception code.');
+            $this->assertSame(
+                SocketException::CODE_STRING_RECEIVE_FAIL,
+                $e->getCode(),
+                'Improper exception code.'
+            );
         }
     }
 
@@ -325,7 +332,11 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->fail('Receiving had to fail.');
         } catch (SocketException $e) {
             $this->assertSame('t', stream_get_contents($e->getFragment()));
-            $this->assertSame(5, $e->getCode(), 'Improper exception code.');
+            $this->assertSame(
+                SocketException::CODE_STREAM_RECEIVE_FAIL,
+                $e->getCode(),
+                'Improper exception code.'
+            );
         }
     }
 
@@ -459,7 +470,11 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->conn->receive(1);
             $this->fail('Receiving had to fail.');
         } catch (SocketException $e) {
-            $this->assertSame(4, $e->getCode(), 'Improper exception code.');
+            $this->assertSame(
+                SocketException::CODE_STRING_RECEIVE_FAIL,
+                $e->getCode(),
+                'Improper exception code.'
+            );
         }
     }
 }

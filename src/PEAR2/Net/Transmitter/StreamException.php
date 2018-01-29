@@ -41,6 +41,19 @@ use Exception as E;
  */
 class StreamException extends RuntimeException implements Exception
 {
+    const CODE_INVALID             = 0x0001;
+    const CODE_FAIL                = 0x0002;
+    const CODE_SEND                = 0x0010;
+    const CODE_RECEIVE             = 0x0020;
+    const CODE_STREAM              = 0x0100;
+    const CODE_STRING              = 0x0200;
+
+    const CODE_INVALID_STREAM      = 0x0101;
+    const CODE_STREAM_SEND_FAIL    = 0x0112;
+    const CODE_STRING_SEND_FAIL    = 0x0212;
+    const CODE_STREAM_RECEIVE_FAIL = 0x0122;
+    const CODE_STRING_RECEIVE_FAIL = 0x0222;
+
     /**
      * The fragment up until the point of failure.
      *

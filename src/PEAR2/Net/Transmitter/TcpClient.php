@@ -139,7 +139,10 @@ class TcpClient extends NetworkStream
         } elseif ((!is_resource($context))
             || ('stream-context' !== get_resource_type($context))
         ) {
-            throw $this->createException('Invalid context supplied.', 6);
+            throw $this->createException(
+                'Invalid context supplied.',
+                SocketException::CODE_INVALID_CONTEXT
+            );
         }
         $hasCryptoScheme = array_key_exists($crypto, static::$cryptoScheme);
         $scheme = $hasCryptoScheme ? static::$cryptoScheme[$crypto] : 'tcp';
@@ -174,13 +177,13 @@ class TcpClient extends NetworkStream
             if (0 === $this->errorNo) {
                 throw $this->createException(
                     'Failed to initialize socket.',
-                    7,
+                    SocketException::CODE_CLIENT_INIT_FAIL,
                     $e
                 );
             }
             throw $this->createException(
                 'Failed to connect with socket.',
-                8,
+                SocketException::CODE_CLIENT_CONNECT_FAIL,
                 $e
             );
         }
@@ -256,8 +259,10 @@ class TcpClient extends NetworkStream
      *     ones. Setting this to FALSE will make the function only obtain the
      *     locks which are not already obtained.
      *
-     * @return int|false The previous state or FALSE if the connection is not
-     *     persistent or arguments are invalid.
+     * @return int The previous state.
+     *
+     * @throws LockException If the connections is not a persisntent one, or
+     *     if there are problems with setting the locks.
      */
     public function lock($direction = self::DIRECTION_ALL, $replace = false)
     {
@@ -270,7 +275,10 @@ class TcpClient extends NetworkStream
                 ) {
                     self::$lockState[$this->uri] |= self::DIRECTION_SEND;
                 } else {
-                    throw new LockException('Unable to obtain sending lock.');
+                    throw new LockException(
+                        'Unable to obtain sending lock.',
+                        LockException::CODE_SEND_OBTAIN
+                    );
                 }
             } elseif ($replace) {
                 if (!($old & self::DIRECTION_SEND)
@@ -278,7 +286,10 @@ class TcpClient extends NetworkStream
                 ) {
                     self::$lockState[$this->uri] &= ~self::DIRECTION_SEND;
                 } else {
-                    throw new LockException('Unable to release sending lock.');
+                    throw new LockException(
+                        'Unable to release sending lock.',
+                        LockException::CODE_SEND_RELEASE
+                    );
                 }
             }
 
@@ -290,7 +301,8 @@ class TcpClient extends NetworkStream
                         self::$lockState[$this->uri] |= self::DIRECTION_RECEIVE;
                     } else {
                         throw new LockException(
-                            'Unable to obtain receiving lock.'
+                            'Unable to obtain receiving lock.',
+                            LockException::CODE_RECEIVE_OBTAIN
                         );
                     }
                 } elseif ($replace) {
@@ -301,7 +313,8 @@ class TcpClient extends NetworkStream
                             &= ~self::DIRECTION_RECEIVE;
                     } else {
                         throw new LockException(
-                            'Unable to release receiving lock.'
+                            'Unable to release receiving lock.',
+                            LockException::CODE_RECEIVE_RELEASE
                         );
                     }
                 }
@@ -315,7 +328,10 @@ class TcpClient extends NetworkStream
             }
             return $old;
         }
-        return false;
+        throw new LockException(
+            'Connection is not a persistent one, or $direction is invalid.',
+            LockException::CODE_UNSUPPORTED
+        );
     }
 
 
@@ -338,21 +354,18 @@ class TcpClient extends NetworkStream
      */
     public function send($contents, $offset = null, $length = null)
     {
-        if (false === ($previousState = $this->lock(self::DIRECTION_SEND))
-            && $this->persist
-        ) {
-            throw $this->createException(
-                'Unable to obtain sending lock',
-                10
-            );
-        }
-        try {
-            $result = parent::send($contents, $offset, $length);
-        } catch (E $e) {
+        if ($this->persist) {
+            $previousState = $this->lock(self::DIRECTION_SEND);
+            try {
+                $result = parent::send($contents, $offset, $length);
+            } catch (E $e) {
+                $this->lock($previousState, true);
+                throw $e;
+            }
             $this->lock($previousState, true);
-            throw $e;
+        } else {
+            $result = parent::send($contents, $offset, $length);
         }
-        $this->lock($previousState, true);
         return $result;
     }
 
@@ -369,21 +382,18 @@ class TcpClient extends NetworkStream
      */
     public function receive($length, $what = 'data')
     {
-        if (false === ($previousState = $this->lock(self::DIRECTION_RECEIVE))
-            && $this->persist
-        ) {
-            throw $this->createException(
-                'Unable to obtain receiving lock',
-                9
-            );
-        }
-        try {
-            $result = parent::receive($length, $what);
-        } catch (E $e) {
+        if ($this->persist) {
+            $previousState = $this->lock(self::DIRECTION_RECEIVE);
+            try {
+                $result = parent::receive($length, $what);
+            } catch (E $e) {
+                $this->lock($previousState, true);
+                throw $e;
+            }
             $this->lock($previousState, true);
-            throw $e;
+        } else {
+            $result = parent::receive($length, $what);
         }
-        $this->lock($previousState, true);
         return $result;
     }
 
@@ -406,21 +416,18 @@ class TcpClient extends NetworkStream
         FilterCollection $filters = null,
         $what = 'stream data'
     ) {
-        if (false === ($previousState = $this->lock(self::DIRECTION_RECEIVE))
-            && $this->persist
-        ) {
-            throw $this->createException(
-                'Unable to obtain receiving lock',
-                9
-            );
-        }
-        try {
-            $result = parent::receiveStream($length, $filters, $what);
-        } catch (E $e) {
+        if ($this->persist) {
+            $previousState = $this->lock(self::DIRECTION_RECEIVE);
+            try {
+                $result = parent::receiveStream($length, $filters, $what);
+            } catch (E $e) {
+                $this->lock($previousState, true);
+                throw $e;
+            }
             $this->lock($previousState, true);
-            throw $e;
+        } else {
+            $result = parent::receiveStream($length, $filters, $what);
         }
-        $this->lock($previousState, true);
         return $result;
     }
 }

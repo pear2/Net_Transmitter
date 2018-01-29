@@ -66,7 +66,10 @@ class TcpServerConnection extends NetworkStream
         $this->streamType = '_SERVER';
 
         if (!self::isStream($server)) {
-            throw $this->createException('Invalid server supplied.', 9);
+            throw $this->createException(
+                'Invalid server supplied.',
+                SocketException::CODE_INVALID_SERVER
+            );
         }
         $timeout
             = null == $timeout
@@ -100,8 +103,8 @@ class TcpServerConnection extends NetworkStream
         } catch (E $e) {
             restore_error_handler();
             throw $this->createException(
-                'Failed to initialize connection.',
-                10,
+                'Failed to accept connection.',
+                SocketException::CODE_SERVER_CONNECT_FAIL,
                 $e
             );
         }

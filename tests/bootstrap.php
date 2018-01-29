@@ -1,7 +1,7 @@
 <?php
 
 /**
- * bootstrap.php for PEAR2_Net_Transmitter.
+ * File bootstrap.php for PEAR2_Net_Transmitter.
  *
  * PHP version 5
  *
@@ -36,6 +36,10 @@ if (false !== $autoloader) {
     }
 }
 unset($autoloader);
+
+if (!class_exists('PHPUnit\Framework\TestCase', true)) {
+    include_once 'phpunit.polyfill.php';
+}
 
 if (extension_loaded('openssl')) {
     if (!is_file(__DIR__ . DIRECTORY_SEPARATOR . CERTIFICATE_FILE)) {

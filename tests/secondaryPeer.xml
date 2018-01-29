@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/6.3/phpunit.xsd"
     bootstrap="bootstrap.php"
     colors="false"
     stopOnFailure="true"
@@ -48,6 +50,7 @@
             <group>Unencrypted</group>
             <group>NonPersistent</group>
             <group>Persistent</group>
+            <group>Unconnected</group>
 
             <!-- Module -->
             <group>Client</group>

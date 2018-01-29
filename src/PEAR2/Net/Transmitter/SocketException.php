@@ -36,6 +36,17 @@ use Exception as E;
  */
 class SocketException extends StreamException
 {
+    const CODE_CLIENT              = 0x0400;
+    const CODE_CONTEXT             = 0x0800;
+    const CODE_SERVER              = 0x1000;
+    const CODE_INIT                = 0x0040;
+    const CODE_CONNECT             = 0x0080;
+
+    const CODE_INVALID_CONTEXT     = 0x0801;
+    const CODE_CLIENT_INIT_FAIL    = 0x0442;
+    const CODE_CLIENT_CONNECT_FAIL = 0x0482;
+    const CODE_INVALID_SERVER      = 0x1001;
+    const CODE_SERVER_CONNECT_FAIL = 0x1082;
 
     /**
      * The system level error code.

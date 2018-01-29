@@ -1,20 +1,24 @@
 language: php
+matrix:
+  include:
+    # The earliest PHP 5.3 version that can run the test suit
+    # AND is supported by Travis-CI.
+    - php: 5.3.3
+      install:
+          - composer config -g -- disable-tls true
+          - composer config -g -- secure-http false
 php:
-  # The earliest PHP 5.3 version that can run the test suit
-  # AND is supported by Travis-CI.
-  - 5.3.3
   - 5.3
   - 5.4
   - 5.5
   - 5.6
   - 7.0
 # IPv6 is required, and that's only available in legacy VMs currently
+dist: precise
 sudo: required
 before_script:
-  - composer self-update
-  - composer install --dev
+  - composer install
 script:
-  - composer require pear2/cache_shm:dev-develop | cat -
   - cd tests
   - ../vendor/bin/phpunit --configuration secondaryPeer.xml > secondaryPeer.out.txt &
   - sleep 2

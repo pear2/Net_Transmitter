@@ -8,6 +8,7 @@
 README export-ignore
 README.md export-ignore
 CREDITS export-ignore
+LICENSE export-ignore
 RELEASE-* export-ignore
 extrasetup.php export-ignore
 package.xml export-ignore

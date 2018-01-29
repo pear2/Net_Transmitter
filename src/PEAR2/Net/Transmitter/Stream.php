@@ -113,7 +113,10 @@ class Stream
     public function __construct($stream, $autoClose = false)
     {
         if (!self::isStream($stream)) {
-            throw $this->createException('Invalid stream supplied.', 1);
+            throw $this->createException(
+                'Invalid stream supplied.',
+                StreamException::CODE_INVALID
+            );
         }
         $this->stream = $stream;
         $this->autoClose = (bool) $autoClose;
@@ -184,7 +187,7 @@ class Stream
      *
      * @return array
      *
-     * @see stream_context_get_params
+     * @see stream_context_get_params()
      */
     public function getContextParams()
     {
@@ -317,10 +320,10 @@ class Stream
      * regardless of the $offset parameter.
      *
      * @param string|resource $contents The string or stream to send.
-     * @param int             $offset   The offset from which to start sending.
+     * @param int|null        $offset   The offset from which to start sending.
      *     If a stream is provided, and this is set to NULL, sending will start
      *     from the current stream position.
-     * @param int             $length   The maximum length to send. If omitted,
+     * @param int|null        $length   The maximum length to send. If omitted,
      *     the string/stream will be sent to its end.
      *
      * @return int The number of bytes sent.
@@ -353,7 +356,7 @@ class Stream
                     } elseif ($this->isBlocking || false === $bytesNow) {
                         throw $this->createException(
                             'Failed while sending stream.',
-                            2,
+                            StreamException::CODE_STREAM_SEND_FAIL,
                             null,
                             $bytes
                         );
@@ -385,7 +388,7 @@ class Stream
                 } elseif ($this->isBlocking || false === $bytesNow) {
                     throw $this->createException(
                         'Failed while sending string.',
-                        3,
+                        StreamException::CODE_STRING_SEND_FAIL,
                         null,
                         $bytes
                     );
@@ -425,7 +428,7 @@ class Stream
             }
             throw $this->createException(
                 "Failed while receiving {$what}",
-                4,
+                StreamException::CODE_STRING_RECEIVE_FAIL,
                 null,
                 $result
             );
@@ -485,7 +488,7 @@ class Stream
             rewind($result);
             throw $this->createException(
                 "Failed while receiving {$what}",
-                5,
+                StreamException::CODE_STREAM_RECEIVE_FAIL,
                 null,
                 $result
             );
