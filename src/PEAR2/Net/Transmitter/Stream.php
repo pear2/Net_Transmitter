@@ -115,7 +115,7 @@ class Stream
         if (!self::isStream($stream)) {
             throw $this->createException(
                 'Invalid stream supplied.',
-                StreamException::CODE_INVALID
+                StreamException::CODE_INVALID_STREAM
             );
         }
         $this->stream = $stream;

@@ -1,0 +1,84 @@
+environment:
+  global:
+    COMPOSER_NO_INTERACTION: 1
+    PHP_DIR: C:\tools\php
+  matrix:
+  - php_ver_target: 5.3
+    php_xdebug: https://xdebug.org/files/php_xdebug-2.2.7-5.3-vc9-nts.dll
+  - php_ver_target: 5.4
+    php_xdebug: https://xdebug.org/files/php_xdebug-2.4.1-5.4-vc9-nts.dll
+  - php_ver_target: 5.5
+    php_xdebug: https://xdebug.org/files/php_xdebug-2.5.5-5.5-vc11-nts-x86_64.dll
+  - php_ver_target: 5.6
+    php_xdebug: https://xdebug.org/files/php_xdebug-2.5.5-5.6-vc11-nts-x86_64.dll
+  - php_ver_target: 7.0
+    php_xdebug: https://xdebug.org/files/php_xdebug-2.6.0-7.0-vc14-nts-x86_64.dll
+  - php_ver_target: 7.1
+    php_xdebug: https://xdebug.org/files/php_xdebug-2.6.0-7.1-vc14-nts-x86_64.dll
+  - php_ver_target: 7.2
+    php_xdebug: https://xdebug.org/files/php_xdebug-2.6.0-7.2-vc15-nts-x86_64.dll
+
+install:
+- ps: |
+    if (!(Test-Path $env:PHP_DIR)) {
+      appveyor-retry cinst --params ('""/InstallDir:' + $env:PHP_DIR + '""') -y php --version (
+        (
+          choco search php --exact --all-versions -r |
+          select-string -pattern ('\|' + ($env:php_ver_target).replace('.', '\.') + '(\D.*)?$') |
+          sort {
+            [version](
+              $_ -split '\|' |
+              select -last 1
+            )
+          } -Descending |
+          Select-Object -first 1
+        ) -replace '[php|]',''
+      )
+      pushd $env:PHP_DIR
+      Copy-Item -Path .\php.ini-development -Destination .\php.ini -Force
+      appveyor-retry appveyor DownloadFile $env:php_xdebug -FileName ($env:PHP_DIR + '\ext\php_xdebug.dll')
+      '
+        date.timezone="UTC"
+        extension_dir="' + $env:PHP_DIR + '\ext"
+        extension=php_openssl.dll
+        extension=php_mbstring.dll
+        zend_extension="' + $env:PHP_DIR + '\ext\php_xdebug.dll"
+      ' | Add-Content -Path .\php.ini
+      appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
+      '@php %~dpn0.phar %*' | Out-File .\composer.bat -Encoding ascii
+      popd
+    }
+    [Environment]::SetEnvironmentVariable("PATH", $env:PHP_DIR + [IO.Path]::PathSeparator + $env:PATH, [EnvironmentVariableTarget]::Process)
+    refreshenv
+    composer self-update --no-progress
+    if ((Test-Path .\composer.lock)) {
+      composer update --no-progress
+    } else {
+      composer install --no-progress
+    }
+    if ((Test-Path .\vendor\bin)) {
+      [Environment]::SetEnvironmentVariable("PATH", (Resolve-Path .\vendor\bin).ToString() + [IO.Path]::PathSeparator + $env:PATH, [EnvironmentVariableTarget]::Process)
+      refreshenv
+    }
+
+test_script:
+- ps: |
+    $env:PHP_PEAR_PHP_BIN=($env:PHP_DIR + '\php.exe')
+    $env:PHP_TESTS_FOLDER=($env:APPVEYOR_BUILD_FOLDER + '\tests')
+    cd $env:PHP_TESTS_FOLDER
+    Start-Job {
+      cd $env:PHP_TESTS_FOLDER
+      .\secondaryPeer.bat
+    } -Name secondaryPeer
+    phpunit
+    Receive-Job secondaryPeer
+
+cache:
+- '%LOCALAPPDATA%\Composer\files -> appveyor.yml'
+- C:\ProgramData\chocolatey\bin -> appveyor.yml
+- C:\ProgramData\chocolatey\lib -> appveyor.yml
+- C:\tools\php -> appveyor.yml
+- '%APPVEYOR_BUILD_FOLDER%\vendor -> appveyor.yml'
+- '%APPVEYOR_BUILD_FOLDER%\composer.lock -> appveyor.yml'
+
+build: off

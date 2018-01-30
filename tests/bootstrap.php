@@ -49,7 +49,9 @@ if (extension_loaded('openssl')) {
             $phpbin = defined('PHP_BINARY')
                 ? PHP_BINARY
                 : getenv('PHP_PEAR_PHP_BIN');
-            $configargs['config'] = dirname($phpbin) . '/extras/ssl/openssl.cnf';
+            $configargs['config'] = realpath(
+                dirname($phpbin) . '/extras/ssl/openssl.cnf'
+            );
         }
 
         $privkey = openssl_pkey_new($configargs);

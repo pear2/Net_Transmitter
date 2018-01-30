@@ -189,7 +189,7 @@ class UnconnectedTest extends TestCase
             $this->fail('Client creation had to fail.');
         } catch (SocketException $e) {
             $this->assertSame(
-                SocketException::CODE_SOCKET_INIT_FAIL,
+                SocketException::CODE_CLIENT_INIT_FAIL,
                 $e->getCode(),
                 'Improper exception code.'
             );
@@ -229,7 +229,7 @@ class UnconnectedTest extends TestCase
             $this->fail('Server creation had to fail.');
         } catch (SocketException $e) {
             $this->assertSame(
-                SocketException::CODE_SOCKET_ACCEPT_FAIL,
+                SocketException::CODE_SERVER_CONNECT_FAIL,
                 $e->getCode(),
                 'Improper exception code.'
             );
