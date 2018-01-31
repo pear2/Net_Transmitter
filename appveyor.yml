@@ -18,13 +18,22 @@ environment:
   - php_ver_target: 7.2
     php_xdebug: https://xdebug.org/files/php_xdebug-2.6.0-7.2-vc15-nts-x86_64.dll
 
-install:
-- ps: |
+test_script:
+- pwsh: |
+    # . ($env:ProgramData + '\chocolatey\helpers\functions\Install-ChocolateyPath.ps1')
+    # . ($env:ProgramData + '\chocolatey\helpers\functions\Write-FunctionCallLogMessage.ps1')
+    # . ($env:ProgramData + '\chocolatey\helpers\functions\Update-SessionEnvironment.ps1')
+    # . ($env:ProgramData + '\chocolatey\helpers\functions\Get-EnvironmentVariable.ps1')
+    # . ($env:ProgramData + '\chocolatey\helpers\functions\Test-ProcessAdminRights.ps1')
+    # . ($env:ProgramData + '\chocolatey\helpers\functions\Start-ChocolateyProcessAsAdmin.ps1')
+    # . ($env:ProgramData + '\chocolatey\helpers\functions\Set-EnvironmentVariable.ps1')
+    # . ($env:ProgramData + '\chocolatey\helpers\functions\Get-EnvironmentVariableNames.ps1')
+
     if (!(Test-Path $env:PHP_DIR)) {
       appveyor-retry cinst --params ('""/InstallDir:' + $env:PHP_DIR + '""') -y php --version (
         (
           choco search php --exact --all-versions -r |
-          select-string -pattern ('\|' + ($env:php_ver_target).replace('.', '\.') + '(\D.*)?$') |
+          select-string -pattern ('\|' + [regex]::Escape($env:php_ver_target) + '(\D.*)?$') |
           sort {
             [version](
               $_ -split '\|' |
@@ -37,47 +46,70 @@ install:
       pushd $env:PHP_DIR
       Copy-Item -Path .\php.ini-development -Destination .\php.ini -Force
       appveyor-retry appveyor DownloadFile $env:php_xdebug -FileName ($env:PHP_DIR + '\ext\php_xdebug.dll')
-      '
-        date.timezone="UTC"
-        extension_dir="' + $env:PHP_DIR + '\ext"
-        extension=php_openssl.dll
-        extension=php_mbstring.dll
-        zend_extension="' + $env:PHP_DIR + '\ext\php_xdebug.dll"
-      ' | Add-Content -Path .\php.ini
+      (Get-Content .\php.ini) -replace
+      ';date.timezone =', 'date.timezone = "UTC"' -replace
+      '; extension_dir = "ext"', 'extension_dir = "ext"' -replace
+      ';extension=php_openssl.dll', 'extension=php_openssl.dll' -replace
+      ';extension=php_mbstring.dll', 'extension=php_mbstring.dll' -replace
+      ';extension=openssl', 'extension=openssl' -replace
+      ';extension=mbstring', 'extension=mbstring' -replace
+      '; Local Variables:', ('[XDebug]
+    zend_extension="' + $env:PHP_DIR + '\ext\php_xdebug.dll"
+
+    ; Local Variables:') | Set-Content .\php.ini
       appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
       '@php %~dpn0.phar %*' | Out-File .\composer.bat -Encoding ascii
       popd
     }
-    [Environment]::SetEnvironmentVariable("PATH", $env:PHP_DIR + [IO.Path]::PathSeparator + $env:PATH, [EnvironmentVariableTarget]::Process)
+    $env:PATH = ($env:PHP_DIR + [IO.Path]::PathSeparator + $env:PATH)
+    [Environment]::SetEnvironmentVariable("PATH", $env:PATH, [System.EnvironmentVariableTarget]::Process)
+    # Install-ChocolateyPath $env:PHP_DIR 'Process'
     refreshenv
+
     composer self-update --no-progress
     if ((Test-Path .\composer.lock)) {
       composer update --no-progress
     } else {
       composer install --no-progress
     }
+
+
+    pushd ($env:APPDATA + '\Composer')
     if ((Test-Path .\vendor\bin)) {
-      [Environment]::SetEnvironmentVariable("PATH", (Resolve-Path .\vendor\bin).ToString() + [IO.Path]::PathSeparator + $env:PATH, [EnvironmentVariableTarget]::Process)
+      $env:PATH = ((Resolve-Path .\vendor\bin).ToString() + [IO.Path]::PathSeparator + $env:PATH)
+      [Environment]::SetEnvironmentVariable("PATH", $env:PATH, [System.EnvironmentVariableTarget]::Process)
+      # Install-ChocolateyPath $vendorDir 'Machine'
+      # Install-ChocolateyPath $vendorDir 'Process'
+      refreshenv
+    }
+    popd
+
+    if ((Test-Path .\vendor\bin)) {
+      $env:PATH = ((Resolve-Path .\vendor\bin).ToString() + [IO.Path]::PathSeparator + $env:PATH)
+      [Environment]::SetEnvironmentVariable("PATH", $env:PATH, [System.EnvironmentVariableTarget]::Process)
+      # Install-ChocolateyPath $vendorDir 'Machine'
+      # Install-ChocolateyPath $vendorDir 'Process'
       refreshenv
     }
 
-test_script:
-- ps: |
     $env:PHP_PEAR_PHP_BIN=($env:PHP_DIR + '\php.exe')
     $env:PHP_TESTS_FOLDER=($env:APPVEYOR_BUILD_FOLDER + '\tests')
-    cd $env:PHP_TESTS_FOLDER
     Start-Job {
-      cd $env:PHP_TESTS_FOLDER
-      .\secondaryPeer.bat
+      pushd $env:PHP_TESTS_FOLDER
+      phpunit --configuration secondaryPeer.xml
+      popd
     } -Name secondaryPeer
+    pushd $env:PHP_TESTS_FOLDER
+    Wait-Job secondaryPeer -Timeout 3
     phpunit
+    popd
+
     Receive-Job secondaryPeer
 
 cache:
-- '%LOCALAPPDATA%\Composer\files -> appveyor.yml'
-- C:\ProgramData\chocolatey\bin -> appveyor.yml
-- C:\ProgramData\chocolatey\lib -> appveyor.yml
-- C:\tools\php -> appveyor.yml
+- '%LOCALAPPDATA%\Composer -> appveyor.yml'
+- '%APPDATA%\Composer -> appveyor.yml'
+- '%PHP_DIR% -> appveyor.yml'
 - '%APPVEYOR_BUILD_FOLDER%\vendor -> appveyor.yml'
 - '%APPVEYOR_BUILD_FOLDER%\composer.lock -> appveyor.yml'
 
