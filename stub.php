@@ -10,7 +10,7 @@
  * @author    Vasil Rangelov <boen.robot@gmail.com>
  * @copyright 2011 Vasil Rangelov
  * @license   http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
- * @version   GIT: $Id$
+ * @version   GIT: $Format:%x24Commit:%H%x24$
  * @link      http://pear2.php.net/PEAR2_Net_Transmitter
  */
 
@@ -36,7 +36,7 @@ if (count(get_included_files()) > 1) {
             $phar = new Phar(__FILE__);
             $sig = $phar->getSignature();
             echo "{$sig['hash_type']} hash: {$sig['hash']}\n";
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             echo <<<HEREDOC
 The PHAR extension is available, but was unable to read this PHAR file's hash.
 Regardless, you should not be having any trouble using the package by directly

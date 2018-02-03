@@ -2,9 +2,10 @@ imports:
     - php
 inherit: true
 tools:
-    ##See .travis.yml.
-    #external_code_coverage:
-    #    runs: 4
+    #See appveyor.yml.
+    external_code_coverage:
+       runs: 14
+       timeout: 2520
     php_sim: false
     php_cpd: true
     php_code_sniffer:

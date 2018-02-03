@@ -1,11 +1,14 @@
 $env:PHP_PEAR_PHP_BIN=($env:PHP_DIR + '\php.exe')
-$env:PHP_TESTS_FOLDER=($env:APPVEYOR_BUILD_FOLDER + '\tests')
 
-Push-Location $env:PHP_TESTS_FOLDER
-$secondaryPeer = (.\secondaryPeer.bat &)
+Push-Location .\tests
+
+$secondaryPeer = (.\secondaryPeer.bat --coverage-clover=cov_second.clover &)
 Wait-Job $secondaryPeer -Timeout 3
-phpunit
-Pop-Location
+phpunit --coverage-clover=coverage.clover
 
 Wait-Job $secondaryPeer
 Receive-Job $secondaryPeer
+ocular code-coverage:upload --format=php-clover coverage.clover
+ocular code-coverage:upload --format=php-clover cov_second.clover
+
+Pop-Location

@@ -2,6 +2,7 @@ environment:
   global:
     COMPOSER_NO_INTERACTION: 1
     PHP_DIR: C:\tools\php
+    PHP_COMPOSER_DIR: C:\tools\composer
   matrix:
   - php_ver_target: 5.3
     php_xdebug: https://xdebug.org/files/php_xdebug-2.2.7-5.3-vc9-nts.dll
@@ -22,6 +23,7 @@ environment:
     php_uopz: http://windows.php.net/downloads/pecl/releases/uopz/5.0.2/php_uopz-5.0.2-7.2-nts-vc15-x64.zip
 
 install:
+- pwsh: .\tests\appveyor\install-ca.ps1
 - pwsh: .\tests\appveyor\install-php.ps1
 - pwsh: .\tests\appveyor\install-composer.ps1
 
@@ -32,10 +34,12 @@ test_script:
 - pwsh: .\tests\appveyor\test_script.ps1
 
 cache:
+- 'C:\usr\local\ssl\cert.pem -> .\tests\appveyor\install-ca.ps1'
 - '%PHP_DIR% -> .\tests\appveyor\install-php.ps1'
+- '%PHP_COMPOSER_DIR% -> .\tests\appveyor\install-composer.ps1'
 - '%LOCALAPPDATA%\Composer -> .\tests\appveyor\install-composer.ps1'
 - '%APPDATA%\Composer -> .\tests\appveyor\install-composer.ps1'
-- '.\vendor -> .\tests\appveyor\before_test.ps1'
-- '.\composer.lock -> .\tests\appveyor\before_test.ps1'
+- '.\vendor -> .\composer.json'
+- '.\composer.lock -> .\composer.json'
 
 build: off
