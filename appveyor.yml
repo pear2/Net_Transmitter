@@ -4,23 +4,23 @@ environment:
     PHP_DIR: C:\tools\php
     PHP_COMPOSER_DIR: C:\tools\composer
   matrix:
-  - php_ver_target: 5.3
-    php_xdebug: https://xdebug.org/files/php_xdebug-2.2.7-5.3-vc9-nts.dll
-  - php_ver_target: 5.4
-    php_xdebug: https://xdebug.org/files/php_xdebug-2.4.1-5.4-vc9-nts.dll
-  - php_ver_target: 5.5
-    php_xdebug: https://xdebug.org/files/php_xdebug-2.5.5-5.5-vc11-nts-x86_64.dll
-  - php_ver_target: 5.6
-    php_xdebug: https://xdebug.org/files/php_xdebug-2.5.5-5.6-vc11-nts-x86_64.dll
-  - php_ver_target: 7.0
-    php_xdebug: https://xdebug.org/files/php_xdebug-2.6.0-7.0-vc14-nts-x86_64.dll
-    php_uopz: http://windows.php.net/downloads/pecl/releases/uopz/5.0.2/php_uopz-5.0.2-7.0-nts-vc14-x64.zip
-  - php_ver_target: 7.1
-    php_xdebug: https://xdebug.org/files/php_xdebug-2.6.0-7.1-vc14-nts-x86_64.dll
-    php_uopz: http://windows.php.net/downloads/pecl/releases/uopz/5.0.2/php_uopz-5.0.2-7.1-nts-vc14-x64.zip
   - php_ver_target: 7.2
     php_xdebug: https://xdebug.org/files/php_xdebug-2.6.0-7.2-vc15-nts-x86_64.dll
     php_uopz: http://windows.php.net/downloads/pecl/releases/uopz/5.0.2/php_uopz-5.0.2-7.2-nts-vc15-x64.zip
+  - php_ver_target: 7.1
+    php_xdebug: https://xdebug.org/files/php_xdebug-2.6.0-7.1-vc14-nts-x86_64.dll
+    php_uopz: http://windows.php.net/downloads/pecl/releases/uopz/5.0.2/php_uopz-5.0.2-7.1-nts-vc14-x64.zip
+  - php_ver_target: 7.0
+    php_xdebug: https://xdebug.org/files/php_xdebug-2.6.0-7.0-vc14-nts-x86_64.dll
+    php_uopz: http://windows.php.net/downloads/pecl/releases/uopz/5.0.2/php_uopz-5.0.2-7.0-nts-vc14-x64.zip
+  - php_ver_target: 5.6
+    php_xdebug: https://xdebug.org/files/php_xdebug-2.5.5-5.6-vc11-nts-x86_64.dll
+  - php_ver_target: 5.5
+    php_xdebug: https://xdebug.org/files/php_xdebug-2.5.5-5.5-vc11-nts-x86_64.dll
+  - php_ver_target: 5.4
+    php_xdebug: https://xdebug.org/files/php_xdebug-2.4.1-5.4-vc9-nts.dll
+  - php_ver_target: 5.3
+    php_xdebug: https://xdebug.org/files/php_xdebug-2.2.7-5.3-vc9-nts.dll
 
 install:
 - pwsh: .\tests\appveyor\install-ca.ps1

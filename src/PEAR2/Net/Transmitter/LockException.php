@@ -21,6 +21,11 @@
 namespace PEAR2\Net\Transmitter;
 
 /**
+ * Base for this exception.
+ */
+use RuntimeException;
+
+/**
  * Exception thrown when something goes wrong when dealing with locks.
  *
  * @category Net
@@ -29,7 +34,7 @@ namespace PEAR2\Net\Transmitter;
  * @license  http://www.gnu.org/copyleft/lesser.html LGPL License 2.1
  * @link     http://pear2.php.net/PEAR2_Net_Transmitter
  */
-class LockException extends \RuntimeException implements Exception
+class LockException extends RuntimeException implements Exception
 {
     const CODE_OBTAIN          = 0x010;
     const CODE_RELEASE         = 0x020;
