@@ -3,11 +3,7 @@ if (!(Test-Path $env:PHP_COMPOSER_DIR)) {
     Push-Location $env:PHP_COMPOSER_DIR
     appveyor-retry appveyor DownloadFile https://composer.github.io/installer.sig
     appveyor-retry appveyor DownloadFile https://getcomposer.org/installer
-    $actualComposerSignature = (
-        (php -r "echo hash_file('SHA384', 'installer');") |
-        Out-String -NoNewline
-    )
-    if ((Get-Content .\installer.sig) -ne $actualComposerSignature) {
+    if ((Get-Content .\installer.sig) -ne (Get-FileHash .\installer -Algorithm SHA384).Hash) {
         Write-Error 'Composer installer signature mismatch.'
         exit 1;
     }

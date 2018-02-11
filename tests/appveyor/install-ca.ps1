@@ -1,7 +1,15 @@
-$certArea = 'C:\usr\local\ssl'
+$envCertFilePath = $env:SSL_CERT_FILE
+$certArea = Split-Path $envCertFilePath -Parent
+$certFile = Split-Path $envCertFilePath -Leaf
+
 if (!(Test-Path $certArea)) {
     mkdir $certArea
-    Push-Location $certArea
-    appveyor-retry appveyor DownloadFile https://curl.haxx.se/ca/cacert.pem -FileName cert.pem
-    Pop-Location
 }
+if (!(Test-Path $envCertFilePath -PathType Leaf)) {
+    Remove-Item env:\SSL_CERT_FILE
+}
+Push-Location $certArea
+curl -fsSL -o $certFile --time-cond $certFile https://curl.haxx.se/ca/cacert.pem
+Pop-Location
+
+$env:SSL_CERT_FILE = $envCertFilePath

@@ -1,18 +1,20 @@
+image: Visual Studio 2017
 environment:
   global:
     COMPOSER_NO_INTERACTION: 1
     PHP_DIR: C:\tools\php
     PHP_COMPOSER_DIR: C:\tools\composer
+    SSL_CERT_FILE: C:\usr\local\ssl\cert.pem
   matrix:
   - php_ver_target: 7.2
     php_xdebug: https://xdebug.org/files/php_xdebug-2.6.0-7.2-vc15-nts-x86_64.dll
-    php_uopz: http://windows.php.net/downloads/pecl/releases/uopz/5.0.2/php_uopz-5.0.2-7.2-nts-vc15-x64.zip
+    php_uopz: http://windows.php.net/downloads/pecl/releases/uopz/5.0.2/php_uopz-5.0.2-7.2-nts-vc15-x64.zip #DevSkim: ignore DS137138
   - php_ver_target: 7.1
     php_xdebug: https://xdebug.org/files/php_xdebug-2.6.0-7.1-vc14-nts-x86_64.dll
-    php_uopz: http://windows.php.net/downloads/pecl/releases/uopz/5.0.2/php_uopz-5.0.2-7.1-nts-vc14-x64.zip
+    php_uopz: http://windows.php.net/downloads/pecl/releases/uopz/5.0.2/php_uopz-5.0.2-7.1-nts-vc14-x64.zip #DevSkim: ignore DS137138
   - php_ver_target: 7.0
     php_xdebug: https://xdebug.org/files/php_xdebug-2.6.0-7.0-vc14-nts-x86_64.dll
-    php_uopz: http://windows.php.net/downloads/pecl/releases/uopz/5.0.2/php_uopz-5.0.2-7.0-nts-vc14-x64.zip
+    php_uopz: http://windows.php.net/downloads/pecl/releases/uopz/5.0.2/php_uopz-5.0.2-7.0-nts-vc14-x64.zip #DevSkim: ignore DS137138
   - php_ver_target: 5.6
     php_xdebug: https://xdebug.org/files/php_xdebug-2.5.5-5.6-vc11-nts-x86_64.dll
   - php_ver_target: 5.5
@@ -34,7 +36,7 @@ test_script:
 - pwsh: .\tests\appveyor\test_script.ps1
 
 cache:
-- 'C:\usr\local\ssl\cert.pem -> .\tests\appveyor\install-ca.ps1'
+- '%SSL_CERT_FILE% -> .\tests\appveyor\install-ca.ps1'
 - '%PHP_DIR% -> .\tests\appveyor\install-php.ps1'
 - '%PHP_COMPOSER_DIR% -> .\tests\appveyor\install-composer.ps1'
 - '%LOCALAPPDATA%\Composer -> .\tests\appveyor\install-composer.ps1'
